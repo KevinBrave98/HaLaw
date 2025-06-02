@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('nik_pengguna', 16)->primary();
             $table->string('nama_pengguna');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('nomor_telepon')->unique();
             $table->string('jenis_kelamin');
             $table->string('foto_pengguna');

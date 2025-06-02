@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('nik_pengacara', 16)->primary();
             $table->string('nama_pengacara');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('nomor_telepon')->unique();
             $table->string('jenis_kelamin');
             $table->string('lokasi');
