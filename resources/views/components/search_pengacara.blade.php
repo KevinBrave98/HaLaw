@@ -39,5 +39,27 @@
             </div>
             <hr>
         </div>
+
+         <div class="d-flex flex-column justify-content-evenly p-4 filter-section">
+            <h2 class="m-0 text-start">Jenis Layanan</h1>
+            <div class="d-flex flex-row mt-3 gap-5 mb-5">
+                <div class="d-flex align-items-center checkbox-container">
+                    <input type="checkbox" name="jenis_layanan" id="chat" value="chat">
+                    <label class="search_label" for="chat">Chat</label>
+                    <span></span>
+                </div>
+                <div class="d-flex align-items-center checkbox-container">
+                    <input type="checkbox" name="jenis_layanan" id="voice_call" value="voice_call">
+                    <label class="search_label" for="voice_call">Voice Call</label>
+                    <span></span>
+                </div>
+                <div class="d-flex align-items-center checkbox-container">
+                    <input type="checkbox" name="jenis_layanan" id="video_call" value="video_call">
+                    <label class="search_label" for="video_call">Video Call</label>
+                    <span></span>
+                </div>
+            </div>
+            <hr>
+        </div>
     </div>
 </div>
