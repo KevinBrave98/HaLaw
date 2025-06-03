@@ -23,3 +23,7 @@ Route::get('/profilpengguna', function () {
 Route::get('/ubahprofilpengguna', function () {
     return view('ubah_profil_pengguna');
 });
+
+Route::get('/masuk', function () {
+    return view('masuk');
+});
