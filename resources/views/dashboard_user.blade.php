@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard User</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    <link rel="stylesheet" href="{{ asset('assets/styles/search_pengacara.css') }}">
     <link rel="stylesheet" href="assets/styles/dashboard_user.css">
     <link rel="stylesheet" href="assets/styles/navbar_user.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -246,15 +247,7 @@
 
     <div class="search-wrapper mx-auto mt-5">
         <div class="search-header">Telusuri Pengacara</div>
-        <div class="search-bar p-4 rounded-4 d-flex align-items-center">
-            <input type="text" class="form-control form-control-lg me-3" placeholder="Cari Pengacara">
-            <button class="btn btn-filter me-2">
-                <i class="bi bi-sliders2-vertical"></i>
-            </button>
-            <button class="btn btn-cari d-flex align-items-center gap-2">
-                <i class="bi bi-search"></i> Cari
-            </button>
-        </div>
+        <x-search_pengacara></x-search_pengacara>
     </div>
 
     <x-footer></x-footer>
