@@ -67,4 +67,7 @@ body{
 .list-pengguna{
     width: 85%;
     margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
