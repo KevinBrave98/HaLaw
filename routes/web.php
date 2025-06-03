@@ -13,3 +13,11 @@ Route::get('/tes', function () {
 Route::get('/daftar', function () {
     return view('daftar');
 });
+
+Route::get('/profilpengguna', function () {
+    return view('profil_pengguna');
+});
+
+Route::get('/ubahprofilpengguna', function () {
+    return view('ubah_profil_pengguna');
+});
