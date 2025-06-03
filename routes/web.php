@@ -12,4 +12,14 @@ Route::get('/tes', function () {
 
 Route::get('/user_register', function () {
     return view('user_register');
+Route::get('/daftar', function () {
+    return view('daftar');
+});
+
+Route::get('/profilpengguna', function () {
+    return view('profil_pengguna');
+});
+
+Route::get('/ubahprofilpengguna', function () {
+    return view('ubah_profil_pengguna');
 });
