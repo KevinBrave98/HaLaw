@@ -1,10 +1,127 @@
-body {
+body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Noto Serif;
 }
 
-.kolom {
-    height
-    background-color: red;
+.outer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+}
+
+.bg-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    z-index: -1;
+}
+
+.welcome{
+    position: absolute;
+    top: 250px;
+    left: 220px;
+    font-size: 2.5rem;
+    color: white;
+    width: 30%;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify: center;
+    width: 80%;
+    height: 80%;
+}
+
+.law{
+    width: 100%;
+}
+
+.container .wrapper {
+    width: 100%;
+    background-color: #FFF7F0;
+}
+
+.wrapper_form{
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    width: 70vh;
+    gap: 0.3rem;
+    padding-left:3vw;
+    height: 40vh;
+    padding-top: 10vh;
+}
+
+.form-control{
+    border: 1px solid #281805;
+}
+
+.form-select{
+    border: 1px solid #281805;
+}
+
+.btn_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn{
+    width: 50%;
+    border: 1px solid black;
+    color: black;
+}
+
+.btn:hover{
+    background-color: #654220;
+    color: white;
+}
+
+.text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-label{
+    font-color: #654220;
+    margin-bottom:0;
+}
+
+.title{
+    padding-left: 3vw;
+    padding-top: 5vh;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.logo{
+    position: absolute;
+    width: 7rem;
+    right: 13vw;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+
+.forgotPass a{
+    text-decoration: none;
+    font-size: 15px;
+    color: #654220;
+    font-family: Raleway;
 }
