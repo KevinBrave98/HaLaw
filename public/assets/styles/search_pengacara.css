@@ -2,13 +2,13 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Raleway';
+    font-family: "Raleway";
     background-color: #654220;
 }
 
 input::placeholder {
-  opacity: 0.45;
-  color: #281805;
+    opacity: 0.45;
+    color: #281805;
 }
 
 .search-container {
@@ -69,41 +69,84 @@ hr {
     font-size: 1.1em;
 }
 
-.radio-container {
+.radio-container,
+.checkbox-container {
     position: relative;
 }
 
 .radio-container input {
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
 
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 0.15rem solid #b99010;
-  border-radius: 50%;
-  margin: 0.2rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 0.15rem solid #b99010;
+    border-radius: 50%;
+    margin: 0.2rem;
 }
 
 .radio-container input:checked {
     border-width: 0.4rem;
 }
 
-.select-specialization select{
-  appearance: none;
-  width: 100%;
-  font-size: 1.1em;
-  padding: 0.75rem;
-  background-color: #f5f5f5;
-  border: 1px solid #B99010;
-  border-radius: 25px;
-  color: #281805;
-  cursor: pointer;
+.select-specialization select {
+    appearance: none;
+    width: 100%;
+    font-size: 1.1em;
+    padding: 0.75rem;
+    background-color: #f5f5f5;
+    border: 1px solid #b99010;
+    border-radius: 25px;
+    color: #281805;
+    cursor: pointer;
 }
 
 #dropdown-icon {
     width: 1.2rem;
     height: auto;
     right: 5rem;
+}
+
+option {
+    font-family: "Raleway";
+    background-color: #f5f5f5;
+    border: none;
+}
+
+.checkbox-container input {
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #f5f5f5;
+    margin: 0;
+
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid #b99010;
+    /* border-radius: 5px; */
+    /* margin: 0.2rem; */
+}
+
+.checkbox-container span:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ span:after {
+    display: block;
+}
+
+.checkbox-container span:after {
+    left: 7.5px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #b99010;
+    border-width: 0 1px 1px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
