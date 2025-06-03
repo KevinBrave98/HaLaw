@@ -13,3 +13,7 @@ Route::get('/tes', function () {
 Route::get('/user_register', function () {
     return view('user_register');
 });
+
+Route::get('/masuk', function () {
+    return view('masuk');
+});
