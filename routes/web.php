@@ -12,6 +12,8 @@ Route::get('/tes', function () {
 
 Route::get('/user_register', function () {
     return view('user_register');
+});
+
 Route::get('/daftar', function () {
     return view('daftar');
 });
@@ -22,4 +24,8 @@ Route::get('/profilpengguna', function () {
 
 Route::get('/ubahprofilpengguna', function () {
     return view('ubah_profil_pengguna');
+});
+
+Route::get('/test', function() {
+    return view('test');
 });
