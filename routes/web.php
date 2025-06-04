@@ -7,6 +7,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
+use App\Http\Controllers\LawyerDashboardController;
 
 Route::get('/footer', function () {
     return view('footer');
@@ -61,3 +62,12 @@ Route::get('/reset-demo', function () {
         'email' => 'dummy@example.com'
     ]);
 });
+
+Route::get('/test', function() {
+    return view('test');
+});
+Route::get('/dasbor_pengacara', function () {
+    return view('lawyer.dashboard');
+});
+
+Route::get('/dasbor_pengacara/{nama_pengacara}', [LawyerDashboardController::class, 'greetings']);
