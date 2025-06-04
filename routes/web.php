@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\TestController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,17 +15,16 @@ Route::get('/tes', function () {
 
 Route::get('/user_register', function () {
     return view('user_register');
+});
+
 Route::get('/daftar', function () {
     return view('daftar');
 });
 
-Route::get('/profilpengguna', function () {
-    return view('profil_pengguna');
-});
 
-Route::get('/ubahprofilpengguna', function () {
-    return view('ubah_profil_pengguna');
-});
+Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
+
+Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
 
 Route::get('/masuk', function () {
     return view('masuk');
