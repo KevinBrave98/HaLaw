@@ -19,8 +19,8 @@
 <body>
     <x-navbar_user></x-navbar_user>
     <div class="content">
-        <h5>Halo Nadia Putri</h5>
-        <h1>Rekomendasi Pengacara</h1>
+        <h5 class="username">Halo Nadia Putri!</h5>
+        <h1 class="rekomendasi">Rekomendasi Pengacara</h1>
         <div class="scroll-wrapper">
             <div class="scroll-container">
                 <div class="lawyer-card">
@@ -242,6 +242,21 @@
             </div>
         </div>
     </div>
+
+    <div class="search-wrapper mx-auto mt-5">
+        <div class="search-header">Telusuri Pengacara</div>
+        <div class="search-bar p-4 rounded-4 d-flex align-items-center">
+            <input type="text" class="form-control form-control-lg me-3" placeholder="Cari Pengacara">
+            <button class="btn btn-filter me-2">
+                <i class="bi bi-sliders2-vertical"></i>
+            </button>
+            <button class="btn btn-cari d-flex align-items-center gap-2">
+                <i class="bi bi-search"></i> Cari
+            </button>
+        </div>
+    </div>
+
+    <x-footer></x-footer>
 </body>
 <script>
     const scrollContainer = document.querySelector('.scroll-wrapper');

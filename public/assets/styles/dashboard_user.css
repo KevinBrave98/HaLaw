@@ -21,7 +21,7 @@
 
 .lawyer-card {
   display: flex;
-  background-color: #7c4a17;
+  background-color: #654220;
   color: white;
   border-radius: 16px;
   min-width: 300px;
@@ -108,4 +108,60 @@
     margin: 6rem;
     margin-right: 0;
     gap: 2rem;
+}
+
+.username{
+    font-size: 1.5rem
+}
+
+.rekomendasi{
+    font-size: 4rem;
+    font-weight: light;
+}
+
+.search-wrapper {
+    width:70vw;
+    position: relative;
+}
+
+.search-header {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #c79d04;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #3d2a0c;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.search-bar {
+    background-color: #654220;
+}
+
+.search-bar input::placeholder {
+    color: #b9b9b9;
+    font-size: 1.2rem;
+}
+
+.btn-filter,
+.btn-cari {
+    background-color: #442a0d;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    border: none;
+}
+
+.btn-cari {
+    background-color: #442a0d;
+}
+
+.btn-filter i,
+.btn-cari i {
+    font-size: 1.2rem;
 }
