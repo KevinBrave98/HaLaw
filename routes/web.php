@@ -2,14 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/tes', function () {
-    return view('coba');
-});
-
 Route::get('/footer', function () {
     return view('footer');
 });
@@ -59,10 +51,6 @@ Route::get('/pengacara_register', function () {
 
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
-});
-
-Route::get('/navbar_user', function () {
-    return view('navbar_user');
 });
 
 Route::get('/test', function() {

@@ -3,7 +3,6 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: "Raleway";
-    background-color: #654220;
 }
 
 input::placeholder {
