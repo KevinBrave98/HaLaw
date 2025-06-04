@@ -47,7 +47,3 @@ Route::get('/dashboard_sebelum_login', function () {
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
 });
-
-Route::get('/test', function() {
-    return view('test');
-});
