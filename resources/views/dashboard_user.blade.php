@@ -263,8 +263,6 @@
         </div>
     </div>
 
-
-
     <x-footer></x-footer>
 </body>
 <script>
