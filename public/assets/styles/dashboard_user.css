@@ -142,10 +142,6 @@
     background-color: #654220;
 }
 
-.search-bar input::placeholder {
-    color: #b9b9b9;
-    font-size: 1.2rem;
-}
 
 .btn-filter,
 .btn-cari {
@@ -161,7 +157,35 @@
     background-color: #442a0d;
 }
 
-.btn-filter i,
-.btn-cari i {
-    font-size: 1.2rem;
+.luaran{
+    display: flex;
+    flex-direction: row;
+    margin-top: 7rem;
+    margin-bottom: 7rem;
 }
+
+.isi{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 2.5rem;
+}
+
+.isi h5{
+    font-size: 20px;
+}
+
+.isi h1{
+    font-size: 50px;
+}
+
+.telusuri{
+    padding-top: 3rem;
+}
+
+.button{
+    background-color: #654220;
+    color: white;
+    transform: none;
+}
+
