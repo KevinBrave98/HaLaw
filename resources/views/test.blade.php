@@ -12,5 +12,6 @@
 </head>
 <body>
     <x-search_pengacara></x-search_pengacara>
+    <script src="{{ asset('assets/scripts/search_pengguna.js') }}"></script>
 </body>
 </html>

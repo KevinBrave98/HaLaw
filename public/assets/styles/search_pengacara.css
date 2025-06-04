@@ -50,6 +50,16 @@ input::placeholder {
 .more-filter {
     background-color: #fff;
     bottom: 0.25rem;
+    height: 48rem;
+    transform:translateY(-3px);
+}
+
+.hide {
+    display: none !important;
+}
+
+#filter-icon, #search-icon {
+    cursor: pointer;
 }
 
 .filter-section h2 {
@@ -60,6 +70,49 @@ input::placeholder {
 
 hr {
     margin: 0;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.radio-container label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 17px;
+}
+
+/* Buat lingkaran radio button di label::before */
+.radio-container label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 1px solid #b99010;
+  border-radius: 50%;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+/* Lingkaran kecil di dalam saat checked */
+.radio-container input:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #b99010;  /* warna custom */
+  border-radius: 50%;
 }
 
 .search_label {
@@ -101,6 +154,10 @@ hr {
     border-radius: 25px;
     color: #281805;
     cursor: pointer;
+}
+
+.select-specialization {
+    min-width: 24rem;
 }
 
 #dropdown-icon {
