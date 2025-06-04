@@ -20,7 +20,6 @@ Route::get('/user_register', function () {
 
 Route::get('/lawyer_register', function () {
     return view('lawyer_register');
-
 });
 
 Route::get('/daftar', function () {
@@ -64,4 +63,8 @@ Route::get('/dashboard_user', function () {
 
 Route::get('/navbar_user', function () {
     return view('navbar_user');
+});
+
+Route::get('/test', function() {
+    return view('test');
 });
