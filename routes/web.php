@@ -40,8 +40,8 @@ Route::get('/masuk', function () {
     return view('masuk');
 });
 
-Route::get('/dashboard_pengguna_dan_pengacara_sebelum_login', function () {
-    return view('dashboard_pengguna_dan_pengacara_sebelum_login');
+Route::get('/dashboard_sebelum_login', function () {
+    return view('dashboard_sebelum_login');
 });
 
 Route::get('/navbar_sebelum_login', function () {
