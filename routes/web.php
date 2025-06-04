@@ -38,3 +38,14 @@ Route::get('/masuk', function () {
 Route::get('/dashboard_pengguna_dan_pengacara_sebelum_login', function () {
     return view('dashboard_pengguna_dan_pengacara_sebelum_login');
 });
+Route::get('/pengacara_register', function () {
+    return view('pengacara_register');
+});
+
+Route::get('/dashboard_user', function () {
+    return view('dashboard_user');
+});
+
+Route::get('/navbar_user', function () {
+    return view('navbar_user');
+});
