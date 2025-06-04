@@ -66,6 +66,7 @@ Route::get('/reset-demo', function () {
 Route::get('/test', function() {
     return view('test');
 });
+
 Route::get('/dasbor_pengacara', function () {
     return view('lawyer.dashboard');
 });

@@ -212,3 +212,9 @@ body {
     font-size: 24px;
     align-items: center;
 }
+
+.greetings {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+}
