@@ -15,6 +15,7 @@ Route::get('/tes', function () {
 
 Route::get('/user_register', function () {
     return view('user_register');
+
 });
 
 Route::get('/daftar', function () {
@@ -30,4 +31,8 @@ Route::get('/masuk', function () {
     return view('masuk');
 Route::get('/footer', function () {
     return view('footer');
+});
+
+Route::get('/dashboard_pengguna_dan_pengacara_sebelum_login', function () {
+    return view('dashboard_pengguna_dan_pengacara_sebelum_login');
 });
