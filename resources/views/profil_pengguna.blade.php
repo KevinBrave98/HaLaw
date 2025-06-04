@@ -17,8 +17,8 @@
             <h1 class="fs-3">Halo, Nadia Putri</h1>
             <img src="{{ asset('assets/images/foto-profil.png') }}" alt="foto profil">
         </div>
-        <div class="d-flex align-item-center justify-content-center">
-            <button type="button" class="button-edit">Ubah Profil</button>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="button-edit" onclick="window.location.href='{{ route('profile.edit') }}'">Ubah Profil</button>
         </div>
     </div>
 

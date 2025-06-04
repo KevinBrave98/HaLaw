@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ubah Profil</title>
-    <link rel="stylesheet" href="assets/styles/ubah_profil_pengguna.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/ubah_profil_pengguna.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
 </head>
 <body>
     <div class="d-flex justify-content-between bagian-atas">
-        <div class="button-back">
+        <a class="button-back" href="{{ route('profile.show') }}">
             <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
-        </div>
+        </a>
         <div class="sapaan-foto d-flex flex-column">
             <h1 class="fs-3">Halo, Nadia Putri</h1>
             <img src="{{ asset('assets/images/foto-profil.png') }}" alt="foto profil">
@@ -67,9 +67,9 @@
 
             </div>
         </div>
-        <div class="button-save d-flex justify-content-center">
+        <a class="button-save d-flex justify-content-center" href="{{ route('profile.show') }}">
             <button>Simpan Perubahan</button>
-        </div>
+        </a>
 
    </div>
     
