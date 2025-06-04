@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User Register</title>
      @vite(['resources/js/app.js', 'resources/sass/app.scss'])
-     <link rel="stylesheet" href="assets/styles/user_register.css">
+     <link rel="stylesheet" href="{{ asset('assets/styles/user_register.css') }}">
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="outer container-fluid">
-        <img src="assets/images/bg.jpeg" class="bg-image"></img>
+        <img src="{{ asset('assets/images/bg.jpeg') }}" class="bg-image"></img>
         <div class="container">
-        <img src="assets/images/daftar_sebagai_pengguna.jpg" alt="background" class="palu">
+        <img src="{{ asset('assets/images/daftar_sebagai_pengguna.jpg') }}" alt="background" class="palu">
         <h2 class="welcome">Selamat Datang Di Halaw</h2>
-        <img src="assets/images/logo_putih.png" alt="" class="logo">
+        <img src="{{ asset('assets/images/logo_putih.png') }}" alt="" class="logo">
             <div class="wrapper">
                 <div class="title">
                     <h1>Buat Akun</h1>

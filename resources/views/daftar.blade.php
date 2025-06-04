@@ -21,25 +21,29 @@
     </div>
 
     <div class="container-pilihan">
-        <div class="box-pengguna">
-            <img src="{{ asset('assets/images/icon-pengguna.png') }}" alt="icon pengguna">
-            <h3>Pengguna</h3>
-            <div class="list-pengguna">
-                <li>Konsultasi hukum via chat, telepon, atau panggilan video</li>
-                <li>Akses ke pengacara profesional dengan harga transparan</li>
-                <li>Fitur pencarian pengacara berdasarkan kebutuhan (perdata, pidana, bisnis, dll)</li>
+        <a href="{{ route('userregis.show') }}">
+            <div class="box-pengguna">
+                <img src="{{ asset('assets/images/icon-pengguna.png') }}" alt="icon pengguna">
+                <h3>Pengguna</h3>
+                <div class="list-pengguna">
+                    <li>Konsultasi hukum via chat, telepon, atau panggilan video</li>
+                    <li>Akses ke pengacara profesional dengan harga transparan</li>
+                    <li>Fitur pencarian pengacara berdasarkan kebutuhan (perdata, pidana, bisnis, dll)</li>
+                </div>
             </div>
-        </div>
-        <div class="box-pengguna">
-            <img src="{{ asset('assets/images/icon-pengacara.png') }}" alt="icon pengacara">
-            <h3>Pengacara</h3>
-            <div class="list-pengguna">
-                <li>Terima permintaan konsultasi dari pengguna langsung</li>
-                <li>Kelola profil, spesialisasi, dan harga jasa sendiri</li>
-                <li>Atur jam aktif dan status online/offline</li>
-            </div>
+        </a>
+        <a href="{{ route('lawyerregis.show') }}">
+            <div class="box-pengguna">
+                <img src="{{ asset('assets/images/icon-pengacara.png') }}" alt="icon pengacara">
+                <h3>Pengacara</h3>
+                <div class="list-pengguna">
+                    <li>Terima permintaan konsultasi dari pengguna langsung</li>
+                    <li>Kelola profil, spesialisasi, dan harga jasa sendiri</li>
+                    <li>Atur jam aktif dan status online/offline</li>
+                </div>
 
-        </div>
+            </div>
+        </a>
     </div>
     
 </body>
