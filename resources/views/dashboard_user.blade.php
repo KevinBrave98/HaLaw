@@ -283,5 +283,5 @@
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
 </script>
-
+<script src="{{ asset('assets/scripts/search_pengguna.js') }}"></script>
 </html>
