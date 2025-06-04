@@ -29,6 +29,8 @@ Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profil
 
 Route::get('/masuk', function () {
     return view('masuk');
+});
+
 Route::get('/footer', function () {
     return view('footer');
 });
