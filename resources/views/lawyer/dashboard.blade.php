@@ -14,44 +14,55 @@
 <body>
     <div class="container">
         <div class="greetings">
-            <h1>Halo</h1><a href="">{{ $nama_pengacara }}</a>
+            <h1>Halo, <strong>{{ $nama_pengacara }}!</strong></h1>
         </div>
         <div class="consult-container">
             <h2>Cek Sesi Konsultasi yang Sedang Berjalan</h2>
-            <button type="button" class="btn btn-primary btn-lg">Large button</button>
+            <button type="button" class="btn" onclick="">Lihat Sesi</button>
         </div>
         <div class="consult-information">
             <h2>Informasi Anda</h2>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Status Konsultasi</h5>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            </div>
+                            <p class="card-text">Status Anda Saat Ini : </p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title">Layanan Konsultasi</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Pesan</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Panggilan Suara</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Panggilan Videp</label>
+                        </div>
+                        <p class="card-text">Layanan Anda Saat Ini : </p>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="revenue">
-            <div class="card w-75">
+            <div class="card">
                 <div class="card-body">
-                    <div class="card-left">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                    <div class="card-right">
-                        <a href="#" class="btn btn-primary">Button</a>
+                    <h5 class="card-title">Total Pendapatan</h5>
+                    <div class="isi-card">
+                        <p class="card-text"> Rp.</p>
+                        <a href="#" class="btn btn-primary">Tarik Pendapatan</a>
                     </div>
                 </div>
             </div>

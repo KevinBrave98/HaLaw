@@ -2,5 +2,88 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Noto Serif', serif;
+    font-family: 'Raleway', sans-serif;
+    background-color: #F5F5F5;
+}
+
+.container {
+    padding: 8vh;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 80%;
+    height: max-content;
+    justify: center;
+}
+
+.greetings {
+    width: 100%;
+    justify: center;
+    text-align: center;
+}
+
+.greetings h1 {
+    font-size: 48px;
+    color: #281805;
+}
+
+.consult-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card-body {
+    background-color: #EDCEAF;
+}
+
+.consult-container h2 {
+    color: #281805;
+    font-size: 36px;
+}
+
+.consult-container .btn {
+    width: 173px;
+    height: 47px;
+    background-color: #654220;
+    border: none;
+    font-size: 20px;
+    color: #F5F5F5;
+    font-weight: semibold;
+    border: 1px solid #654220;
+}
+
+.consult-information h2{
+    font-size: 36px;
+    color: #281805;
+    font-weight: semibold;
+}
+
+.card-title {
+    color: #654220;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.revenue .card{
+    width: 100%;
+    background-color: #EDCEAF;
+}
+
+.revenue .card .card-body{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.isi-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.isi-card .btn {
+    background-color: #FFFFFF;
+    border: none;
+    font-size: 18px;
+    color: #B99010;
 }
