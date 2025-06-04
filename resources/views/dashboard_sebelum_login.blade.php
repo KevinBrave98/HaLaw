@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/styles/dashboard_sebelum_login.css">
 
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    <link rel="stylesheet" href="assets/styles/navbar_sebelum_login.css">
     <link rel="stylesheet" href="{{ asset('assets/styles/footer.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +15,7 @@
 </head>
 <body>
     <div class="relative">
-        <div class="nav" style="width: 100%; height:100px;"><p>nav</p></div>
+        <x-navbar_sebelum_login></x-navbar_sebelum_login>
 
         <div class="dasbor-top">
             <div class="banner-container">

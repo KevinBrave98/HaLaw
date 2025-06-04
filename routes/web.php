@@ -47,3 +47,19 @@ Route::get('/dashboard_sebelum_login', function () {
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
 });
+
+Route::get('/pengacara_register', function () {
+    return view('pengacara_register');
+});
+
+Route::get('/dashboard_user', function () {
+    return view('dashboard_user');
+});
+
+Route::get('/navbar_user', function () {
+    return view('navbar_user');
+});
+
+Route::get('/profil_pengacara', function () {
+    return view('profil_pengacara');
+});
