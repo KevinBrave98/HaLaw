@@ -19,6 +19,11 @@ Route::get('/user_register', function () {
 
 });
 
+Route::get('/lawyer_register', function () {
+    return view('lawyer_register');
+
+});
+
 Route::get('/daftar', function () {
     return view('daftar');
 });
@@ -37,6 +42,10 @@ Route::get('/masuk', function () {
 
 Route::get('/dashboard_pengguna_dan_pengacara_sebelum_login', function () {
     return view('dashboard_pengguna_dan_pengacara_sebelum_login');
+});
+
+Route::get('/navbar_sebelum_login', function () {
+    return view('navbar_sebelum_login');
 });
 Route::get('/pengacara_register', function () {
     return view('pengacara_register');
