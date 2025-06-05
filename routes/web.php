@@ -71,4 +71,8 @@ Route::get('/dasbor_pengacara', function () {
     return view('lawyer.dashboard');
 });
 
-Route::get('/dasbor_pengacara/{nama_pengacara}', [LawyerDashboardController::class, 'greetings']);
+Route::get('/dasbor_pengacara/{nama_pengacara}', [LawyerDashboardController::class, 'dashboard']);
+
+Route::post('/dasbor_pengacara/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('dasbor_pengacara.toggleStatus');
+
+Route::post('/dasbor_pengacara/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('dasbor_pengacara.updateLayanan');
