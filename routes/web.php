@@ -63,13 +63,6 @@ Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.
 
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
-})->name('dashboard.user');
-
-Route::get('/reset-demo', function () {
-    return view('reset_sandi', [
-        'token' => 'dummy-token',
-        'email' => 'dummy@example.com'
-    ]);
 });
 
 Route::get('/test', function() {
@@ -101,4 +94,4 @@ Route::get('/navbar_user', function () {
 Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 
-Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
+    Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
