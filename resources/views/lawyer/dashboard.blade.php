@@ -80,6 +80,16 @@
                                     {{ count($layanan) ? implode(', ', $layanan) : '-' }}
                                 </p>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="preferensi-komunikasi[]" value="Panggilan Suara">
+                                <label class="form-check-label" for="suara">Panggilan Suara</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="preferensi-komunikasi[]" value="Panggilan Video">
+                                <label class="form-check-label" for="video">Panggilan Video</label>
+                            </div>
+                            </div>
+                            <p class="card-text" id="layanan-terpilih">Layanan Anda Saat Ini : -</p>
                         </div>
                     </div>
                 </form>
