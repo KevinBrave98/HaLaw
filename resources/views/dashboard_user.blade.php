@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard User</title>
+    <title>HaLaw - Dashboard User</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     <link rel="stylesheet" href="{{ asset('assets/styles/search_pengacara.css') }}">
     <link rel="stylesheet" href="assets/styles/dashboard_user.css">
@@ -245,9 +245,11 @@
         </div>
     </div>
 
-    <div class="search-wrapper mx-auto mt-5">
+    <div class="search-wrapper mx-auto mt-5 d-flex flex-column align-items-center">
         <div class="search-header">Telusuri Pengacara</div>
-        <x-search_pengacara></x-search_pengacara>
+        <div class="search-bar p-4 rounded-4 d-flex align-items-center">
+            <x-search_pengacara></x-search_pengacara>
+        </div>
     </div>
 
     <div class="luaran container">

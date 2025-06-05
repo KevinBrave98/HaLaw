@@ -125,10 +125,8 @@
 }
 
 .search-header {
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    top: 1.5rem;
     background-color: #c79d04;
     color: white;
     padding: 0.5rem 1.5rem;
@@ -140,6 +138,7 @@
 
 .search-bar {
     background-color: #654220;
+    width: 100%;
 }
 
 
@@ -160,8 +159,8 @@
 .luaran{
     display: flex;
     flex-direction: row;
-    margin-top: 7rem;
-    margin-bottom: 7rem;
+    margin-top: 14rem;
+    margin-bottom: 14rem;
 }
 
 .isi{

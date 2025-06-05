@@ -83,7 +83,7 @@ hr {
   padding-left: 30px;
   cursor: pointer;
   user-select: none;
-  font-size: 17px;
+  font-size: 1em;
 }
 
 /* Buat lingkaran radio button di label::before */
@@ -205,4 +205,74 @@ option {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.price-container {
+    max-width: 24rem;
+}
+
+.price-field p {
+    color: #281805;
+}
+
+.price-field input{
+  width: 8rem;
+  color: #281805;
+  height: 100%;
+  outline: none;
+  font-size: 1.5em;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #B99010;
+  -moz-appearance: textfield;
+}
+
+.price-field input::-webkit-outer-spin-button,
+.ptice--field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.slider {
+  height: 0.3rem;
+  position: relative;
+  background: #d5d5d5;
+  border-radius: 10px;
+}
+.slider .progress {
+  height: 100%;
+  left: 50%;
+  right: 25%;
+  position: absolute;
+  border-radius: 10px;
+  background: #b99010;
+}
+.range-input {
+  position: relative;
+}
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background: #b99010;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+input[type="range"]::-moz-range-thumb {
+  height: 0.8rem;
+  width: 0.8rem;
+  border: none;
+  border-radius: 50%;
+  background: #b99010;
+  pointer-events: auto;
+  -moz-appearance: none;
 }
