@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="hide more-filter position-absolute d-flex flex-column w-100 top-100 start-0 justify-content-evenly">
+    <div class="more-filter position-absolute d-flex flex-column w-100 top-100 start-0 justify-content-evenly">
         <div class="d-flex flex-column justify-content-evenly p-4 filter-section">
             <h2 class="m-0 text-start">Jenis Kelamin</h1>
                 <div class="d-flex flex-row mt-3 gap-5 mb-5">
@@ -66,7 +66,7 @@
         <div class="d-flex flex-column justify-content-evenly p-4 filter-section">
             <h2 class="m-0 text-start">Batas Harga (Rp)</h1>
                 <div class="d-flex flex-column align-items-center mt-3 mb-5 price-container">
-                    <div class="price-input d-flex justify-content-between align-items-center w-100">
+                    <div class="price-input d-flex justify-content-between align-items-center w-100 mb-4">
                         <div class="price-field d-flex flex-column">
                             <p class="m-0 w-25">Min</p>
                             <input type="number" class="input-min" value="50000">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="d-flex w-100 align-items-center justify-content-center position-relative">
-                        <div class="slider w-100 mt-4 d-flex">
+                        <div class="slider w-100 d-flex">
                             <div class="progress"></div>
                         </div>
                         <div class="range-input">
