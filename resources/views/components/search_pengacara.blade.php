@@ -73,18 +73,18 @@
                         </div>
                         <div class="price-field d-flex flex-column">
                             <p class="m-0 w-25">Max</p>
-                            <input type="number" class="input-max" value="200000">
+                            <input type="number" class="input-max" value="75000">
                         </div>
                     </div>
-                    <div class="d-flex w-100 align-items-center justify-content-center position-relative">
+                    <div class="d-flex flex-column w-100 align-items-center justify-content-center position-relative">
                         <div class="slider w-100 d-flex">
                             <div class="progress"></div>
                         </div>
-                        <div class="range-input">
-                            <input type="range" class="range-min" min="0" max="10000" value="2500"
-                                step="100">
-                            <input type="range" class="range-max" min="0" max="10000" value="7500"
-                                step="100">
+                        <div class="range-input w-100">
+                            <input type="range" class="range-min" min="25000" max="100000" value="50000"
+                                step="1000">
+                            <input type="range" class="range-max" min="25000" max="100000" value="75000"
+                                step="1000">
                         </div>
                     </div>
                 </div>

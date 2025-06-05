@@ -245,6 +245,7 @@ option {
   position: absolute;
   border-radius: 10px;
   background: #b99010;
+  /* transform: translateY(-25%); */
 }
 .range-input {
   position: relative;
