@@ -18,7 +18,7 @@
 
 <body>
     <div class="outer container-fluid">
-        <img src="{{ asset('assets/images/bg_halaman_masuk.jpeg')}}" class="bg-image"></img>
+        <img src="{{ asset('assets/images/bg_halaman_masuk.jpeg') }}" class="bg-image"></img>
         <div class="container">
             <div class="wrapper">
                 <div class="title">
