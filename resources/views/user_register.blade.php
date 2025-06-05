@@ -22,25 +22,82 @@
                 <div class="title">
                     <h1>Buat Akun</h1>
                 </div>
-                <div class="wrapper_form">
-                    <label for="exampleFormControlInput1" class="form-label">Nama Lengkap</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1">
+                <form action="{{ route('userregis') }}" method="POST">
+                    @csrf
+                    <div class="wrapper_form">
+                        <label for="nama_pengguna" class="form-label">Nama Lengkap</label>
+                        <input 
+                            type="text"
+                            name="nama_pengguna" 
+                            class="form-control" 
+                            id=""
+                            value="{{ old('nama_pengguna') }}"
+                            required
+                        >
 
-                    <label for="exampleFormControlInput1" class="form-label">NIK</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1">
+                        <label for="nik_pengguna" class="form-label">NIK</label>
+                        <input 
+                            type="text"
+                            name="nik_pengguna" 
+                            class="form-control" 
+                            value="{{ old('nik_pengguna') }}"
+                            required
+                        >
 
-                    <label for="exampleFormControlInput1" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1">
+                        <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+                        <input 
+                            type="text" 
+                            name="nomor_telepon"
+                            class="form-control" 
+                            value="{{ old('nomor_telepon') }}"
+                            required
+                        >
 
-                    <label for="exampleFormControlInput1" class="form-label">Kata Sandi</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1">
-                </div>
-                <div class="btn_wrapper">
-                     <button type="button" class="btn btn-outline-warning btn-lg">Daftar</button>
-                </div>
-                <div class="text">
-                    <p>Sudah punya akun? <a href="">Masuk</a></p>
-                </div>
+                        <label for="email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            name="email"
+                            class="form-control" 
+                            value="{{ old('email') }}"
+                            required
+                        >
+
+                        <label for="password" class="form-label">Kata Sandi</label>
+                        <input 
+                            type="password" 
+                            name="password"
+                            class="form-control" 
+                            required
+                        >
+
+                        <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
+                        <input 
+                            type="password" 
+                            name="password_confirmation"
+                            class="form-control" 
+                            required
+                        >
+
+                    </div>
+                    <div class="btn_wrapper">
+                        <button type="submit" class="btn btn-outline-warning btn-lg">Daftar</button>
+                    </div>
+                    <div class="text">
+                        <p>Sudah punya akun? <a href="">Masuk</a></p>
+                    </div>
+                    
+                    {{-- Validation Errors --}}
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="d-flex flex-column align-items-center justify-content-center div-error">
+                                <ul class="px-2 bg-danger box-error">
+                                    <p class="my-2 error">{{ $error }}</p>
+                                    
+                                </ul>
+                            </div>
+                        @endforeach
+                    @endif
+                </form>
             </div>
     </div>
 </body>

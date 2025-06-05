@@ -19,12 +19,12 @@ return new class extends Migration
             $table->time('waktu');
             $table->string('status');
             $table->string('jenis_layanan');
-            $table->integer('penilaian');
-            $table->string('ulasan');
+            $table->integer('penilaian')->nullable();
+            $table->string('ulasan')->nullable();
             $table->timestamps();
 
-            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacara')->cascadeOnDelete();
-            $table->foreign('nik_pengguna')->references('nik_pengguna')->on('pengguna')->cascadeOnDelete();
+            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacaras')->cascadeOnDelete();
+            $table->foreign('nik_pengguna')->references('nik_pengguna')->on('penggunas')->cascadeOnDelete();
         });
     }
 

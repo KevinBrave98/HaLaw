@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('teks');
             $table->timestamps();
 
-            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayat')->cascadeOnDelete();
+            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayats')->cascadeOnDelete();
         });
     }
 

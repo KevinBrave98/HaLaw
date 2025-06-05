@@ -26,15 +26,13 @@ class Pengacara extends Authenticatable
         'durasi_pengalaman',
         'pengalaman_bekerja',
         'pendidikan',
-        'chat',
-        'voice chat',
-        'video call',
+        'preferensi_komunikasi',
         'status_konsultasi',
         'foto_pengacara'
     ];
 
     protected $hidden = [
-        'passwprd',
+        'password',
         'remember_token'
     ];
 

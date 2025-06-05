@@ -10,6 +10,9 @@ Route::get('/footer', function () {
 });
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
+Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
+
+
 Route::get('/daftar/pengacara', [RegisterController::class, 'showLawyer'])->name('lawyerregis.show');
 Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])->name('lawyerregis.regis');
 
@@ -26,6 +29,9 @@ Route::get('/masuk/pengguna', [LoginController::class, 'showLoginUser'])->name('
 Route::get('/masuk/pengacara', [LoginController::class, 'showLoginLawyer'])->name('lawyerLogin.show');
 Route::post('/masuk/pengguna', [LoginController::class, 'loginLawyer'])->name('userLogin.login');
 Route::post('/masuk/pengacara', [LoginController::class, 'loginUser'])->name('lawyerLogin.login');
+Route::get('/masuk', function () {
+    return view('masuk');
+})->name('masuk');
 
 
 Route::get('/navbar_sebelum_login', function () {

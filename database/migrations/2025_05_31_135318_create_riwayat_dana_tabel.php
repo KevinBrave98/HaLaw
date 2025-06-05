@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('nominal');
             $table->timestamps();
             
-            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacara')->cascadeOnDelete();
+            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacaras')->cascadeOnDelete();
         });
     }
 

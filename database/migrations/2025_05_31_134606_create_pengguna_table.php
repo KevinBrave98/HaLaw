@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('nomor_telepon')->unique();
-            $table->string('jenis_kelamin');
-            $table->string('foto_pengguna');
+            $table->string('jenis_kelamin')->default('Memilih tidak menjawab');
+            $table->string('foto_pengguna')->nullable();
             $table->timestamps();
         });
     }
