@@ -22,37 +22,39 @@
         </div>
         <div class="consult-information">
             <h2>Informasi Anda</h2>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Status Konsultasi</h5>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <div class="isi-consult-info">
+                <div class="status-konsultasi">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Status Konsultasi</h5>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                </div>
+                                <p class="card-text">Status Anda Saat Ini : </p>
                             </div>
-                            <p class="card-text">Status Anda Saat Ini : </p>
                         </div>
-                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Layanan Konsultasi</h5>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Pesan</label>
+                <div class="layanan-konsultasi">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Layanan Konsultasi</h5>
+                                <div class="checkbox-layanan-konsultasi">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <label class="form-check-label" for="inlineCheckbox1">Pesan</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                        <label class="form-check-label" for="inlineCheckbox2">Panggilan Suara</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                        <label class="form-check-label" for="inlineCheckbox2">Panggilan Video</label>
+                                    </div>
+                                </div>
+                                <p class="card-text">Layanan Anda Saat Ini : </p>
+                            </div>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">Panggilan Suara</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">Panggilan Videp</label>
-                        </div>
-                        <p class="card-text">Layanan Anda Saat Ini : </p>
-                    </div>
-                    </div>
                 </div>
             </div>
         </div>
