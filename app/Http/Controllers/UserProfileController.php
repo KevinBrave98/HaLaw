@@ -12,4 +12,7 @@ class UserProfileController extends Controller
     public function edit(){
         return view('ubah_profil_pengguna');
     }
+     public function exit(){
+        return view('dashboard_sebelum_login');
+    }
 }

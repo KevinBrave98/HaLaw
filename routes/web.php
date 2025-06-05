@@ -23,14 +23,12 @@ Route::get('/daftar', function () {
 
 Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
 Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/dashboard_sebelum_login', [UserProfileController::class, 'exit'])->name('profile.exit');
 
 Route::get('/masuk', function () {
     return view('masuk');
 });
 
-Route::get('/dashboard_sebelum_login', function () {
-    return view('dashboard_sebelum_login');
-});
 
 Route::get('/navbar_sebelum_login', function () {
     return view('navbar_sebelum_login');
@@ -40,9 +38,6 @@ Route::get('/footer', function () {
     return view('footer');
 });
 
-Route::get('/dashboard_sebelum_login', function () {
-    return view('dashboard_sebelum_login');
-});
 
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
