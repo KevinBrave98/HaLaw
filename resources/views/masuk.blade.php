@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,50 +8,55 @@
     <link rel="stylesheet" href="masuk.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
-    <link rel="stylesheet" href="assets/styles/masuk.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/masuk.css')}}">
     <title>Halaman Masuk</title>
 </head>
+
 <body>
     <div class="outer container-fluid">
-        <img src="assets/images/bg_halaman_masuk.jpeg" class="bg-image"></img>
+        <img src="{{ asset('assets/images/bg_halaman_masuk.jpeg')}}" class="bg-image"></img>
         <div class="container">
             <div class="wrapper">
                 <div class="title">
                     <h1>Masuk</h1>
                 </div>
                 <div class="wrapper_form">
-                    <form>
+                    <form action="{{ $dynamic_login['form_action'] }}" method="POST" id="form_masuk">
+                        @csrf
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1" class="form-label text-brown fw-semibold">Masuk sebagai</label>
-                            <select class="form-select rounded-3 border-secondary" id="exampleFormControlSelect1">
-                                <option selected disabled hidden></option>
-                                <option value="">Sebagai Pengguna</option>
-                                <option value="">Sebagai Pengacara</option>
+                            <label for="pilih_user" class="form-label text-brown fw-semibold">Masuk sebagai</label>
+                            <select name="pilih_user" class="form-select rounded-3 border-secondary"
+                                id="pilih_user">
+                                {!! $dynamic_login['selected_option'] !!}
                             </select>
                         </div>
 
-                        <label for="exampleFormControlInput1" class="form-label text-brown fw-semibold">Email</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1">
+                        <label for="email" class="form-label text-brown fw-semibold">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{ old('email') }}" required>
 
-                        <label for="exampleFormControlInput1" class="form-label text-brown fw-semibold">Kata Sandi</label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1">
+                        <label for="password" class="form-label text-brown fw-semibold">Kata Sandi</label>
+                        <input type="password" name="password" class="form-control" id="kata_sandi" required>
                         <div class="forgotPass text-end">
-                                <a href="">Lupa kata sandi?</a>
+                            <a href="">Lupa kata sandi?</a>
+                        </div>
+                        <div class="btn_wrapper mt-4">
+                            <button type="button" class="btn btn-outline-warning btn-lg">Masuk</button>
                         </div>
                     </form>
                 </div>
-                <div class="btn_wrapper">
-                     <button type="button" class="btn btn-outline-warning btn-lg">Masuk</button>
-                </div>
-                <div class="text">
-                    <p>Belum memiliki akun? <a href="">Buat Akun</a></p>
+                <div class="text mt-5">
+                    <p>Belum memiliki akun? <a href="{{ route('register.show') }}">Buat Akun</a></p>
                 </div>
             </div>
-            <img src="assets/images/foto_halaman_masuk.jpeg" alt="background" class="law">
-            <img src="assets/images/logo_putih.png" alt="" class="logo">
+            <img src="{{ asset('assets/images/foto_halaman_masuk.jpeg')}}" alt="background" class="law">
+            <img src="{{ asset('assets/images/logo_putih.png')}}" alt="" class="logo">
         </div>
     </div>
+    <script src="{{ asset('assets/scripts/masuk.js')}}"></script>
 </body>
+
 </html>

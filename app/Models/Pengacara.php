@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Pengacara extends Model
+class Pengacara extends Authenticatable
 {
+    use HasFactory, Notifiable;
+
     protected $primaryKey = 'nik_pengacara';
     public $incrementing = false;
     protected $fillable = [
@@ -29,6 +33,11 @@ class Pengacara extends Model
         'foto_pengacara'
     ];
 
+    protected $hidden = [
+        'passwprd',
+        'remember_token'
+    ];
+
     public function riwayat(): HasMany
     {
         return $this->hasMany(Riwayat::class, 'nik_pengacara', 'nik_pengacara');
@@ -37,5 +46,13 @@ class Pengacara extends Model
     public function riwayat_dana(): HasMany
     {
         return $this->hasMany(RiwayatDana::class, 'nik_pengacara', 'nik_pengacara');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }
