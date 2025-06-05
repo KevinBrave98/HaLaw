@@ -22,7 +22,9 @@ class Pengacara extends Model
         'durasi_pengalaman',
         'pengalaman_bekerja',
         'pendidikan',
-        'preferensi_komunikasi',
+        'chat',
+        'voice chat',
+        'video call',
         'status_konsultasi',
         'foto_pengacara'
     ];

@@ -24,8 +24,10 @@ return new class extends Migration
             $table->integer('durasi_pengalaman');
             $table->integer('pengalaman_bekerja');
             $table->string('pendidikan');
-            $table->string('preferensi_komunikasi');
-            $table->string('status_konsultasi');
+            $table->boolean('chat');
+            $table->boolean('voice call');
+            $table->boolean('video chat');
+            $table->boolean('status_konsultasi');
             $table->string('foto_pengacara');
             $table->timestamps();
         });
