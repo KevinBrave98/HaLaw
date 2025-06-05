@@ -12,7 +12,7 @@
     <title>Dashboard Pengacara</title>
 </head>
 <body>
-    <div class="container ">
+    <div class="container">
         <div class="greetings">
             <h1>Halo</h1><a href="">{{ $nama_pengacara }}</a>
         </div>
