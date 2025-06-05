@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserProfileController;
 
@@ -47,3 +48,5 @@ Route::get('/dashboard_sebelum_login', function () {
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
 });
+
+Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);

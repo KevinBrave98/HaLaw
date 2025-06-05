@@ -8,8 +8,8 @@
     <title>HaLaw - Dashboard User</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     <link rel="stylesheet" href="{{ asset('assets/styles/search_pengacara.css') }}">
-    <link rel="stylesheet" href="assets/styles/dashboard_user.css">
-    <link rel="stylesheet" href="assets/styles/navbar_user.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_user.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_user.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -21,13 +21,13 @@
 <body>
     <x-navbar_user></x-navbar_user>
     <div class="content">
-        <h5 class="username">Halo Nadia Putri!</h5>
+        <h5 class="username">Hallo {{ $nama_pengguna }}</h5>
         <h1 class="rekomendasi">Rekomendasi Pengacara</h1>
         <div class="scroll-wrapper">
             <div class="scroll-container">
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -207,7 +207,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="assets/images/lawyer1.jpeg" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -254,7 +254,7 @@
 
     <div class="luaran container">
         <div class="palu">
-            <img src="assets/images/gambarPalu.png" alt="">
+            <img src="{{asset('assets/images/gambarPalu.png')}}" alt="">
         </div>
         <div class="isi">
             <h1>Pahami Sebelum Bertindak</h1>
