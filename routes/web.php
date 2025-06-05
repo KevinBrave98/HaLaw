@@ -100,6 +100,5 @@ Route::get('/navbar_user', function () {
 
 Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
-});
 
 Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);

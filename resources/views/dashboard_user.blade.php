@@ -135,8 +135,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
-                            class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -172,8 +171,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
-                            class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -209,8 +207,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
-                            class="lawyer-image">
+                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
