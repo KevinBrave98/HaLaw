@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -13,6 +14,10 @@ class UserProfileController extends Controller
         return view('ubah_profil_pengguna');
     }
      public function exit(){
-        return view('dashboard_sebelum_login');
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('login.show');
     }
 }

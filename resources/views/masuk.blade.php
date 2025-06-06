@@ -44,9 +44,16 @@
                             <a href="">Lupa kata sandi?</a>
                         </div>
                         <div class="btn_wrapper mt-4">
-                            <button type="button" class="btn btn-outline-warning btn-lg">Masuk</button>
+                            <button type="submit" class="btn btn-outline-warning btn-lg">Masuk</button>
                         </div>
                     </form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger mt-3">
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="text mt-5">
                     <p>Belum memiliki akun? <a href="{{ route('register.show') }}">Buat Akun</a></p>

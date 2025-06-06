@@ -83,7 +83,7 @@
                         <button type="submit" class="btn btn-outline-warning btn-lg">Daftar</button>
                     </div>
                     <div class="text">
-                        <p>Sudah punya akun? <a href="">Masuk</a></p>
+                        <p>Sudah punya akun? <a href="{{ route('login.show') }}">Masuk</a></p>
                     </div>
                     
                     {{-- Validation Errors --}}

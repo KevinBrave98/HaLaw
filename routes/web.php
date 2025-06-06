@@ -19,19 +19,20 @@ Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])-
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
 
-Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
-Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
-Route::get('/dashboard_sebelum_login', [UserProfileController::class, 'exit'])->name('profile.exit');
+Route::middleware('auth')->group(function () {
+    Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profil/ubah', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/keluar', [UserProfileController::class, 'exit'])->name('profile.exit');
+});
 
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
 
 Route::get('/masuk/pengguna', [LoginController::class, 'showLoginUser'])->name('userLogin.show');
 Route::get('/masuk/pengacara', [LoginController::class, 'showLoginLawyer'])->name('lawyerLogin.show');
-Route::post('/masuk/pengguna', [LoginController::class, 'loginLawyer'])->name('userLogin.login');
-Route::post('/masuk/pengacara', [LoginController::class, 'loginUser'])->name('lawyerLogin.login');
-Route::get('/masuk', function () {
-    return view('masuk');
-})->name('masuk');
+Route::post('/masuk/pengguna', [LoginController::class, 'loginUser'])->name('userLogin.login');
+Route::post('/masuk/pengacara', [LoginController::class, 'loginLawyer'])->name('lawyerLogin.login');
+
 
 
 Route::get('/navbar_sebelum_login', function () {
@@ -45,4 +46,4 @@ Route::get('/footer', function () {
 
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
-});
+})->name('dashboard.user');

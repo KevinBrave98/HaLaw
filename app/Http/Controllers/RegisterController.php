@@ -38,6 +38,6 @@ class RegisterController extends Controller
 
         Auth::login($pengguna);
 
-        return redirect()->route('masuk');
+        return redirect()->route('login.show');
     }
 }
