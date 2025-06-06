@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <div class="greetings">
-            <h1>Halo, <strong>{{ $pengacara->$nama_pengacara }}!</strong></h1>
+            <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>
         </div>
         <div class="consult-container">
             <h2>Cek Sesi Konsultasi yang Sedang Berjalan</h2>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="voice_call" value="1"
-                                            {{ $pengacara->voice_call ? 'checked' : '' }}>
+                                            {{ $pengacara->voice_call? 'checked' : '' }}>
                                         <label class="form-check-label" for="suara">Panggilan Suara</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    </form>
+                </form>
             </div>
         </div>
         <div class="revenue">
