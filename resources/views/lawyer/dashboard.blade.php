@@ -46,7 +46,7 @@
                             </div>
                         </div>
                 </div>
-                <form action="{{ route('dasbor_pengacara.updateLayanan') }}" method="POST">
+                <form action="{{ route('dasbor_pengacara.updateLayanan') }}" method="POST" id="layananForm">
                     @csrf
                     <div class="layanan-konsultasi">
                         <div class="card">
@@ -55,44 +55,38 @@
                                 <div class="checkbox-layanan-konsultasi">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input layanan-checkbox" type="checkbox" id="pesan" name="chat" value="1"
+                                            onchange="document.getElementById('layananForm').submit();"
                                             {{ $pengacara->chat ? 'checked' : '' }}>
                                         <label class="form-check-label" for="pesan">Pesan</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="voice_call" value="1"
-                                            {{ $pengacara->voice_call? 'checked' : '' }}>
+                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="voice_chat" value="1"
+                                            onchange="document.getElementById('layananForm').submit();"
+                                            {{ $pengacara->voice_chat ? 'checked' : '' }}>
                                         <label class="form-check-label" for="suara">Panggilan Suara</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="video_chat" value="1"
-                                            {{ $pengacara->video_chat ? 'checked' : '' }}>
+                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="video_call" value="1"
+                                            onchange="document.getElementById('layananForm').submit();"
+                                            {{ $pengacara->video_call ? 'checked' : '' }}>
                                         <label class="form-check-label" for="video">Panggilan Video</label>
                                     </div>
                                 </div>
+
                                 <p class="card-text" id="layanan-terpilih">
                                     Layanan Anda Saat Ini:
                                     @php
                                         $layanan = [];
-                                        if ($nama_pengacara->chat) $layanan[] = 'Pesan';
-                                        if ($nama_pengacara->voice_call) $layanan[] = 'Panggilan Suara';
-                                        if ($nama_pengacara->video_chat) $layanan[] = 'Panggilan Video';
+                                        if ($pengacara->chat) $layanan[] = 'Pesan';
+                                        if ($pengacara->voice_chat) $layanan[] = 'Panggilan Suara';
+                                        if ($pengacara->video_call) $layanan[] = 'Panggilan Video';
                                     @endphp
                                     {{ count($layanan) ? implode(', ', $layanan) : '-' }}
                                 </p>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="preferensi-komunikasi[]" value="Panggilan Suara">
-                                <label class="form-check-label" for="suara">Panggilan Suara</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="preferensi-komunikasi[]" value="Panggilan Video">
-                                <label class="form-check-label" for="video">Panggilan Video</label>
-                            </div>
-                            </div>
-                            <p class="card-text" id="layanan-terpilih">Layanan Anda Saat Ini : -</p>
                         </div>
                     </div>
-                    </form>
+                </form>
             </div>
         </div>
         <div class="revenue">
