@@ -28,7 +28,8 @@ class Pengacara extends Authenticatable
         'pendidikan',
         'preferensi_komunikasi',
         'status_konsultasi',
-        'foto_pengacara'
+        'foto_pengacara',
+        'tanda_pengenal'
     ];
 
     protected $hidden = [

@@ -14,7 +14,7 @@ Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->na
 
 
 Route::get('/daftar/pengacara', [RegisterController::class, 'showLawyer'])->name('lawyerregis.show');
-Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])->name('lawyerregis.regis');
+Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])->name('lawyerregis');
 
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
@@ -32,7 +32,6 @@ Route::get('/masuk/pengguna', [LoginController::class, 'showLoginUser'])->name('
 Route::get('/masuk/pengacara', [LoginController::class, 'showLoginLawyer'])->name('lawyerLogin.show');
 Route::post('/masuk/pengguna', [LoginController::class, 'loginUser'])->name('userLogin.login');
 Route::post('/masuk/pengacara', [LoginController::class, 'loginLawyer'])->name('lawyerLogin.login');
-
 
 
 Route::get('/navbar_sebelum_login', function () {

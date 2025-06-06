@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'lawyer' => [
+            'driver' => 'session',
+            'provider' => 'lawyers',
+        ],
     ],
 
     /*
@@ -64,6 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Pengguna::class),
         ],
+        'lawyers' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Pengacara::class),
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

@@ -26,31 +26,53 @@
                 <div class="title">
                     <h1>Buat Akun</h1>
                 </div>
-                <div class="wrapper_form">
-                    <form action="{{ route('lawyerregis.regis') }}" method="POST">
-                        @csrf
-                        <label for="nama_pengacara" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="nama_pengacara" name="nama_pengacara">
+                <form action="{{ route('lawyerregis') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="wrapper_form">
+                        <label for="nama_penggacara" class="form-label">Nama Lengkap</label>
+                        <input type="text" name="nama_pengacara" class="form-control" id=""
+                            value="{{ old('nama_pengacara') }}" required>
 
                         <label for="nik_pengacara" class="form-label">NIK</label>
-                        <input type="text" class="form-control" id="nik_pengacara" name="nik_pengacara">
+                        <input type="text" name="nik_pengacara" class="form-control"
+                            value="{{ old('nik_pengacara') }}" required>
 
-                        <label for="email" class="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+                        <input type="text" name="nomor_telepon" class="form-control"
+                            value="{{ old('nomor_telepon') }}" required>
+
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
 
                         <label for="password" class="form-label">Kata Sandi</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <input type="password" name="password" class="form-control" required>
 
-                        <label for="formFile" class="form-label">Unggah KTPA / PKPA</label>
-                        <input class="form-control" type="file" id="formFile">
-                        <div class="btn_wrapper mt-4">
-                            <button type="submit" class="btn btn-outline-warning btn-lg">Daftar</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="text">
-                    <p>Sudah punya akun? <a href="{{ route('login.show') }}">Masuk</a></p>
-                </div>
+                        <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
+                        <input type="password" name="password_confirmation" class="form-control" required>
+
+                        <label for="tanda_pengenal" class="form-label">Unggah KTPA / PKPA</label>
+                        <input class="form-control" type="file" id="tanda_pengenal" name="tanda_pengenal" required>
+
+                    </div>
+                    <div class="btn_wrapper">
+                        <button type="submit" class="btn btn-outline-warning btn-lg">Daftar</button>
+                    </div>
+                    <div class="text">
+                        <p>Sudah punya akun? <a href="{{ route('login.show') }}">Masuk</a></p>
+                    </div>
+
+                    {{-- Validation Errors --}}
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="d-flex flex-column align-items-center justify-content-center div-error">
+                                <ul class="px-2 bg-danger box-error">
+                                    <p class="my-2 error">{{ $error }}</p>
+
+                                </ul>
+                            </div>
+                        @endforeach
+                    @endif
+                </form>
             </div>
         </div>
 </body>
