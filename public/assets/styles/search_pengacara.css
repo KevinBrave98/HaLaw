@@ -12,6 +12,7 @@ input::placeholder {
 
 .search-container {
     width: 100%;
+    height: fit-content;
 }
 
 .input-pengacara {
@@ -49,7 +50,7 @@ input::placeholder {
 .more-filter {
     background-color: #fff;
     bottom: 0.25rem;
-    height: 48rem;
+    height: fit-content;
     transform:translateY(-3px);
 }
 
@@ -277,4 +278,11 @@ input[type="range"]::-moz-range-thumb {
   background: #b99010;
   pointer-events: auto;
   -moz-appearance: none;
+}
+
+.submit-filter {
+    border-radius: 10px;
+    background-color: #654220;
+    color: #fff;
+    font-weight: 500;
 }

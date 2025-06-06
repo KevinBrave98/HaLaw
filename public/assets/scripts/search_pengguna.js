@@ -10,7 +10,7 @@ console.log("Aa")
 const rangeInput = document.querySelectorAll(".range-input input")
 const priceInput = document.querySelectorAll(".price-input input")
 const range = document.querySelector(".slider .progress");
-let priceGap = 10000;
+let priceGap = 5000;
 
 window.onload = function(e) {
   priceInput.forEach((input) => {
