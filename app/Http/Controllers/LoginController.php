@@ -62,4 +62,9 @@ class LoginController extends Controller
             'email' => 'Email atau kata sandi salah',
         ])->onlyInput('email');
     }
+
+    public function showForgotPassword()
+    {
+        return view('lupa_sandi'); 
+    }
 }

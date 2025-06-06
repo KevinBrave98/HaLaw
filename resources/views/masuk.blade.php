@@ -41,7 +41,7 @@
                         <label for="password" class="form-label text-brown fw-semibold">Kata Sandi</label>
                         <input type="password" name="password" class="form-control" id="kata_sandi" required>
                         <div class="forgotPass text-end">
-                            <a href="">Lupa kata sandi?</a>
+                            <a href="{{ route('password.request') }}">Lupa kata sandi?</a>
                         </div>
                         <div class="btn_wrapper mt-4">
                             <button type="submit" class="btn btn-outline-warning btn-lg">Masuk</button>
