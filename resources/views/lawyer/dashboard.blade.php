@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <div class="greetings">
-            <h1>Halo, <strong>{{ $nama_pengacara }}!</strong></h1>
+            <h1>Halo, <strong>{{ $pengacara->$nama_pengacara }}!</strong></h1>
         </div>
         <div class="consult-container">
             <h2>Cek Sesi Konsultasi yang Sedang Berjalan</h2>
@@ -31,16 +31,16 @@
                                     @csrf
                                     <div class="form-check form-switch">
                                         <input 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            name="status_konsultasi"
-                                            id="statusSwitch"
-                                            onchange="this.form.submit()"
-                                            {{ $status_konsultasi == 'online' ? 'checked' : '' }}
-                                        >
-                                        <label class="form-check-label" for="statusSwitch">
-                                            Status: {{ ucfirst($status_konsultasi) }}
-                                        </label>
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        name="status_konsultasi"
+                                        id="statusSwitch"
+                                        onchange="this.form.submit()"
+                                        {{ $status_konsultasi == 1 ? 'checked' : '' }}
+                                    >
+                                    <label class="form-check-label" for="statusSwitch">
+                                        Status: {{ $status_konsultasi == 1 ? 'Online' : 'Offline' }}
+                                    </label>
                                     </div>
                                 </form>
                             </div>
@@ -50,27 +50,39 @@
                     @csrf
                     <div class="layanan-konsultasi">
                         <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Layanan Konsultasi</h5>
-                            <div class="checkbox-layanan-konsultasi">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input layanan-checkbox" type="checkbox" id="pesan" name="preferensi-komunikasi[]" value="Pesan">
-                                <label class="form-check-label" for="pesan">Pesan</label>
+                            <div class="card-body">
+                                <h5 class="card-title">Layanan Konsultasi</h5>
+                                <div class="checkbox-layanan-konsultasi">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="pesan" name="chat" value="1"
+                                            {{ $pengacara->chat ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pesan">Pesan</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="voice_call" value="1"
+                                            {{ $pengacara->voice_call ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="suara">Panggilan Suara</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="video_chat" value="1"
+                                            {{ $pengacara->video_chat ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="video">Panggilan Video</label>
+                                    </div>
+                                </div>
+                                <p class="card-text" id="layanan-terpilih">
+                                    Layanan Anda Saat Ini:
+                                    @php
+                                        $layanan = [];
+                                        if ($nama_pengacara->chat) $layanan[] = 'Pesan';
+                                        if ($nama_pengacara->voice_call) $layanan[] = 'Panggilan Suara';
+                                        if ($nama_pengacara->video_chat) $layanan[] = 'Panggilan Video';
+                                    @endphp
+                                    {{ count($layanan) ? implode(', ', $layanan) : '-' }}
+                                </p>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input layanan-checkbox" type="checkbox" id="suara" name="preferensi-komunikasi[]" value="Panggilan Suara">
-                                <label class="form-check-label" for="suara">Panggilan Suara</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input layanan-checkbox" type="checkbox" id="video" name="preferensi-komunikasi[]" value="Panggilan Video">
-                                <label class="form-check-label" for="video">Panggilan Video</label>
-                            </div>
-                            </div>
-                            <p class="card-text" id="layanan-terpilih">Layanan Anda Saat Ini : -</p>
-                        </div>
                         </div>
                     </div>
-                </form>
+                    </form>
             </div>
         </div>
         <div class="revenue">

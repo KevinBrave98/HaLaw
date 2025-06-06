@@ -9,42 +9,35 @@ class LawyerDashboardController extends Controller
 {
     public function dashboard()
     {
-        $nama_pengacara = DB::table('pengacara')->value('nama_pengacara');
-        $status_konsultasi = DB::table('pengacara')->value('status_konsultasi');
-        $layanan_konsultasi = DB::table('pengacara')->value('preferensi_komunikasi');
-        return view('lawyer.dashboard', compact('nama_pengacara', 'status_konsultasi', 'layanan_konsultasi'));
+        $pengacara = DB::table('pengacaras')->first();
+        $status_konsultasi = DB::table('pengacaras')->value('status_konsultasi');
+        return view('lawyer.dashboard', compact('pengacara', 'status_konsultasi'));
     }
 
     public function toggleStatus()
     {
-        $nama_pengacara = DB::table('pengacara')->value('nama_pengacara');
-        $pengacara = DB::table('pengacara')->where('nama_pengacara', $nama_pengacara)->first();
+        $nama_pengacara = DB::table('pengacaras')->value('nama_pengacara');
+        $pengacara = DB::table('pengacaras')->where('nama_pengacara', $nama_pengacara)->first();
 
-        $newStatus = $pengacara->status_konsultasi === 'online' ? 'offline' : 'online';
+        $newStatus = $pengacara->status_konsultasi == 1 ? 0 : 1;
 
-        DB::table('pengacara')->update([
-            'status_konsultasi' => $newStatus
-        ]);
+        DB::table('pengacaras')
+            ->where('nama_pengacara', $nama_pengacara)
+            ->update(['status_konsultasi' => $newStatus]);
 
         return redirect()->back()->with('success', 'Status berhasil diubah.');
     }
 
     public function updateLayanan(Request $request)
     {
-        $request->validate([
-            'preferensi_komunikasi' => 'nullable|array',
-            'preferensi_komunikasi.*' => 'string',
+        $nama_pengacara = DB::table('pengacaras')->value('nama_pengacara');
+
+        DB::table('pengacaras')->where('nama_pengacara', $nama_pengacara)->update([
+            'chat' => $request->has('chat') ? 1 : 0,
+            'voice_call' => $request->has('voice_call') ? 1 : 0,
+            'video_chat' => $request->has('video_chat') ? 1 : 0,
         ]);
 
-        $nama_pengacara = DB::table('pengacara')->value('nama_pengacara');
-
-        $preferensi_komunikasi = $request->input('preferensi_komunikasi', []);
-        $layananStr = implode(',', $preferensi_komunikasi);
-
-        DB::table('pengacara')->where('nama_pengacara', $nama_pengacara)->update([
-            'preferensi_komunikasi' => $layananStr
-        ]);
-
-        return redirect()->back()->with('success', 'Preferensi layanan berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Layanan konsultasi berhasil diperbarui.');
     }
 }
