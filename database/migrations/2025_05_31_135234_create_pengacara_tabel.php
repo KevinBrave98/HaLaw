@@ -25,8 +25,8 @@ return new class extends Migration
             $table->integer('pengalaman_bekerja')->nullable();
             $table->string('pendidikan')->nullable();
             $table->boolean('chat')->default(1);
-            $table->boolean('voice call')->default(1);
-            $table->boolean('video chat')->default(1);
+            $table->boolean('voice_chat')->default(1);
+            $table->boolean('video_call')->default(1);
             $table->boolean('status_konsultasi')->default(0);
             $table->string('foto_pengacara')->nullable();
             $table->string('tanda_pengenal')->nullable();

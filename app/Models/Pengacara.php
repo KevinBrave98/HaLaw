@@ -26,7 +26,9 @@ class Pengacara extends Authenticatable
         'durasi_pengalaman',
         'pengalaman_bekerja',
         'pendidikan',
-        'preferensi_komunikasi',
+        'chat',
+        'voice_chat',
+        'video_call',
         'status_konsultasi',
         'foto_pengacara',
         'tanda_pengenal'
