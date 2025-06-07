@@ -48,6 +48,9 @@ class UserProfileController extends Controller
             ],
         ]);
 
+        $user->fill($validated);
+
+
         if ($request->hasFile('foto_pengguna')) {
             $fotoBaru = $request->file('foto_pengguna')->store('foto_pengguna', 'public');
     
@@ -60,7 +63,6 @@ class UserProfileController extends Controller
         }
 
 
-        $user->update($validated);
         $user->save();
 
 

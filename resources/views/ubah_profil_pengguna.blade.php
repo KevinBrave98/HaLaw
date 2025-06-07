@@ -22,12 +22,22 @@
         </a>
         <div class="sapaan-foto d-flex flex-column">
             <h1 class="fs-3">Halo, {{ $user->nama_pengguna }}</h1>
-            <img id="preview-foto" class="foto-profil-preview" src="{{ $user->foto_pengguna ? asset('storage/' . $user->foto_pengguna) : asset('assets/images/foto-profil.png') }}" alt="foto profil">
+            <img id="preview-foto" class="foto-profil-preview" src="{{ $user->foto_pengguna ? asset('storage/' . $user->foto_pengguna) : asset('assets/images/foto-profil-default.jpg') }}" alt="foto profil">
         </div>
         <div class="d-flex align-item-center justify-content-center">
             <button type="button" class="button-edit">Ubah Profil</button>
         </div>
     </div>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf

@@ -23,7 +23,7 @@
     <div class="d-flex justify-content-between bagian-atas">
         <div class="sapaan-foto d-flex flex-column">
             <h1 class="fs-3">Halo, {{ $user->nama_pengguna }}</h1>
-            <img class="foto-profil" src="{{ $user->foto_pengguna ? asset('storage/' . $user->foto_pengguna) : asset('assets/images/foto-profil.png') }}" alt="foto profil">
+            <img class="foto-profil" src="{{ $user->foto_pengguna ? asset('storage/' . $user->foto_pengguna) : asset('assets/images/foto-profil-default.jpg') }}" alt="foto profil">
         </div>
         <div class="d-flex justify-content-center">
             <button type="button" class="button-edit" onclick="window.location.href='{{ route('profile.edit') }}'">Ubah Profil</button>
