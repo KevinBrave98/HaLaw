@@ -13,7 +13,7 @@ class DashboardController extends Controller
         } else if(Auth::guard('lawyer')->check()) {
             return view('dashboard_pengguna_dan_pengacara_sebelum_login');
         } else {
-            return view('dashboard_pengguna_dan_pengacara_sebelum_login');
+            return view('lawyer.dashboard');
         }
     }
 }
