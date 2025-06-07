@@ -5,9 +5,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\LawyerDashboardController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::get('/footer', function () {
     return view('footer');
