@@ -38,6 +38,7 @@ body {
 
 .card-body {
     background-color: hsla(30, 63%, 81%, 0.5);
+    border: none;
 }
 
 .consult-container h2 {
@@ -68,7 +69,7 @@ body {
 }
 
 .status-konsultasi {
-    width: 70%;
+    width: 35%;
 }
 
 .status-konsultasi .card-body {
@@ -123,6 +124,7 @@ body {
 .isi-consult-info {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: 5rem;
 }
 
@@ -149,6 +151,10 @@ body {
 }
 
 .layanan-konsultasi {
+    width: 100%;
+}
+
+.layanan-konsultasi .card {
     width: 100%;
 }
 

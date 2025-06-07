@@ -13,8 +13,8 @@ return new class extends Migration
     {
          Schema::create('riwayats', function (Blueprint $table) {
             $table->string('id_riwayat')->primary();
-            $table->string('nik_pengacara', 16)->unique();
-            $table->string('nik_pengguna', 16)->unique();
+            $table->string('nik_pengacara', 16);
+            $table->string('nik_pengguna', 16);
             $table->date('tanggal');
             $table->time('waktu');
             $table->string('status');

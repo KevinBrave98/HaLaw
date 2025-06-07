@@ -47,11 +47,6 @@ Route::get('/navbar_sebelum_login', function () {
     return view('navbar_sebelum_login');
 });
 
-Route::get('/footer', function () {
-    return view('footer');
-});
-
-
 Route::get('/dashboard_user', function () {
     return view('dashboard_user');
 })->name('dashboard.user');
