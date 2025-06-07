@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
             'password' => 'required|confirmed|min:8',
         ]);
 
-        $status = Password::reset(
+        $status = Password::broker('users')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (Pengguna $user, $password) {
                 $user->forceFill([
@@ -59,7 +59,7 @@ class ResetPasswordController extends Controller
             'password' => 'required|confirmed|min:8',
         ]);
 
-        $status = Password::reset(
+        $status = Password::broker('lawyers')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (Pengacara $user, $password) {
                 $user->forceFill([

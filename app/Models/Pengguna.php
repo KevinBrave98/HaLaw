@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\userResetPassword;
 
 class Pengguna extends Authenticatable
 {
@@ -39,5 +41,15 @@ class Pengguna extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function sendPasswordResetNotification($token)
+    {
+
+        $notification = new UserResetPassword($token);
+
+        $this->notify($notification);
+
     }
 }

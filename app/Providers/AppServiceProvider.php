@@ -22,13 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        ResetPassword::createUrlUsing(function ($user, string $token) {
-            return match (true) {
-                $user instanceof Pengguna => '/reset-password/pengguna' . '?token=' . $token . '&email=' . urlencode($user->email),
-                $user instanceof Pengacara => '/reset-password/pengacara' . '?token=' . $token . '&email=' . urlencode($user->email),
-                // other user types
-                default => throw new \Exception("Invalid user type"),
-            };
-        });
+        // ResetPassword::createUrlUsing(function ($user, string $token) {
+        //     return match (true) {
+        //         $user instanceof Pengguna => '/reset-   password/pengguna' . '?token=' . $token . '&email=' . urlencode($user->email),
+        //         $user instanceof Pengacara => '/reset-password/pengacara' . '?token=' . $token . '&email=' . urlencode($user->email),
+        //         // other user types
+        //         default => throw new \Exception("Invalid user type"),
+        //     };
+        // });
     }
 }
