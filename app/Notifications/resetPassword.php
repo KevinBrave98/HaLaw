@@ -3,22 +3,23 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class userResetPassword extends Notification
+class resetPassword extends Notification
 {
     use Queueable;
 
-    protected $token;
+    private $url;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($token)
+    public function __construct($url)
     {
-        $this->token = $token;
+        $this->url = $url;
     }
 
     /**
@@ -36,11 +37,15 @@ class userResetPassword extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/reset-password/pengguna/'.$this->token);
+        $url = $this->url;
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', $url)
-                    ->line('Thank you for using our application!');
+                    ->subject('Permintaan Reset Password')
+                    ->greeting('HaLaw!')
+                    ->line('Kamu mendapatkan email ini karena kami baru saja menerima permintaan reset password dari akunmu.')
+                    ->action('Reset Password', $url)
+                    ->line('Link reset password ini akan tidak berlaku lagi setelah 60 menit.')
+                    ->line('Jika kamu tidak meminta untuk reset password, kamu tidak perlu melakukan apapun.')
+                    ->salutation(new HtmlString("Salam Hangat,<br>HaLaw"));
     }
 
     /**

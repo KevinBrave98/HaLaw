@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nomor_telepon')->unique();
             $table->string('jenis_kelamin')->default('Memilih tidak menjawab');
             $table->string('foto_pengguna')->nullable();
+            $table->string('alamat')->nullable();
             $table->timestamps();
         });
     }

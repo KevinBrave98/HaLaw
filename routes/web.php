@@ -44,7 +44,7 @@ Route::get('/lupa-password/pengacara', [ForgotPasswordController::class, 'showLa
 Route::post('/lupa-password/pengacara', [ForgotPasswordController::class, 'sendLawyerResetLinkEmail'])->name('lawyerPassword.email');
 
 Route::get('/reset-password/pengguna/{token}', [ResetPasswordController::class, 'showUserResetForm'])->name('userPassword.reset');
-Route::post('/reset-password/pengguna', [ResetPasswordController::class, 'userReset'])->name('userPassword.update');
+Route::post('/reset-password/pengguna   ', [ResetPasswordController::class, 'userReset'])->name('userPassword.update');
 
 Route::get('/reset-password/pengacara/{token}', [ResetPasswordController::class, 'showLawyerResetForm'])->name('lawyerPassword.reset');
 Route::post('/reset-password/pengacara', [ResetPasswordController::class, 'lawyerReset'])->name('lawyerPassword.update');
