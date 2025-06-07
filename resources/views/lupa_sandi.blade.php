@@ -29,7 +29,7 @@
         </div>
         <div class="box-lupa">
             <h3>Silahkan masukan email yang sebelumnya terdaftar, link reset sandi baru akan dikirim ke emailmu</h3>
-            <form action="{{ route('password.email') }}" method="POST">
+            <form action="{{ $reset_password }}" method="POST">
                 @csrf
                 <div class="form-email">
                     <label for="">Email terdaftar</label>

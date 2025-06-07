@@ -23,12 +23,6 @@ class RegisterController extends Controller
     }
 
     public function registerLawyer(Request $request){
-        // $request->validate([
-        //     'tanda_pengenal' => 'required|file|mimes:jpg,png,pdf|max:8192'
-        // ]);
-
-        // if($request->file('tanda_pengenal')->isValid()) {
-            // }
             
             $validated = $request->validate([
             'nama_pengacara' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
@@ -47,7 +41,7 @@ class RegisterController extends Controller
         Auth::guard('lawyer')->login($pengacara);
         
 
-        return redirect()->route('login.show');
+        return redirect()->route('lawyerLogin.show');
     }
 
     public function registerUser(Request $request) {
@@ -63,6 +57,6 @@ class RegisterController extends Controller
 
         Auth::login($pengguna);
 
-        return redirect()->route('login.show');
+        return redirect()->route('userLogin.show');
     }
 }

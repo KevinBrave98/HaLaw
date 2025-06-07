@@ -39,7 +39,7 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('password.update') }}">
+            <form method="POST" action="{{ $reset_role }}">
                 @csrf
 
                 <input type="hidden" name="token" value="{{ $token }}">

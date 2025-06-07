@@ -13,17 +13,19 @@ class LoginController extends Controller
             'form_action' => "",
             'selected_option' => "<option selected disabled hidden></option>
             <option value=\"masuk/pengguna\">Sebagai Pengguna</option>
-            <option value=\"masuk/pengacara\">Sebagai Pengacara</option>"
+            <option value=\"masuk/pengacara\">Sebagai Pengacara</option>",
+            "forgot_password" => route('userPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);
     }
 
     public function showLoginLawyer(){
         $dynamic_login = [
-            'form_action' => "route('lawyerLogin.login')", 
+            'form_action' => route('lawyerLogin.login'), 
             'selected_option' => "<option disabled hidden></option>
             <option value=\"pengguna\">Sebagai Pengguna</option>
-            <option selected value=\"pengacara\">Sebagai Pengacara</option>"
+            <option selected value=\"pengacara\">Sebagai Pengacara</option>",
+            'forgot_password' => route('lawyerPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);
     }
@@ -33,7 +35,8 @@ class LoginController extends Controller
             'form_action' => route('userLogin.login'),
             'selected_option' => "<option disabled hidden></option>
             <option selected value=\"pengguna\">Sebagai Pengguna</option>
-            <option value=\"pengacara\">Sebagai Pengacara</option>"
+            <option value=\"pengacara\">Sebagai Pengacara</option>",
+            "forgot_password" => route('userPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);
     }
@@ -44,7 +47,14 @@ class LoginController extends Controller
             'password' => 'required|string'
         ]);
 
-        Auth::attempt($validated);
+         if(Auth::guard('lawyer')->attempt($validated)){
+            $request->session()->regenerate();
+            return redirect()->route('dashboard.view');
+        };
+
+        return back()->withErrors([
+            'email' => 'Email atau kata sandi salah',
+        ])->onlyInput('email');
     }
 
     public function loginUser(Request $request) {
@@ -55,7 +65,7 @@ class LoginController extends Controller
 
         if(Auth::attempt($validated)){
             $request->session()->regenerate();
-            return redirect()->route('dashboard.user');
+            return redirect()->route('dashboard.view');
         };
 
         return back()->withErrors([
