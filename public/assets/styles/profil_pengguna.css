@@ -22,9 +22,11 @@ body{
     font-weight: 400;
 }
 
-.sapaan-foto img{
+.foto-profil{
     width: 80px;
     height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .button-edit{

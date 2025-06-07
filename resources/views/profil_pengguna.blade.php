@@ -15,10 +15,15 @@
 </head>
 <body>
      <x-navbar_user />
+     @if (session('success'))
+        <div class="alert alert-success text-center">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="d-flex justify-content-between bagian-atas">
         <div class="sapaan-foto d-flex flex-column">
-            <h1 class="fs-3">Halo, Nadia Putri</h1>
-            <img src="{{ asset('assets/images/foto-profil.png') }}" alt="foto profil">
+            <h1 class="fs-3">Halo, {{ $user->nama_pengguna }}</h1>
+            <img class="foto-profil" src="{{ $user->foto_pengguna ? asset('storage/' . $user->foto_pengguna) : asset('assets/images/foto-profil.png') }}" alt="foto profil">
         </div>
         <div class="d-flex justify-content-center">
             <button type="button" class="button-edit" onclick="window.location.href='{{ route('profile.edit') }}'">Ubah Profil</button>
@@ -28,27 +33,27 @@
    <div class="form-profil d-flex align-item-center">
         <div class="form-element nama">
             <label for="" class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control input-nama" value="Nadia Putri">
+            <input type="text" class="form-control input-nama" value="{{ $user->nama_pengguna }}" readonly>
         </div>
         <div class="form-element nik">
             <label for="" class="form-label">NIK</label>
-            <input type="text" class="form-control input-nik" value="12345678901">
+            <input type="text" class="form-control input-nik" value="{{ $user->nik_pengguna }}" readonly>
         </div>
         <div class="form-element email">
             <label for="" class="form-label">Email</label>
-            <input type="email" class="form-control input-email" value="nadiaputri@gmail.com">
+            <input type="email" class="form-control input-email" value="{{ $user->email }}" readonly>
         </div>
         <div class="form-element telepon">
             <label for="" class="form-label">Nomor Telepon</label>
-            <input type="text" class="form-control input-telepon" value="087123456789">
+            <input type="text" class="form-control input-telepon" value="{{ $user->nomor_telepon }}" readonly>
         </div>
         <div class="form-element alamat">
             <label for="" class="form-label">Alamat Domisili</label>
-            <input type="text" class="form-control input-alamat" value="Jln. Abcdefghijk, Lmnopqrs, Tuvwxyz, Abcdef, Indonesia 12345">
+            <input type="text" class="form-control input-alamat" value=" " readonly>
         </div>
         <div class="form-element gender">
             <label for="" class="form-label">Jenis Kelamin</label>
-            <input type="text" class="form-control input-gender" value="Perempuan">
+            <input type="text" class="form-control input-gender" value="{{ $user->jenis_kelamin }}" readonly>
         </div>
         <div class="button-exit d-flex justify-content-center">
             <button onclick="window.location.href='{{ route('profile.exit') }}'">Keluar Akun</button>
