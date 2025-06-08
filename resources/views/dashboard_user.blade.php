@@ -264,9 +264,6 @@
             </div>
         </div>
     </div>
-
-
-    <x-footer></x-footer>
 </body>
 <script>
     const scrollContainer = document.querySelector('.scroll-wrapper');
