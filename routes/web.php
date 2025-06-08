@@ -61,9 +61,6 @@ Route::get('/footer', function () {
 
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
 
-Route::get('/dashboard_user', function () {
-    return view('dashboard_user');
-});
 
 Route::get('/test', function() {
     return view('test');
@@ -95,3 +92,4 @@ Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name(
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 
     Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
+Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');

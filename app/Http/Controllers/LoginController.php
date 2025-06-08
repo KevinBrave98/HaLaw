@@ -21,7 +21,7 @@ class LoginController extends Controller
 
     public function showLoginLawyer(){
         $dynamic_login = [
-            'form_action' => route('lawyerLogin.login'), 
+            'form_action' => route('lawyerLogin.login'),
             'selected_option' => "<option disabled hidden></option>
             <option value='userLogin.show'>Sebagai Pengguna</option>
             <option selected value='lawyerLogin.show'>Sebagai Pengacara</option>",
@@ -75,6 +75,6 @@ class LoginController extends Controller
 
     public function showForgotPassword()
     {
-        return view('lupa_sandi'); 
+        return view('lupa_sandi');
     }
 }
