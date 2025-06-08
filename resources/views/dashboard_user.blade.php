@@ -27,7 +27,7 @@
             <div class="scroll-container">
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho" class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -135,7 +135,8 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
+                            class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -171,7 +172,8 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
+                            class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -207,7 +209,8 @@
                 </div>
                 <div class="lawyer-card">
                     <div class="image_wrapper">
-                        <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Fajar Nugroho" class="lawyer-image">
+                        <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Fajar Nugroho"
+                            class="lawyer-image">
                     </div>
                     <div class="content-wrapper">
                         <div>
@@ -254,16 +257,17 @@
 
     <div class="luaran container">
         <div class="palu">
-            <img src="{{asset('assets/images/gambarPalu.png')}}" alt="">
+            <img src="{{ asset('assets/images/gambarPalu.png') }}" alt="">
         </div>
         <div class="isi">
             <h1>Pahami Sebelum Bertindak</h1>
             <h5>Istilah hukum yang jelas adalah langkah pertama menuju keputusan yang benar.</h5>
-             <div class="telusuri">
+            <div class="telusuri">
                 <button type="button" class="button btn btn-lg">Telusuri Istilah Hukum</button>
             </div>
         </div>
     </div>
+
 
     <x-footer></x-footer>
 </body>
@@ -299,4 +303,5 @@
     });
 </script>
 <script src="{{ asset('assets/scripts/search_pengguna.js') }}"></script>
+
 </html>

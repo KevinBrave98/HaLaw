@@ -3,7 +3,6 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="{{ asset('assets/images/logo_putih.png') }}" alt="Bootstrap" width="auto" height="77">
-                <img src="{{asset('assets/images/logo_putih.png')}}" alt="Bootstrap" width="auto" height="77">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
