@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\LawyerProfileController;
 
 Route::get('/footer', function () {
     return view('footer');
@@ -96,6 +97,5 @@ Route::get('/navbar_user', function () {
     return view('navbar_user');
 });
 
-Route::get('/profil_pengacara', function () {
-    return view('profil_pengacara');
-});
+Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
+Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');

@@ -54,7 +54,7 @@ body{
 }
 
 input{
-    border: 1px solid #654220 !important;
+    border: 1px solid #281805 !important;
 }
 
 label{
@@ -74,4 +74,7 @@ label{
     margin-bottom: 80px;
 }
 
-
+textarea.input-pendidikan {
+    border: 1px solid #281805;
+    resize: none;
+}
