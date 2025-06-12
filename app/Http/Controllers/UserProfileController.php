@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Validation\Rule;
-// use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Http\Request;
@@ -47,9 +47,15 @@ class UserProfileController extends Controller
                 Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab']),
             ],
             'alamat' => [
+<<<<<<< Updated upstream
                 'nullable',
                 'max:255',
                 'string'
+=======
+                'string',
+                'nullable',
+                'max:255'
+>>>>>>> Stashed changes
             ]
         ]);
 

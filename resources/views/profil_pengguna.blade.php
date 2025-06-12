@@ -14,7 +14,7 @@
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
 </head>
 <body>
-     <x-navbar_user />
+     <x-navbar_user :pengguna=$user />
      @if (session('success'))
         <div class="alert alert-success text-center">
             {{ session('success') }}

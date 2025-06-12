@@ -14,7 +14,7 @@
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
 </head>
 <body>
-    <x-navbar_user />
+    <x-navbar_user :pengguna=$user />
 
     <div class="d-flex justify-content-between bagian-atas">
         <a class="button-back" href="{{ route('profile.show') }}">
@@ -64,7 +64,11 @@
             </div>
             <div class="form-element alamat">
                 <label for="" class="form-label">Alamat Domisili</label>
+<<<<<<< Updated upstream
                 <input type="text" name="alamat" class="form-control input-text" value="{{ $user->alamat }}" >
+=======
+                <input type="text" name="alamat" class="form-control input-text" value="{{ $user->alamat }}">
+>>>>>>> Stashed changes
             </div>
             <div class="form-element gender">
                 <label class="form-label">Jenis Kelamin</label>
