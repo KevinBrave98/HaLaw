@@ -31,6 +31,7 @@ class Pengacara extends Authenticatable
         'voice_chat',
         'video_call',
         'status_konsultasi',
+        'total_pendapatan',
         'foto_pengacara',
         'tanda_pengenal'
     ];

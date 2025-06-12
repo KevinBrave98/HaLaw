@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('voice_chat')->default(1);
             $table->boolean('video_call')->default(1);
             $table->boolean('status_konsultasi')->default(0);
+            $table->decimal('total_pendapatan', 15, 2)->default(0);
             $table->string('foto_pengacara')->nullable();
             $table->string('tanda_pengenal')->nullable();
             $table->timestamps();

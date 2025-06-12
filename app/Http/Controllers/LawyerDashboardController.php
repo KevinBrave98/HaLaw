@@ -12,10 +12,7 @@ class LawyerDashboardController extends Controller
     {
         $pengacara = Pengacara::where('email', Auth::guard('lawyer')->user()->email)->first();
         $status_konsultasi = DB::table('pengacaras')->value('status_konsultasi');
-        $totalPendapatan = DB::table('pengacaras')
-        ->join('riwayat_danas', 'pengacaras.nik_pengacara', '=', 'riwayat_danas.nik_pengacara')
-        ->where('pengacaras.nik_pengacara', $pengacara->nik_pengacara) 
-        ->sum('riwayat_danas.nominal');
+        $totalPendapatan = DB::table('pengacaras')->value('total_pendapatan');
 
         $penilaian = DB::table('pengacaras')
         ->join('riwayats', 'pengacaras.nik_pengacara', '=', 'riwayats.nik_pengacara')
