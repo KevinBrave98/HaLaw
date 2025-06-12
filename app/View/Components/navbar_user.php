@@ -18,7 +18,7 @@ class navbar_user extends Component
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Get the view / conte nts that represent the component.
      */
     public function render(): View|Closure|string
     {

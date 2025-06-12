@@ -33,7 +33,7 @@
                         </div>
                     @else
                         <div class="image_wrapper">
-                            <img src="{{ asset('assets/images/' . $lawyer_card->foto_pengacara) }}" alt="{{ $lawyer_card->nama_pengacara }}" class="lawyer-image">
+                            <img src="{{ asset('storage/' . $lawyer_card->foto_pengacara) }}" alt="{{ $lawyer_card->nama_pengacara }}" class="lawyer-image">
                         </div>
                     @endif
                     <div class="content-wrapper">
