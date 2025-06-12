@@ -42,10 +42,10 @@
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-profil d-flex align-item-center">
-            <div class="form-element foto">
-                    <label for="foto_pengguna" class="form-label">Foto Profil</label>
-                    <input type="file" name="foto_pengguna" class="form-control" id="input-foto">
-            </div>
+                <div class="form-element foto">
+                        <label for="foto_pengguna" class="form-label">Foto Profil</label>
+                        <input type="file" name="foto_pengguna" class="form-control" id="input-foto">
+                </div>
             <div class="form-element nama">
                 <label for="" class="form-label">Nama Lengkap</label>
                 <input type="text" name="nama_pengguna" class="form-control input-text" value="{{ $user->nama_pengguna }}">
@@ -86,7 +86,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
             <div class="button-save d-flex justify-content-center">
                 <button type="submit">Simpan Perubahan</button>

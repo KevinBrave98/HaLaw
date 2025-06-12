@@ -24,7 +24,6 @@ Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])-
 
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
@@ -83,8 +82,14 @@ Route::get('/navbar_user', function () {
     return view('navbar_user');
 });
 
-Route::get('/dashboard_user', [UserDashboardController::class,'greetings']);
-Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
+Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
+Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
+Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
+Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
+
+
+Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
+Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');
 
 Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 

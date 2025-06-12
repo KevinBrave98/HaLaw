@@ -12,12 +12,12 @@ class LawyerProfileController extends Controller
 {
     public function show()
     {
-        $user = Auth::guard('lawyer')->user(); //ambil data pengguna berdasarkan sesi login yang aktifreturn view('profil_pengacara', compact('user'));
+        $user = Auth::guard('lawyer')->user(); //ambil data pengguna berdasarkan sesi login yang aktif return view('profil_pengacara', compact('user'));
         return view('profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function edit()
     {
-        $user = Auth::user();
+        $user = Auth::guard('lawyer')->user();
         return view('ubah_profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function exit()
@@ -43,7 +43,7 @@ class LawyerProfileController extends Controller
             'tarifJasa' => 'required|numeric|min:0',
             'pengalamanBekerja' => 'string',
             'pendidikan' => 'string',
-            'durasipengalaman' => 'required',
+            'durasi_pengalaman' => 'required',
             'spesialisasi' => ['required', 'string', Rule::in(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Perusahaan', 'Hukum Hak Kekayaan Intelektual', 'Hukum Pajak', 'Hukum Kepalitan', 'Hukum Lingkungan Hidup', 'Hukum Kepentingan Publik', 'Hukum Ketenagakerjaan', 'Hukum Tata Usaha Negara', 'Hukum Imigrasi'])],
             'jenis_kelamin' => ['required', Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab'])],
         ]);
