@@ -49,7 +49,7 @@
         </div>
         <div class="form-element alamat">
             <label for="" class="form-label">Alamat Domisili</label>
-            <input type="text" class="form-control input-alamat" value=" " readonly>
+            <input type="text" class="form-control input-alamat" value="{{ $user->alamat }} " readonly>
         </div>
         <div class="form-element gender">
             <label for="" class="form-label">Jenis Kelamin</label>

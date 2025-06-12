@@ -64,7 +64,7 @@
             </div>
             <div class="form-element alamat">
                 <label for="" class="form-label">Alamat Domisili</label>
-                <input type="text" class="form-control input-text" value="" disabled>
+                <input type="text" name="alamat" class="form-control input-text" value="{{ $user->alamat }}" >
             </div>
             <div class="form-element gender">
                 <label class="form-label">Jenis Kelamin</label>

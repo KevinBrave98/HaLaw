@@ -46,6 +46,11 @@ class UserProfileController extends Controller
                 'required',
                 Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab']),
             ],
+            'alamat' => [
+                'nullable',
+                'max:255',
+                'string'
+            ]
         ]);
 
         /** @var \App\Models\Pengguna $user **/
