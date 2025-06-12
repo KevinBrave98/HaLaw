@@ -14,7 +14,7 @@
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
 </head>
 <body>
-     <x-navbar_user />
+     <x-navbar_user :pengguna=$user />
      @if (session('success'))
         <div class="alert alert-success text-center">
             {{ session('success') }}
@@ -49,7 +49,7 @@
         </div>
         <div class="form-element alamat">
             <label for="" class="form-label">Alamat Domisili</label>
-            <input type="text" class="form-control input-alamat" value=" " readonly>
+            <input type="text" class="form-control input-alamat" value="{{ $user->alamat }} " readonly>
         </div>
         <div class="form-element gender">
             <label for="" class="form-label">Jenis Kelamin</label>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Validation\Rule;
-// use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Http\Request;
@@ -46,6 +46,11 @@ class UserProfileController extends Controller
                 'required',
                 Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab']),
             ],
+            'alamat' => [
+                'string',
+                'nullable',
+                'max:255'
+            ]
         ]);
 
         /** @var \App\Models\Pengguna $user **/
