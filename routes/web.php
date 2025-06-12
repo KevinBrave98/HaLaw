@@ -95,3 +95,10 @@ Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'g
 Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');
 
 Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
+
+Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
+    Route::get('/dashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyer.dashboard');
+    Route::post('/dashboard/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('lawyer.status.toggle');
+    Route::post('/dashboard/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('lawyer.layanan.update');
+
+});

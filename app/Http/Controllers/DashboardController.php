@@ -10,10 +10,10 @@ class DashboardController extends Controller
     public function dashboardView() {
         if(Auth::guard('web')->check()) {
             return redirect()->route('dashboard.user', ['nama_pengguna' => Auth::user()->nama_pengguna]);
-        } else if(Auth::guard('lawyer')->check()) {
-            return view('dashboard_sebelum_login');
+        } else if (Auth::guard('lawyer')->check()) {
+            return redirect()->route('lawyer.dashboard', ['nama_pengacara' => Auth::guard('lawyer')->user()->nama_pengacara]);
         } else {
-            return view('lawyer.dashboard');
+            return view('dashboard_pengguna_dan_pengacara_sebelum_login');
         }
     }
 }
