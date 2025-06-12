@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/styles/dashboard_sebelum_login.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_sebelum_login.css') }}">
 
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
-    <link rel="stylesheet" href="assets/styles/navbar_sebelum_login.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_sebelum_login.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/footer.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
         <div class="dasbor-top">
             <div class="banner-container">
                 <div class="banner-img">
-                    <img src="assets/images/cewek-timbangan.png" alt="Gambar Banner">
+                    <img src="{{ asset(path:'assets/images/cewek-timbangan.png') }}" alt="Gambar Banner">
                 </div>
                 <div class="banner-text">
                     <div class="banner-title">
@@ -36,7 +36,7 @@
             <div class="kelebihan">
                 <div class="kelebihan-1">
                     <div class="kelebihan-icon">
-                        <img src="images/el_check.png" alt="Ikon Check">
+                        <img src="{{ asset(path:'assets/images/el_check.png') }}" alt="Ikon Check">
                     </div>
                     <div class="kelebihan-judul">
                         <p>Praktis</p>
@@ -47,10 +47,10 @@
                 </div>
 
                 <div class="vertical-line"></div>
-                
+
                 <div class="kelebihan-2">
                     <div class="kelebihan-icon">
-                        <img src="assets/images/material-symbols_price-change.png" alt="Ikon Shield">
+                        <img src="{{ asset(path:'assets/images/material-symbols_price-change.png') }}" alt="Ikon Shield">
                     </div>
                     <div class="kelebihan-judul">
                         <p>Terjangkau</p>
@@ -64,7 +64,7 @@
 
                 <div class="kelebihan-3">
                     <div class="kelebihan-icon">
-                        <img src="assets/images/ri_pass-valid-line.png" alt="Ikon Money">
+                        <img src="{{ asset(path:'assets/images/ri_pass-valid-line.png') }}" alt="Ikon Money">
                     </div>
                     <div class="kelebihan-judul">
                         <p>Terpercaya</p>
@@ -74,10 +74,10 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="dasbor-middle">
                 <div class="middle-img">
-                    <img src="assets/images/gambarPalu.png" alt="Gambar Palu Hukum">
+                    <img src="{{ asset(path:'assets/images/gambarPalu.png') }}" alt="Gambar Palu Hukum">
                 </div>
                 <div class="middle-text">
                     <div class="middle-text-top">
@@ -105,7 +105,7 @@
                 <div class="review-1">
                     <div class="review-star">
                         <img src="assets/images/Star.png" alt="review bintang 5">
-                        <p>“Buat saya yang baru pertama kali konsultasi hukum, ini bantu banget. Prosesnya mudah dan nggak bikin stres.”</p>    
+                        <p>“Buat saya yang baru pertama kali konsultasi hukum, ini bantu banget. Prosesnya mudah dan nggak bikin stres.”</p>
                     </div>
                     <div class="review-bottomstar">
                         <p>— Laras</p>

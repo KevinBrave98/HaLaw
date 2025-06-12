@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_sebelum_login.css') }}">
     <link rel="stylesheet" href="styles/coba.css">
 </head>
 <body>
+    <x-navbar_sebelum_login></x-navbar_sebelum_login>
         <nav class="navbar navbar-expand-lg navbar_custom">
             <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>

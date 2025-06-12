@@ -91,5 +91,7 @@ Route::get('/navbar_user', function () {
 Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 
-    Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
+Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
 Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');
+
+Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');

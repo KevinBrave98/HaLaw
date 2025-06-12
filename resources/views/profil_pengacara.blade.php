@@ -77,11 +77,10 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
             <label for="" class="form-label">Jenis Layanan</label>
             <input readonly type="text" class="form-control input-text" value="Pesan, Panggilan Suara">
         </div>
-        <div class="button-exit d-flex justify-content-center">
-            <button>Keluar Akun</button>
+        <div class="button-exit d-flex justify-content-center" >
+            <button onclick="window.location.href='{{ route('dashboard.sebelum_login') }}'">Keluar Akun</button>
         </div>
 
    </div>
-
 </body>
 </html>e
