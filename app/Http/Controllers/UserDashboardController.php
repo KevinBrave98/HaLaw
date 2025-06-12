@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
 {
-    public function greetings(string $nama_pengguna){
+    public function greetings(){
         $pengacara = DB::table('pengacaras')->inRandomOrder()->limit(5)->get();
         $pengguna = Auth::user();
-        return view('dashboard_user', compact('nama_pengguna', 'pengacara', 'pengguna'));
+        return view('dashboard_user', compact('pengacara', 'pengguna'));
     }
 }

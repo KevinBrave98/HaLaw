@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profil/ubah', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/keluar', [UserProfileController::class, 'exit'])->name('profile.exit');
 });
+Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
 
@@ -70,12 +71,6 @@ Route::get('/dasbor_pengacara', function () {
     return view('lawyer.dashboard');
 });
 
-Route::get('/dasbor_pengacara/{nama_pengacara}', [LawyerDashboardController::class, 'dashboard']);
-
-Route::post('/dasbor_pengacara/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('dasbor_pengacara.toggleStatus');
-
-Route::post('/dasbor_pengacara/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('dasbor_pengacara.updateLayanan');
-
 Route::get('/pengacara_register', function () {
     return view('pengacara_register');
 });
@@ -91,8 +86,8 @@ Route::get('/navbar_user', function () {
 Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 
-Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
-Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');
+Route::get('/dashboard_user', [UserDashboardController::class,'greetings']);
+Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
 
 Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 
@@ -100,5 +95,4 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/dashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyer.dashboard');
     Route::post('/dashboard/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('lawyer.status.toggle');
     Route::post('/dashboard/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('lawyer.layanan.update');
-
 });

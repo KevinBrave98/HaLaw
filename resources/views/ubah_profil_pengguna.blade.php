@@ -64,11 +64,7 @@
             </div>
             <div class="form-element alamat">
                 <label for="" class="form-label">Alamat Domisili</label>
-<<<<<<< Updated upstream
-                <input type="text" name="alamat" class="form-control input-text" value="{{ $user->alamat }}" >
-=======
                 <input type="text" name="alamat" class="form-control input-text" value="{{ $user->alamat }}">
->>>>>>> Stashed changes
             </div>
             <div class="form-element gender">
                 <label class="form-label">Jenis Kelamin</label>

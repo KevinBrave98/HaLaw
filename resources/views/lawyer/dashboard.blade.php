@@ -29,7 +29,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Status Konsultasi</h5>
-                                <form action="{{ route('dasbor_pengacara.toggleStatus') }}" method="POST">
+                                <form action="{{ route('lawyer.status.toggle') }}" method="POST">
                                     @csrf
                                     <div class="form-check form-switch">
                                         <input 
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                 </div>
-                <form action="{{ route('dasbor_pengacara.updateLayanan') }}" method="POST" id="layananForm">
+                <form action="{{ route('lawyer.layanan.update') }}" method="POST" id="layananForm">
                     @csrf
                     <div class="layanan-konsultasi">
                         <div class="card">

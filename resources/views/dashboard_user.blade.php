@@ -21,7 +21,7 @@
 <body>
     <x-navbar_user :pengguna=$pengguna/>
     <div class="content">
-        <h5 class="username">Hallo {{ $nama_pengguna }}</h5>
+        <h5 class="username">Hallo {{ $pengguna->nama_pengguna }}</h5>
         <h1 class="rekomendasi">Rekomendasi Pengacara</h1>
         <div class="scroll-wrapper">
             <div class="scroll-container">

@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-navbox me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Dasbor</a>
+                    <a class="nav-link" href="{{ route('lawyer.dashboard') }}">Dasbor</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Konsultasi</a>
@@ -18,7 +18,7 @@
                 </li>
                 <div class="profil-wrapper d-flex align-items-center">
                     <li class="nav-item m-0">
-                        <a class="nav-link" href="#">Profil</a>
+                        <a class="nav-link" href="{{ route('lawyer.profile.show') }}">Profil</a>
                     </li>
                     <div class="container-profil">
                         <a class="navbar-brand" href="#">

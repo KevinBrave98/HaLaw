@@ -78,7 +78,7 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
             <input readonly type="text" class="form-control input-text" value="Pesan, Panggilan Suara">
         </div>
         <div class="button-exit d-flex justify-content-center" >
-            <button onclick="window.location.href='{{ route('dashboard.sebelum_login') }}'">Keluar Akun</button>
+            <button onclick="window.location.href='{{ route('profile_pengacara.exit') }}'">Keluar Akun</button>
         </div>
 
    </div>
