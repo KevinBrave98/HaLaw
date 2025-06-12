@@ -63,11 +63,15 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
 2. Legal Officer PT Sentosa Finance | 2018 - 2020 Dokumen hukum, perizinan, dan kepatuhan regulasi.
 3. Legal Intern Mahkamah Agung RI | 2017 Riset yuridis dan pendampingan analisis perkara.</textarea>
         </div>
+         <div class="form-element durasi_kerja">
+            <label for="" class="form-label">Durasi Pengalaman Kerja</label>
+            <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties" oninput="tambahTahun(this)" value="Hukum perdata, Hukum pidana, Litigasi & Sengketa">
+        </div>
         <div class="form-element gender">
             <label for="" class="form-label">Jenis Kelamin</label>
             <input readonly type="text" class="form-control input-text" value="Perempuan">
         </div>
-        <div class="form-element gender">
+        <div class="form-element jenis_layanan">
             <label for="" class="form-label">Jenis Layanan</label>
             <input readonly type="text" class="form-control input-text" value="Pesan, Panggilan Suara">
         </div>

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('spesialisasi')->nullable();
             $table->integer('tarif_jasa')->nullable();
             $table->integer('durasi_pengalaman')->nullable();
-            $table->integer('pengalaman_bekerja')->nullable();
+            $table->string('pengalaman_bekerja')->nullable();
             $table->string('pendidikan')->nullable();
             $table->boolean('chat')->default(1);
             $table->boolean('voice_chat')->default(1);
