@@ -12,8 +12,8 @@ class LoginController extends Controller
         $dynamic_login = [
             'form_action' => "",
             'selected_option' => "<option selected disabled hidden></option>
-            <option value=\"masuk/pengguna\">Sebagai Pengguna</option>
-            <option value=\"masuk/pengacara\">Sebagai Pengacara</option>",
+            <option value='userLogin.show'>Sebagai Pengguna</option>
+            <option value='lawyerLogin.show'>Sebagai Pengacara</option>",
             "forgot_password" => route('userPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);
@@ -23,8 +23,8 @@ class LoginController extends Controller
         $dynamic_login = [
             'form_action' => route('lawyerLogin.login'), 
             'selected_option' => "<option disabled hidden></option>
-            <option value=\"pengguna\">Sebagai Pengguna</option>
-            <option selected value=\"pengacara\">Sebagai Pengacara</option>",
+            <option value='userLogin.show'>Sebagai Pengguna</option>
+            <option selected value='lawyerLogin.show'>Sebagai Pengacara</option>",
             'forgot_password' => route('lawyerPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);
@@ -34,8 +34,8 @@ class LoginController extends Controller
         $dynamic_login = [
             'form_action' => route('userLogin.login'),
             'selected_option' => "<option disabled hidden></option>
-            <option selected value=\"pengguna\">Sebagai Pengguna</option>
-            <option value=\"pengacara\">Sebagai Pengacara</option>",
+            <option selected value='userLogin.show'>Sebagai Pengguna</option>
+            <option value='lawyerLogin.show'>Sebagai Pengacara</option>",
             "forgot_password" => route('userPassword.request')
         ];
         return view('masuk', ['dynamic_login' => $dynamic_login]);

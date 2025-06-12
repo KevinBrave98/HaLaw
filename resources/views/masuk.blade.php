@@ -63,6 +63,7 @@
             <img src="{{ asset('assets/images/logo_putih.png')}}" alt="" class="logo">
         </div>
     </div>
+    @routes
     <script src="{{ asset('assets/scripts/masuk.js')}}"></script>
 </body>
 
