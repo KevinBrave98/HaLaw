@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\LawyerProfileController;
 
 Route::get('/footer', function () {
     return view('footer');
@@ -83,3 +84,18 @@ Route::get('/dasbor_pengacara/{nama_pengacara}', [LawyerDashboardController::cla
 Route::post('/dasbor_pengacara/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('dasbor_pengacara.toggleStatus');
 
 Route::post('/dasbor_pengacara/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('dasbor_pengacara.updateLayanan');
+
+Route::get('/pengacara_register', function () {
+    return view('pengacara_register');
+});
+
+Route::get('/dashboard_user', function () {
+    return view('dashboard_user');
+});
+
+Route::get('/navbar_user', function () {
+    return view('navbar_user');
+});
+
+Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
+Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Validation\Rule;
+// use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
         return view('ubah_profil_pengguna', compact('user'));
     }
-     public function exit(){
+    public function exit(){
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
@@ -48,12 +48,13 @@ class UserProfileController extends Controller
             ],
         ]);
 
+        /** @var \App\Models\Pengguna $user **/
         $user->fill($validated);
 
 
         if ($request->hasFile('foto_pengguna')) {
             $fotoBaru = $request->file('foto_pengguna')->store('foto_pengguna', 'public');
-    
+
             // hapus foto lama kalau ada
             if ($user->foto_pengguna && Storage::disk('public')->exists($user->foto_pengguna)) {
                 Storage::disk('public')->delete($user->foto_pengguna);
@@ -63,6 +64,7 @@ class UserProfileController extends Controller
         }
 
 
+        /** @var \App\Models\Pengguna $user **/
         $user->save();
 
 
