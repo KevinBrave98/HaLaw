@@ -83,9 +83,6 @@ Route::get('/navbar_user', function () {
     return view('navbar_user');
 });
 
-Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
-Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
-
 Route::get('/dashboard_user', [UserDashboardController::class,'greetings']);
 Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
 
@@ -95,4 +92,6 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/dashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyer.dashboard');
     Route::post('/dashboard/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('lawyer.status.toggle');
     Route::post('/dashboard/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('lawyer.layanan.update');
+    Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
+    Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 });
