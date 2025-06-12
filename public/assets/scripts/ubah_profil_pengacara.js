@@ -5,6 +5,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('input-foto');
     const preview = document.getElementById('preview-foto');
 
+     // Simpan angka saja saat mengetik
+    durasiInput.addEventListener('input', function () {
+        let value = durasiInput.value.replace(/[^0-9]/g, '');
+        durasiInput.value = value;
+    });
+
+    // Tambahkan " Tahun" saat blur (selesai mengetik)
+    durasiInput.addEventListener('blur', function () {
+        let value = durasiInput.value.replace(/[^0-9]/g, '');
+        if (value) {
+            durasiInput.value = value + ' Tahun';
+        }
+    });
+
+    // Jika value sudah ada saat load
+    if (durasiInput.value) {
+        let val = durasiInput.value.replace(/[^0-9]/g, '');
+        durasiInput.value = val ? val + ' Tahun' : '';
+    }
+
+
     // Pasang event listener input tarif jasa di sini, agar aktif sepanjang waktu
     tarifInput.addEventListener('input', function(e) {
         let value = tarifInput.value;
@@ -35,21 +56,5 @@ document.addEventListener('DOMContentLoaded', function () {
             reader.readAsDataURL(input.files[0]);
         }
     });
-
-    durasiInput.addEventListener('input', function() {
-        let value = durasiInput.value.replace(/[^0-9]/g, '');
-        if (value) {
-            value = new Intl.NumberFormat('id-ID').format(value);
-            durasiInput.value = value + ' Tahun';
-        } else {
-            durasiInput.value = '';
-        }
-    });
-
-     // Format awal tarif jika sudah ada value
-    if (durasiInput.value) {
-        let val = durasiInput.value.replace(/[^0-9]/g, '');
-        durasiInput.value = val ? val + ' Tahun' : '';
-    }
 });
 

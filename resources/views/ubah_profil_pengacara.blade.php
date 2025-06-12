@@ -8,6 +8,7 @@
     <title>Ubah Profil</title>
 
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_lawyer.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/ubah_profil_pengacara.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +21,7 @@
 </head>
 
 <body>
+    <x-navbar_lawyer></x-navbar_lawyer>
     <div class="d-flex justify-content-between bagian-atas">
         <a class="button-back" href="{{ route('lawyer.profile.show') }}">
             <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
@@ -126,7 +128,7 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
             </div>
             <div class="form-element durasi_kerja">
                 <label for="" class="form-label">Durasi Pengalaman Kerja</label>
-                <input type="text" class="form-control input-text" id="durasi" value="1 Tahun">
+                <input type="text" class="form-control input-text" id="durasi"value="1 Tahun">
             </div>
             <div class="form-element gender">
                 <label class="form-label">Jenis Kelamin</label>
