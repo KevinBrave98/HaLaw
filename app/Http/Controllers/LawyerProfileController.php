@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
-// use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Storage;
-// use Illuminate\Support\Facades\Password;
-// use App\Http\Controllers\Rule;
-// use App\Http\Controllers\Storage
+use Illuminate\Support\Facades\Storage;
 
 class LawyerProfileController extends Controller
 {
@@ -54,15 +50,15 @@ class LawyerProfileController extends Controller
 
         $user->fill($validated);
 
-        if ($request->hasFile('foto_pengguna')) {
-            $fotoBaru = $request->file('foto_pengguna')->store('foto_pengguna', 'public');
+        if ($request->hasFile('foto_pengacara')) {
+            $fotoBaru = $request->file('foto_pengacara')->store('foto_pengacara', 'public');
 
             // hapus foto lama kalau ada
-            if ($user->foto_pengguna && Storage::disk('public')->exists($user->foto_pengguna)) {
-                Storage::disk('public')->delete($user->foto_pengguna);
+            if ($user->foto_pengacara && Storage::disk('public')->exists($user->foto_pengacara)) {
+                Storage::disk('public')->delete($user->foto_pengacara);
             }
 
-            $user->foto_pengguna = $fotoBaru;
+            $user->foto_pengacara = $fotoBaru;
         }
 
         $user->save();
