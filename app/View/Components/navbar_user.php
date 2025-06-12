@@ -11,9 +11,10 @@ class navbar_user extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $pengguna;
+    public function __construct($pengguna)
     {
-        //
+        $this->pengguna = $pengguna;
     }
 
     /**

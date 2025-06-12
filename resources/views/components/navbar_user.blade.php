@@ -22,9 +22,11 @@
                     </li>
                     <div class="container-profil">
                         <a class="navbar-brand" href="#">
-                            <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Bootstrap" class="rounded-circle" width="45"
-                            <img src="{{asset('assets/images/lawyer1.jpeg')}}" alt="Bootstrap" class="rounded-circle" width="45"
-                                height="45">
+                            @if ($pengguna->foto_pengguna)
+                                <img src="{{ asset('assets/images/'. $pengguna->foto_pengguna) }}" alt="foto_pengguna" class="rounded-circle" width="45" height="45">
+                            @else
+                                <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="foto_pengguna_default" class="rounded-circle" width="45" height="45">
+                            @endif
                         </a>
                     </div>
                 </div>

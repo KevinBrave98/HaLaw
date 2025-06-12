@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <x-navbar_user></x-navbar_user>
+    <x-navbar_user :pengguna=$pengguna/>
     <div class="content">
         <h5 class="username">Hallo {{ $nama_pengguna }}</h5>
         <h1 class="rekomendasi">Rekomendasi Pengacara</h1>
@@ -33,7 +33,7 @@
                         </div>
                     @else
                         <div class="image_wrapper">
-                            <img src="{{ asset('storage/' . $lawyer_card->foto_pengacara) }}" alt="{{ $lawyer_card->nama_pengacara }}" class="lawyer-image">
+                            <img src="{{ asset('assets/images/' . $lawyer_card->foto_pengacara) }}" alt="{{ $lawyer_card->nama_pengacara }}" class="lawyer-image">
                         </div>
                     @endif
                     <div class="content-wrapper">
