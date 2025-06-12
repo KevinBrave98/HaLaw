@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 // use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Rule;
-use App\Http\Controllers\Storage
+// use Illuminate\Support\Facades\Password;
+// use App\Http\Controllers\Rule;
+// use App\Http\Controllers\Storage
 
 class LawyerProfileController extends Controller
 {

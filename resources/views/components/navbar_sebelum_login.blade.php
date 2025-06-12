@@ -18,10 +18,10 @@
                 </li>
                 <div class="profil-wrapper d-flex align-items-center">
                     <li class="nav-item m-0">
-                        <a class="nav-link daftar" href="#">Daftar</a>
+                        <a class="nav-link daftar" href="{{ route('register.show') }}">Daftar</a>
                     </li>
                     <li class="nav-item m-0">
-                        <a class="nav-link masuk" href="#">Masuk</a>
+                        <a class="nav-link masuk" href="{{ route('login.show') }}">Masuk</a>
                     </li>
                 </div>
             </div>
