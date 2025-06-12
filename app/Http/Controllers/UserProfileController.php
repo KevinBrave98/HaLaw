@@ -47,15 +47,9 @@ class UserProfileController extends Controller
                 Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab']),
             ],
             'alamat' => [
-<<<<<<< Updated upstream
-                'nullable',
-                'max:255',
-                'string'
-=======
                 'string',
                 'nullable',
                 'max:255'
->>>>>>> Stashed changes
             ]
         ]);
 
