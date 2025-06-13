@@ -2,26 +2,22 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
-// use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Storage;
-// use Illuminate\Support\Facades\Password;
-// use App\Http\Controllers\Rule;
-// use App\Http\Controllers\Storage
+use Illuminate\Support\Facades\Storage;
 
 class LawyerProfileController extends Controller
 {
     public function show()
     {
-        $user = Auth::guard('lawyer')->user(); //ambil data pengguna berdasarkan sesi login yang aktifreturn view('profil_pengacara', compact('user'));
+        $user = Auth::guard('lawyer')->user(); //ambil data pengguna berdasarkan sesi login yang aktif return view('profil_pengacara', compact('user'));
         return view('profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function edit()
     {
-        $user = Auth::user();
+        $user = Auth::guard('lawyer')->user();
         return view('ubah_profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function exit()
@@ -47,22 +43,23 @@ class LawyerProfileController extends Controller
             'tarifJasa' => 'required|numeric|min:0',
             'pengalamanBekerja' => 'string',
             'pendidikan' => 'string',
-            'durasipengalaman' => 'required',
+            'durasi_pengalaman' => 'required',
             'spesialisasi' => ['required', 'string', Rule::in(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Perusahaan', 'Hukum Hak Kekayaan Intelektual', 'Hukum Pajak', 'Hukum Kepalitan', 'Hukum Lingkungan Hidup', 'Hukum Kepentingan Publik', 'Hukum Ketenagakerjaan', 'Hukum Tata Usaha Negara', 'Hukum Imigrasi'])],
             'jenis_kelamin' => ['required', Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab'])],
+            'foto_pengacara' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // maksimal 2MB
         ]);
 
         $user->fill($validated);
 
-        if ($request->hasFile('foto_pengguna')) {
-            $fotoBaru = $request->file('foto_pengguna')->store('foto_pengguna', 'public');
+        if ($request->hasFile('foto_pengacara')) {
+            $fotoBaru = $request->file('foto_pengacara')->store('foto_pengacara', 'public');
 
             // hapus foto lama kalau ada
-            if ($user->foto_pengguna && Storage::disk('public')->exists($user->foto_pengguna)) {
-                Storage::disk('public')->delete($user->foto_pengguna);
+            if ($user->foto_pengacara && Storage::disk('public')->exists($user->foto_pengacara)) {
+                Storage::disk('public')->delete($user->foto_pengacara);
             }
 
-            $user->foto_pengguna = $fotoBaru;
+            $user->foto_pengacara = $fotoBaru;
         }
 
         $user->save();

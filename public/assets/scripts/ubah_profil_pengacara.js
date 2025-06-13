@@ -56,5 +56,21 @@ document.addEventListener('DOMContentLoaded', function () {
             reader.readAsDataURL(input.files[0]);
         }
     });
+
+    const lainnyaCheckbox = document.getElementById('others');
+    const lainnyaInput = document.getElementById('spesialisasiLainnya');
+
+    lainnyaCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            lainnyaInput.style.display = 'inline-block'; // Tampilkan input
+            lainnyaInput.required = true;
+            lainnyaInput.focus();
+        } else {
+            lainnyaInput.style.display = 'none'; // Sembunyikan input
+            lainnyaInput.value = '';
+            lainnyaInput.required = false;
+        }
+    });
 });
+
 

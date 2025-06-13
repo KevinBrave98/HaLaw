@@ -22,21 +22,40 @@
 
 <body>
     <x-navbar_lawyer></x-navbar_lawyer>
+
     <div class="d-flex justify-content-between bagian-atas">
         <a class="button-back" href="{{ route('lawyer.profile.show') }}">
             <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
         </a>
         <div class="sapaan-foto d-flex flex-column">
-            <h1 class="fs-3">Halo, Fajar Nugroho, S. H., M.H.</h1>
-            <img src="{{ asset('assets/images/foto_profil_pengacara.png') }}" alt="foto profil">
+            <h1 class="fs-3">Halo, {{ $user->nama_pengacara }}</h1>
+            <img id="preview-foto" class="foto-profil-preview"
+                src="{{ $user->foto_pengacara ? asset('storage/' . $user->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
+                alt="foto profil">
         </div>
         <div class="d-flex align-item-center justify-content-center">
             <button type="button" class="button-edit">Ubah Profil</button>
         </div>
     </div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="profile-container">
-        <form id="profileForm" class="form-profil" novalidate>
+        <form id="profileForm" class="form-profil" novalidate action="{{ route('lawyer.profile.update') }}"
+            method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-element foto">
+                <label for="foto_pengacara" class="form-label">Foto Profil</label>
+                <input type="file" name="foto_pengacara" class="form-control" id="input-foto">
+            </div>
             <div class="form-element nama">
                 <label for="" class="form-label">Nama Lengkap</label>
                 <input id="namaLengkap" required type="text" class="form-control input-text"
@@ -44,7 +63,7 @@
             </div>
             <div readonly class="form-element nik">
                 <label for="" class="form-label">NIK</label>
-                <input type="text" class="form-control input-text" value="09876543210">
+                <input readonly type="text" class="form-control input-text" value="09876543210">
             </div>
             <div class="form-element email">
                 <label for="" class="form-label">Email</label>
@@ -114,6 +133,17 @@
                     <input class="form-check-input" type="checkbox" value="Hukum Imigrasi" id="imigrasi">
                     <label class="form-check-label" for="imigrasi">Hukum Imigrasi</label>
                 </div>
+                {{-- checkbox others can be filled --}}
+                <div class="custom-checkbox">
+                    <input class="form-check-input" type="checkbox" value="Lainnya" id="others">
+                    <label class="form-check-label" for="others" id="labelLainnya">Lainnya</label>
+                </div>
+                <input type="text" class="form-control input-text spesialisasi-lainnya"
+                        id="spesialisasiLainnya"
+                        name="spesialisasi_lainnya"
+                        placeholder="Tulis spesialisasi">
+
+
             </div>
             <div class="form-element pendidikan">
                 <label for="" class="form-label">Informasi Pendidikan</label>
@@ -175,7 +205,7 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
 
                 </div>
             </div>
-            <a class="button-save d-flex justify-content-center" href="{{ route('profile.show') }}">
+            <a class="button-save d-flex justify-content-center" href="{{ route('lawyer.profile.show') }}">
                 <div class="error-message" id="namaError"></div>
                 <button type="submit">Simpan Perubahan</button>
             </a>
