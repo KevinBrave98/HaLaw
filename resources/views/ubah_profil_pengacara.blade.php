@@ -29,7 +29,9 @@
         </a>
         <div class="sapaan-foto d-flex flex-column">
             <h1 class="fs-3">Halo, {{ $user->nama_pengacara }}</h1>
-            <img id="preview-foto" class="foto-profil-preview" src="{{ $user->foto_pengacara ? asset('storage/' . $user->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}" alt="foto profil">
+            <img id="preview-foto" class="foto-profil-preview"
+                src="{{ $user->foto_pengacara ? asset('storage/' . $user->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
+                alt="foto profil">
         </div>
         <div class="d-flex align-item-center justify-content-center">
             <button type="button" class="button-edit">Ubah Profil</button>
@@ -47,11 +49,12 @@
     @endif
 
     <div class="profile-container">
-        <form id="profileForm" class="form-profil" novalidate action="{{ route('lawyer.profile.update') }}" method="POST" enctype="multipart/form-data">
+        <form id="profileForm" class="form-profil" novalidate action="{{ route('lawyer.profile.update') }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
-             <div class="form-element foto">
-                    <label for="foto_pengacara" class="form-label">Foto Profil</label>
-                    <input type="file" name="foto_pengacara" class="form-control" id="input-foto">
+            <div class="form-element foto">
+                <label for="foto_pengacara" class="form-label">Foto Profil</label>
+                <input type="file" name="foto_pengacara" class="form-control" id="input-foto">
             </div>
             <div class="form-element nama">
                 <label for="" class="form-label">Nama Lengkap</label>
@@ -130,6 +133,17 @@
                     <input class="form-check-input" type="checkbox" value="Hukum Imigrasi" id="imigrasi">
                     <label class="form-check-label" for="imigrasi">Hukum Imigrasi</label>
                 </div>
+                {{-- checkbox others can be filled --}}
+                <div class="custom-checkbox">
+                    <input class="form-check-input" type="checkbox" value="Lainnya" id="others">
+                    <label class="form-check-label" for="others" id="labelLainnya">Lainnya</label>
+                </div>
+                <input type="text" class="form-control input-text spesialisasi-lainnya"
+                        id="spesialisasiLainnya"
+                        name="spesialisasi_lainnya"
+                        placeholder="Tulis spesialisasi">
+
+
             </div>
             <div class="form-element pendidikan">
                 <label for="" class="form-label">Informasi Pendidikan</label>

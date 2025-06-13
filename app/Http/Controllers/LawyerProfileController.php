@@ -46,6 +46,7 @@ class LawyerProfileController extends Controller
             'durasi_pengalaman' => 'required',
             'spesialisasi' => ['required', 'string', Rule::in(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Perusahaan', 'Hukum Hak Kekayaan Intelektual', 'Hukum Pajak', 'Hukum Kepalitan', 'Hukum Lingkungan Hidup', 'Hukum Kepentingan Publik', 'Hukum Ketenagakerjaan', 'Hukum Tata Usaha Negara', 'Hukum Imigrasi'])],
             'jenis_kelamin' => ['required', Rule::in(['Laki - Laki', 'Perempuan', 'Memilih Tidak Menjawab'])],
+            'foto_pengacara' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // maksimal 2MB
         ]);
 
         $user->fill($validated);

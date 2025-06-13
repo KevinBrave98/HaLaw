@@ -58,7 +58,7 @@ body{
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    gap: 15px; 
+    gap: 15px;
 }
 
 .form-element{
@@ -247,9 +247,25 @@ label{
   position: absolute;
   left: 7px;
   top: 50%;
-  transform: translateY(-50%) rotate(45deg); 
+  transform: translateY(-50%) rotate(45deg);
   width: 6px;
   height: 12px;
   border: solid #B99010;
   border-width: 0 2px 2px 0;
+}
+
+.lainnya-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+.spesialisasi-lainnya{
+    width: auto;
+    margin-left: 2vw;
+    display: none;
+}
+
+.spesialisasi-lainnya::placeholder{
+    color: #f5f5f5 !important;
+    opacity: 1;
 }
