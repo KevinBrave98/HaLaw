@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\LawyerDashboardController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LawyerProfileController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\LawyerDashboardController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::get('/footer', function () {
     return view('footer');
@@ -62,7 +63,7 @@ Route::get('/footer', function () {
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
 
 
-Route::get('/test', function() {
+Route::get('/test', function () {
     return view('test');
 });
 
@@ -100,3 +101,6 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
     Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
 });
+
+Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
+Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
