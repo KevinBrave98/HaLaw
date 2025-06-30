@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\resetPassword;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -62,5 +63,11 @@ class Pengacara extends Authenticatable
     {
         $url = url('/reset-password/pengacara/'.$token).'?email='.urlencode($this->email);;
         $this->notify(new resetPassword($url));
+    }
+
+    public function scopeActive(Builder $query): void
+
+    {
+        $query->where('status_konsultasi', 1);
     }
 }

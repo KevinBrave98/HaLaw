@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/styles/masuk.css')}}">
     <title>Halaman Masuk</title>
 </head>

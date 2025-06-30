@@ -35,7 +35,7 @@ body{
 .container {
     display: flex;
     flex-direction: row;
-    justify: center;
+    justify-content: center;
     width: 80%;
     height: 80%;
 }
@@ -93,7 +93,7 @@ body{
 }
 
 .form-label{
-    font-color: #654220;
+    color: #654220;
     margin-bottom:0;
 }
 
