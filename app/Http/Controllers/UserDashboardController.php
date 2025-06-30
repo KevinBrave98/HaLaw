@@ -9,7 +9,7 @@ use App\Http\Controllers\pengacara;
 use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
-{
+{   
     public function greetings(){
         $pengacara = DB::table('pengacaras')->inRandomOrder()->limit(5)->get();
         $pengguna = Auth::user();
