@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Notifications\resetPassword;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Pengacara extends Model
+class Pengacara extends Authenticatable
 {
+    use HasFactory, Notifiable;
+
     protected $primaryKey = 'nik_pengacara';
     public $incrementing = false;
     protected $fillable = [
@@ -22,9 +28,18 @@ class Pengacara extends Model
         'durasi_pengalaman',
         'pengalaman_bekerja',
         'pendidikan',
-        'preferensi_komunikasi',
+        'chat',
+        'voice_chat',
+        'video_call',
         'status_konsultasi',
-        'foto_pengacara'
+        'total_pendapatan',
+        'foto_pengacara',
+        'tanda_pengenal'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token'
     ];
 
     public function riwayat(): HasMany
@@ -35,5 +50,25 @@ class Pengacara extends Model
     public function riwayat_dana(): HasMany
     {
         return $this->hasMany(RiwayatDana::class, 'nik_pengacara', 'nik_pengacara');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = url('/reset-password/pengacara/'.$token).'?email='.urlencode($this->email);;
+        $this->notify(new resetPassword($url));
+    }
+
+    public function scopeActive(Builder $query): void
+
+    {
+        $query->where('status_konsultasi', 1);
     }
 }

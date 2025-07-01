@@ -1,0 +1,288 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Raleway";
+}
+
+input::placeholder {
+    opacity: 0.45;
+    color: #281805;
+}
+
+.search-container {
+    width: 100%;
+    height: fit-content;
+}
+
+.input-pengacara {
+    background-color: #f5f5f5;
+}
+
+.filter-search {
+    background-color: #654220;
+}
+
+.icon-container {
+    position: absolute;
+    color: #fff;
+    right: 1rem;
+}
+
+#filter-icon {
+    width: 2.8rem;
+    height: 2.5rem;
+}
+
+#search-icon {
+    width: 6rem;
+    height: 2.5rem;
+}
+
+.filter-icon {
+    width: 1.2rem;
+}
+
+.search-icon {
+    width: 1.2rem;
+}
+
+.more-filter {
+    background-color: #fff;
+    bottom: 0.25rem;
+    height: fit-content;
+    transform:translateY(-3px);
+}
+
+.hide {
+    display: none !important;
+}
+
+#filter-icon, #search-icon {
+    cursor: pointer;
+}
+
+.filter-section h2 {
+    font-size: 1.5em;
+    color: #654220;
+    font-weight: 600;
+}
+
+hr {
+    margin: 0;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.radio-container label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1em;
+}
+
+/* Buat lingkaran radio button di label::before */
+.radio-container label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 1px solid #b99010;
+  border-radius: 50%;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+/* Lingkaran kecil di dalam saat checked */
+.radio-container input:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #b99010;  /* warna custom */
+  border-radius: 50%;
+}
+
+.search_label {
+    margin-left: 0.3rem;
+    font-weight: 600;
+    color: #281805;
+    font-size: 1.1em;
+}
+
+.radio-container,
+.checkbox-container {
+    position: relative;
+}
+
+.radio-container input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 0.15rem solid #b99010;
+    border-radius: 50%;
+    margin: 0.2rem;
+}
+
+.radio-container input:checked {
+    border-width: 0.4rem;
+}
+
+.select-specialization select {
+    appearance: none;
+    width: 100%;
+    font-size: 1.1em;
+    padding: 0.75rem;
+    background-color: #f5f5f5;
+    border: 1px solid #b99010;
+    border-radius: 25px;
+    color: #281805;
+    cursor: pointer;
+}
+
+.select-specialization {
+    min-width: 24rem;
+}
+
+#dropdown-icon {
+    width: 1.2rem;
+    height: auto;
+    right: 5rem;
+}
+
+option {
+    font-family: "Raleway";
+    background-color: #f5f5f5;
+    border: none;
+}
+
+.checkbox-container input {
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #f5f5f5;
+    margin: 0;
+
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid #b99010;
+    /* border-radius: 5px; */
+    /* margin: 0.2rem; */
+}
+
+.checkbox-container span:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ span:after {
+    display: block;
+}
+
+.checkbox-container span:after {
+    left: 7.5px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #b99010;
+    border-width: 0 1px 1px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.price-container {
+    max-width: 24rem;
+}
+
+.price-field p {
+    color: #281805;
+}
+
+.price-field input{
+  width: 8rem;
+  color: #281805;
+  height: 100%;
+  outline: none;
+  font-size: 1.5em;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #B99010;
+  -moz-appearance: textfield;
+}
+
+.price-field input::-webkit-outer-spin-button,
+.ptice--field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.slider {
+  height: 0.3rem;
+  position: relative;
+  background: #d5d5d5;
+  border-radius: 10px;
+}
+.slider .progress {
+  height: 100%;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  border-radius: 10px;
+  background: #b99010;
+  /* transform: translateY(-25%); */
+}
+.range-input {
+  position: relative;
+}
+
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -6px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background: #b99010;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+input[type="range"]::-moz-range-thumb {
+  height: 0.8rem;
+  width: 0.8rem;
+  border: none;
+  border-radius: 50%;
+  background: #b99010;
+  pointer-events: auto;
+  -moz-appearance: none;
+}
+
+.submit-filter {
+    border-radius: 10px;
+    background-color: #654220;
+    color: #fff;
+    font-weight: 500;
+}

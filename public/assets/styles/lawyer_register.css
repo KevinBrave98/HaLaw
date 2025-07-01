@@ -1,0 +1,118 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Noto Serif KR, serif;
+}
+
+.outer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+}
+
+.bg-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    z-index: -1;
+}
+
+.welcome-text{
+    position: absolute;
+    /* background-color: aqua; */
+    width: 20.938vw;
+    text-align: center;
+    margin-top: 9vw;
+    margin-left: 3vw;
+}
+
+.welcome-text p{
+    font-family: 'noto serif kr', serif;
+    font-size: 4rem;
+    color: white;
+    font-weight: 900;
+    text-align: left;
+    text-shadow: 0.3vw 0.2vw 1vw black;
+    line-height: 5vw;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 80%;
+}
+
+.palu{
+    width: 100%;
+}
+
+.container .wrapper {
+    width: 100%;
+    background-color: #FFF7F0;
+}
+
+.wrapper_form{
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    width: 70vh;
+    gap: 0.3rem;
+    padding-left:3vw;
+}
+
+.form-control{
+    border: 1px solid black;
+}
+
+.btn_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn{
+    width: 50%;
+    border: 1px solid black;
+    color: black;
+}
+
+.btn:hover{
+    background-color: #654220;
+    color: white;
+}
+
+.text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-label{
+    color: #654220;
+    margin-bottom:0;
+}
+
+.title{
+    padding-left: 3vw;
+    padding-top: 5vh;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.logo{
+    position: absolute;
+    width: 7rem;
+}
+
+
+

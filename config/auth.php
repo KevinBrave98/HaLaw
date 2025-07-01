@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'lawyer' => [
+            'driver' => 'session',
+            'provider' => 'lawyers',
+        ],
     ],
 
     /*
@@ -62,8 +66,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Models\Pengguna::class),
         ],
+        'lawyers' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Pengacara::class),
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -94,6 +102,12 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'lawyers' => [
+            'provider' => 'lawyers',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'lawyer_password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
         ],
