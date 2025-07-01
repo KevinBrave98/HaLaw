@@ -13,6 +13,6 @@ class UserDashboardController extends Controller
     public function greetings(){
         $pengacara = DB::table('pengacaras')->inRandomOrder()->limit(5)->get();
         $pengguna = Auth::user();
-        return view('dashboard_user', compact('pengacara', 'pengguna'));
+        return view('user.dashboard_user', compact('pengacara', 'pengguna'));
     }
 }

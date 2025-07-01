@@ -12,11 +12,11 @@ class UserProfileController extends Controller
 {
     public function show(){
         $user = Auth::user(); //ambil data pengguna berdasarkan sesi login yang aktif
-        return view('profil_pengguna', compact('user')); // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengguna'
+        return view('user.profil_pengguna', compact('user')); // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengguna'
     }
     public function edit(){
         $user = Auth::user();
-        return view('ubah_profil_pengguna', compact('user'));
+        return view('user.ubah_profil_pengguna', compact('user'));
     }
     public function exit(){
         Auth::logout();

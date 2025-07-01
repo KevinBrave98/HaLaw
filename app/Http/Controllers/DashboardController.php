@@ -13,7 +13,7 @@ class DashboardController extends Controller
         } else if (Auth::guard('lawyer')->check()) {
             return redirect()->route('lawyer.dashboard', ['nama_pengacara' => Auth::guard('lawyer')->user()->nama_pengacara]);
         } else {
-            return view('dashboard_pengguna_dan_pengacara_sebelum_login');
+            return view('dashboard_sebelum_login');
         }
     }
 }

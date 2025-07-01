@@ -22,8 +22,11 @@
                     </li>
                     <div class="container-profil">
                         <a class="navbar-brand" href="#">
-                            <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="Bootstrap" class="rounded-circle" width="45"
-                                height="45">
+                             @if ($pengacara->foto_pengacara)
+                                <img src="{{ asset('storage/'. $pengacara->foto_pengacara) }}" alt="foto_pengacara" class="rounded-circle" width="45" height="45">
+                            @else
+                                <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="foto_pengacara_default" class="rounded-circle" width="45" height="45">
+                            @endif
                         </a>
                     </div>
                 </div>

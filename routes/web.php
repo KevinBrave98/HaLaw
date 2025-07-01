@@ -12,10 +12,6 @@ use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
-Route::get('/footer', function () {
-    return view('footer');
-});
-
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
 
@@ -52,36 +48,7 @@ Route::post('/reset-password/pengguna   ', [ResetPasswordController::class, 'use
 Route::get('/reset-password/pengacara/{token}', [ResetPasswordController::class, 'showLawyerResetForm'])->name('lawyerPassword.reset');
 Route::post('/reset-password/pengacara', [ResetPasswordController::class, 'lawyerReset'])->name('lawyerPassword.update');
 
-Route::get('/navbar_sebelum_login', function () {
-    return view('navbar_sebelum_login');
-});
-
-Route::get('/footer', function () {
-    return view('footer');
-});
-
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
-
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/dasbor_pengacara', function () {
-    return view('lawyer.dashboard');
-});
-
-Route::get('/pengacara_register', function () {
-    return view('pengacara_register');
-});
-
-Route::get('/dashboard_user', function () {
-    return view('dashboard_user');
-});
-
-Route::get('/navbar_user', function () {
-    return view('navbar_user');
-});
 
 Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
 Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');

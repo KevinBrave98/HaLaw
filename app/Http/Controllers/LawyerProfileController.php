@@ -15,12 +15,12 @@ class LawyerProfileController extends Controller
     public function show()
     {
         $user = Auth::guard('lawyer')->user(); //ambil data pengguna berdasarkan sesi login yang aktif return view('profil_pengacara', compact('user'));
-        return view('profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
+        return view('lawyer.profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function edit()
     {
         $user = Auth::guard('lawyer')->user();
-        return view('ubah_profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
+        return view('lawyer.ubah_profil_pengacara', compact('user'));  // compact('user') dipakai untuk kirim data $user ke blade 'profil_pengacara'
     }
     public function exit()
     {
