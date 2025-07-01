@@ -2,8 +2,8 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_user.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/search_pengacara.css') }}">
 @endpush
-<x-layout_user>
-    <x-slot:title>Halaw - Dashboard User</x-slot:title>
+<x-layout_user :title="'Halaw - Dashboard User'">
+
     <div class="content">
         <h5 class="username">Hallo {{ $pengguna->nama_pengguna }}</h5>
         <h1 class="rekomendasi">Rekomendasi Pengacara</h1>
