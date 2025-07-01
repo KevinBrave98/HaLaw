@@ -15,11 +15,11 @@ class RegisterController extends Controller
     }
 
     public function showUser(){
-        return view('user_register');
+        return view('user.user_register');
     }
 
     public function showLawyer(){
-        return view('pengacara_register');
+        return view('lawyer.pengacara_register');
     }
 
     public function registerLawyer(Request $request){
