@@ -22,10 +22,13 @@ Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])-
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
     Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profil/ubah', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/keluar', [UserProfileController::class, 'exit'])->name('profile.exit');
+    Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
+    Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
 });
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
@@ -50,14 +53,6 @@ Route::post('/reset-password/pengacara', [ResetPasswordController::class, 'lawye
 
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
 
-Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
-Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
-Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
-Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
-
-
-Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings']);
-Route::get('/dashboard_user/{nama_pengguna}', [UserDashboardController::class,'greetings'])->name('dashboard.user');
 
 Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 
@@ -67,7 +62,7 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::post('/dashboard/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('lawyer.layanan.update');
     Route::get('/profil_pengacara', [LawyerProfileController::class, 'show'])->name('lawyer.profile.show');
     Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
+    Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
+    Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
 });
 
-Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
-Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');

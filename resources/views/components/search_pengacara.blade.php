@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <div class="more-filter position-absolute d-flex flex-column w-100 top-100 start-0 justify-content-evenly">
+        <div class="hide more-filter position-absolute d-flex flex-column w-100 top-100 start-0 justify-content-evenly">
             <div class="d-flex flex-column justify-content-evenly p-4 filter-section">
                 <h2 class="m-0 text-start">Jenis Kelamin</h1>
                     <div class="d-flex flex-row mt-3 gap-5 mb-5">
