@@ -1,28 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profil Pengguna</title>
-    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_lawyer.css') }}">
+@push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/profil_pengacara.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    @vite(['resources/js/app.js', 'resources/sass/app.scss'])
-</head>
-
-<body>
-    <x-navbar_lawyer></x-navbar_lawyer>
-    {{-- <pre>{{ dd($user) }}</pre> --}}
+@endpush
+<x-layout_lawyer :title="'Profil Pengacara'">
     <div class="d-flex justify-content-between bagian-atas">
         <div class="sapaan-foto d-flex flex-column">
             <h1 class="fs-3">Halo, {{ $user->nama_pengacara }}</h1>
-            <img id="preview-foto" class="foto-profil-preview" src="{{ $user->foto_pengacara ? asset('storage/' . $user->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}" alt="foto profil">
+            <img id="preview-foto" class="foto-profil-preview"
+                src="{{ $user->foto_pengacara ? asset('storage/' . $user->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
+                alt="foto profil">
         </div>
         <div class="d-flex justify-content-center">
             <button type="button" class="button-edit"
@@ -69,9 +54,10 @@
             <label for="" class="form-label">Pengalaman Kerja</label>
             <textarea readonly class="form-control input-pendidikan" rows="8">{{ $user->pengalaman_bekerja }}</textarea>
         </div>
-         <div class="form-element durasi_kerja">
+        <div class="form-element durasi_kerja">
             <label for="" class="form-label">Durasi Pengalaman Kerja</label>
-            <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties" oninput="tambahTahun(this)" value="{{ $user->durasi_pengalaman }}">
+            <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties"
+                oninput="tambahTahun(this)" value="{{ $user->durasi_pengalaman }}">
         </div>
         <div class="form-element gender">
             <label for="" class="form-label">Jenis Kelamin</label>
@@ -94,10 +80,9 @@
             <label for="" class="form-label">Jenis Layanan</label>
             <input readonly type="text" class="form-control input-text" value="{{ implode(', ', $layanan) }}">
         </div>
-        <div class="button-exit d-flex justify-content-center" >
+        <div class="button-exit d-flex justify-content-center">
             <button onclick="window.location.href='{{ route('lawyer.profile.exit') }}'">Keluar Akun</button>
         </div>
 
-   </div>
-</body>
-</html>e
+    </div>
+</x-layout_lawyer>

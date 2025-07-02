@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ubah Profil</title>
-
-    @vite(['resources/js/app.js', 'resources/sass/app.scss'])
-    <link rel="stylesheet" href="{{ asset('assets/styles/navbar_lawyer.css') }}">
+@push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/ubah_profil_pengacara.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
-
-    <script src="{{ asset('assets/scripts/ubah_profil_pengacara.js') }}"></script>
-</head>
-
-<body>
-    <x-navbar_lawyer></x-navbar_lawyer>
-
+@endpush
+<x-layout_lawyer :title="'Ubah Profil'">
     <div class="d-flex justify-content-between bagian-atas">
         <a class="button-back" href="{{ route('lawyer.profile.show') }}">
             <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
@@ -138,10 +117,8 @@
                     <input class="form-check-input" type="checkbox" value="Lainnya" id="others">
                     <label class="form-check-label" for="others" id="labelLainnya">Lainnya</label>
                 </div>
-                <input type="text" class="form-control input-text spesialisasi-lainnya"
-                        id="spesialisasiLainnya"
-                        name="spesialisasi_lainnya"
-                        placeholder="Tulis spesialisasi">
+                <input type="text" class="form-control input-text spesialisasi-lainnya" id="spesialisasiLainnya"
+                    name="spesialisasi_lainnya" placeholder="Tulis spesialisasi">
 
 
             </div>
@@ -211,6 +188,4 @@ Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-20
             </a>
         </form>
     </div>
-</body>
-
-</html>
+</x-layout_lawyer>
