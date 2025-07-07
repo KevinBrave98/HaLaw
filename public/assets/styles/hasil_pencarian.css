@@ -1,0 +1,28 @@
+h2 {
+    color: #281805 !important;
+}
+
+h1 {
+    color: #281805 !important;
+}
+
+.bg-brown {
+    background-color: #654220;
+}
+.badge a:hover {
+    color: #ffc107;
+}
+
+.filter-tag {
+    background-color: #654220;
+    color: white;
+    font-family: "Raleway", sans-serif;
+    font-size: 1rem;
+    font-weight: 400 !important;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}

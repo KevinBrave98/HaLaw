@@ -1,5 +1,6 @@
 .navbar{
     background-color: #654220;
+    height: 10vh;
 }
 
 .nav-item{
@@ -12,10 +13,6 @@
 .navbar-nav .nav-link{
     color: white;
     font-size: 1.25rem;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #B99010 !important;
 }
 
 .container-fluid{
@@ -47,12 +44,13 @@
 
 
 .profil-wrapper {
-    width: 14vw;
-    height: 2.6vw;
     display: flex;
     flex-direction: row;
-    justify-content: right;
-    /* gap: 1rem; atur jarak antara teks "Profil" dan fotonya */
+    gap: 1rem; /*atur jarak antara teks "Profil" dan fotonya */
+}
+
+.container-profil {
+    padding-right: 1.5rem;
 }
 
 .daftar{
@@ -76,4 +74,12 @@
     color:#B99010
 }
 
+.daftar:hover{
+    background-color: #B99010;
+    color: #ffffff !important;
+}
 
+.masuk:hover {
+    background-color: #B99010;
+    color: #ffffff !important;
+}
