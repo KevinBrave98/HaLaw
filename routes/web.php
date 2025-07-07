@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PenarikanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
@@ -64,5 +65,16 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
     Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
     Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
+    Route::get('/penarikan_pendapatan',[PenarikanController::class,'dashboard']);
+    Route::get('/detail_penarikan', [PenarikanController::class,'detail']);
+});
+
+Route::get('/ubah_rekening', function(){
+    return view('lawyer.ubah_rekening');
+});
+
+
+Route::get('/hasil_penarikan', function(){
+    return view('lawyer.hasil_penarikan');
 });
 

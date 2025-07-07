@@ -15,15 +15,15 @@ class RegisterController extends Controller
     }
 
     public function showUser(){
-        return view('user_register');
+        return view('user.user_register');
     }
 
     public function showLawyer(){
-        return view('pengacara_register');
+        return view('lawyer.pengacara_register');
     }
 
     public function registerLawyer(Request $request){
-            
+
             $validated = $request->validate([
             'nama_pengacara' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'nik_pengacara' => 'required|unique:pengacaras|min:16|max:16',
@@ -31,15 +31,15 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:pengacaras',
             'password' => 'required|min:8|confirmed',
         ]);
-        
+
         $pengacara = Pengacara::create($validated);
-        
+
         $path = $request->file('tanda_pengenal')->storeAs('tanda_pengenal');
         $pengacara->tanda_pengenal = $path;
         $pengacara->save();
 
         Auth::guard('lawyer')->login($pengacara);
-        
+
 
         return redirect()->route('lawyerLogin.show');
     }
