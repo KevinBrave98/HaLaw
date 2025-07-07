@@ -33,6 +33,8 @@ class Pengacara extends Authenticatable
         'video_call',
         'status_konsultasi',
         'total_pendapatan',
+        'nama_bank',
+        'nomor_rekening',
         'foto_pengacara',
         'tanda_pengenal'
     ];
