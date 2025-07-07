@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/keluar', [UserProfileController::class, 'exit'])->name('profile.exit');
     Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
     Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
+    Route::post('/hasil_pencarian', [SearchController::class, 'search'])->name('search.pengacara.search');
 });
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
@@ -65,4 +66,3 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
     Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
 });
-

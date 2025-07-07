@@ -91,9 +91,9 @@
                                 <div class="progress"></div>
                             </div>
                             <div class="range-input w-100">
-                                <input type="range" class="range-min" min="25000" max="100000" value="50000"
+                                <input type="range" name="min_price" class="range-min" min="25000" max="100000" value="50000"
                                     step="1000">
-                                <input type="range" class="range-max" min="25000" max="100000"
+                                <input type="range" name="max_price" class="range-max" min="25000" max="100000"
                                     value="75000" step="1000">
                             </div>
                         </div>
