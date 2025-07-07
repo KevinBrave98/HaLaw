@@ -11,10 +11,10 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\PembayaranController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
-
 
 Route::get('/daftar/pengacara', [RegisterController::class, 'showLawyer'])->name('lawyerregis.show');
 Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])->name('lawyerregis');
@@ -29,8 +29,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/keluar', [UserProfileController::class, 'exit'])->name('profile.exit');
     Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
     Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
-    Route::post('/hasil_pencarian', [SearchController::class, 'search'])->name('search.pengacara.search');
+    Route::get('/pembayaran', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
+    Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
+    Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
+    Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
+    Route::get('/pembayaran/bca', function () {return view('user.pembayaran_bca');});
+    Route::get('/pembayaran/mandiri', function () {return view('user.pembayaran_mandiri');});
+    Route::get('/pembayaran/blu', function () {return view('user.pembayaran_blu');});
+    Route::get('/pembayaran/gopay', function () {return view('user.pembayaran_gopay');});
+    Route::get('/pembayaran/ovo', function () {return view('user.pembayaran_ovo');});
+    Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
+    Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
+    Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
 });
+
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
@@ -53,7 +65,6 @@ Route::get('/reset-password/pengacara/{token}', [ResetPasswordController::class,
 Route::post('/reset-password/pengacara', [ResetPasswordController::class, 'lawyerReset'])->name('lawyerPassword.update');
 
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
-
 
 Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 

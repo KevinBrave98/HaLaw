@@ -1,0 +1,50 @@
+.title-pembayaran{
+    padding-top: 5vh;
+    padding-left: 5vw;
+    color: #654220;
+    font-family: Raleway, Sans-serif;
+}
+
+body{
+    font-family: Raleway;
+}
+
+.pay-box {
+    width: 90%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+    background-color: #f0e1d2;
+    margin: 0 auto;
+    margin-bottom: 10vh;
+    border-radius: 5px;
+}
+
+.pay-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2vh;
+    font-family: Raleway, Sans-serif;
+}
+
+.metode-pembayaran{
+    font-family: 'Noto Serif Korean', serif;
+    align-self: flex-start;
+    margin-left: 5vw;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #654220;
+    padding-top: 0;
+}
+
+.form-label{
+    color: #654220;
+}
+
+.form-card{
+    width: 90%;
+}
