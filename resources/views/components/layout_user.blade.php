@@ -7,6 +7,7 @@
     <title>{{ $title }}</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     @stack('css')
+    @stack('js')
     <link rel="stylesheet" href="{{ asset('assets/styles/navbar_user.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/footer.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
