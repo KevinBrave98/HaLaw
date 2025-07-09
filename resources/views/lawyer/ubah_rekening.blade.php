@@ -6,13 +6,15 @@
     <div class="container mt-5">
         <h1 class="mb-4" style="color: #4A2E19;">Ubah Rekening</h1>
 
-        <form>
+        <form action= " " method="POST">
+            @csrf
+{{-- {{ old('nama_bank', $pengacara->nama_bank) == 'BNI' ? 'selected' : '' }} --}}
             <div class="mb-3 row align-items-center">
-                <label for="bank" class="col-sm-2 col-form-label" style="color: #4A2E19;">Nama Bank</label>
+                <label for="nama_bank" class="col-sm-2 col-form-label" style="color: #4A2E19;">Nama Bank</label>
                 <div class="col-sm-4">
-                    <select class="form-select" id="bank">
+                    <select class="form-select" id="nama_bank" name="nama_bank" required>
                         <option selected disabled>Pilih Bank</option>
-                        <option value="BCA">BCA</option>
+                        <option value="BCA" selected>BCA</option>
                         <option value="Mandiri">Mandiri</option>
                         <option value="BNI">BNI</option>
                     </select>
@@ -20,9 +22,11 @@
             </div>
 
             <div class="mb-1 row align-items-center">
-                <label for="rekening" class="col-sm-2 col-form-label" style="color: #4A2E19;">Nomor Rekening</label>
+                <label for="nomor_rekening" class="col-sm-2 col-form-label" style="color: #4A2E19;">Nomor
+                    Rekening</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="rekening" placeholder="Masukkan nomor rekening">
+                    <input type="text" class="form-control" id="nomor_rekening" name="nomor_rekening"
+                        placeholder="Masukkan nomor rekening" required>
                 </div>
             </div>
 

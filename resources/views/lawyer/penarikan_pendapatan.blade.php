@@ -17,17 +17,17 @@
                     <div class="d-flex align-items-center mt-2">
                         <i class="bi bi-bank me-2"></i>
                         <div>
-                            <div>BCA</div>
-                            <div>xxxxxxxxxx</div>
+                            <div>{{$bank}}</div>
+                            <div>{{$nomor_rekening}}</div>
                         </div>
                     </div>
-                    <a href="#" class="position-absolute end-0 bottom-0 me-3 mb-2 fw-bold"
+                    <a href="{{ route('lawyer.ubah.rekening') }}" class="position-absolute end-0 bottom-0 me-3 mb-2 fw-bold"
                         style="font-size: 14px; color: #B99010;">Ubah ></a>
                 </div>
             </div>
 
             <div class="text-end">
-                <a href="#" class="btn btn-light px-4 py-2"
+                <a href="{{ route('lawyer.detail_penarikan') }}" class="btn btn-light px-4 py-2"
                     style="border: 1px solid #fff;">
                     Tarik Pendapatan
                 </a>
