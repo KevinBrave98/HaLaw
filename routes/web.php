@@ -77,3 +77,11 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
     Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
 });
+
+Route::get('/kamus', function () {
+    return view('user.kamus_sebelum');
+});
+
+use App\Http\Controllers\KamusController;
+
+Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
