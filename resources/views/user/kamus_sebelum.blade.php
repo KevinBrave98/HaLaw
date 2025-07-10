@@ -1,8 +1,8 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/kamus.css') }}">
 @endpush
-<x-layout :title="'Home'">
-    <x-slot:title>HaLaw</x-slot:title>
+<x-layout :title="'Kamus Hukum'">
+    <x-slot:title>Kamus Hukum</x-slot:title>
     <div class="container py-5">
 
         <h1 class="text-center tulisan-cari-istilah">CARI ISTILAH HUKUM</h1>
@@ -25,7 +25,7 @@
     <h5 class="mb-3 teks-cari-huruf">Cari berdasarkan huruf</h5>
     <div class="mb-5">
         <a href="{{ route('kamus') }}" class="btn btn-outline-warning btn-sm mb-1 huruf huruf-all {{ request('letter') == null ? 'active-letter' : '' }}">
-            All
+            Semua
         </a>
         @foreach (range('A', 'Z') as $char)
             <a href="{{ route('kamus', ['letter' => $char]) }}" class="btn btn-outline-warning btn-sm mb-1 huruf {{ request('letter') == $char ? 'active-letter' : '' }}">
@@ -34,7 +34,8 @@
         @endforeach
     </div>
     @if($letter)
-        <h3 class="mb-3">Kamus Hukum - Huruf "{{ $letter }}"</h3>
+        <h3 class="mb-3">Kamus Hukum</h3>
+        <div class="huruf-terpilih">{{ $letter }}</div>
     @elseif($query)
         <h3 class="mb-3">Hasil Pencarian untuk "{{ $query }}"</h3>
     @else

@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kamus;
+use Illuminate\Support\Facades\Auth;
+
 
 class KamusController extends Controller
 {
@@ -21,6 +23,13 @@ class KamusController extends Controller
 
         $kamus = $kamus->orderBy('istilah')->paginate(20)->withQueryString();
 
-        return view('user.kamus_sebelum', compact('kamus', 'query', 'letter'));
+        // return view('user.kamus_sebelum', compact('kamus', 'query', 'letter'));
+        // Cek login atau tidak
+        if (Auth::check()) {
+            return view('user.kamus_setelah', compact('kamus', 'query', 'letter'));
+        } else {
+            return view('user.kamus_sebelum', compact('kamus', 'query', 'letter'));
+        }
+    
     }
 }

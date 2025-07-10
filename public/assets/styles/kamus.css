@@ -50,7 +50,7 @@ body{
 }
 
 .huruf{
-    width: 2.7vw;
+    width: 2.6vw;
     margin-right: 0.2rem;
     color: #281805;
     font-size: 20px;
@@ -58,7 +58,7 @@ body{
 }
 
 .huruf-all{
-    width: 3vw;
+    width: 6vw;
     font-size: 18px;
 }
 
@@ -67,6 +67,25 @@ body{
     color: #B99010;
     border-color: #B99010;
 }
+
+.judul-kamus {
+    font-family: "Noto Serif KR", serif;
+    color: #281805;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.huruf-terpilih {
+    font-family: "Noto Serif KR", serif;
+    color: #654220;
+    font-size: 1.8rem;
+    width: 100%;
+    border-bottom: 3px solid #B99010;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+}
+
 
 .istilah-item {
     padding: 0.5rem 0.25rem;
