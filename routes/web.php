@@ -12,6 +12,7 @@ use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\KonsultasiController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -30,17 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
     Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
     Route::get('/pembayaran', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
-    Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
-    Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
-    Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
-    Route::get('/pembayaran/bca', function () {return view('user.pembayaran_bca');});
-    Route::get('/pembayaran/mandiri', function () {return view('user.pembayaran_mandiri');});
-    Route::get('/pembayaran/blu', function () {return view('user.pembayaran_blu');});
-    Route::get('/pembayaran/gopay', function () {return view('user.pembayaran_gopay');});
-    Route::get('/pembayaran/ovo', function () {return view('user.pembayaran_ovo');});
-    Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
-    Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
-    Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
+    // Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
+    // Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
+    // Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
+    // Route::get('/pembayaran/bca', function () {return view('user.pembayaran_bca');});
+    // Route::get('/pembayaran/mandiri', function () {return view('user.pembayaran_mandiri');});
+    // Route::get('/pembayaran/blu', function () {return view('user.pembayaran_blu');});
+    // Route::get('/pembayaran/gopay', function () {return view('user.pembayaran_gopay');});
+    // Route::get('/pembayaran/ovo', function () {return view('user.pembayaran_ovo');});
+    // Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
+    // Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
+    // Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
+    Route::post('/payment/store-riwayat', [PembayaranController::class, 'storeRiwayat']);
+    Route::get('/konsultasi/sedang-berlangsung', [KonsultasiController::class, 'konsultasiSedangBerlangsung'])->name('konsultasi.berlangsung');
 });
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');

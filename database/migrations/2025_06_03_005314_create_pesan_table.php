@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('pesans', function (Blueprint $table) {
             $table->string('id_pesan')->primary();
-            $table->string('id_riwayat')->unique();
+            $table->unsignedBigInteger('id_riwayat');
             $table->string('nik', 16);
             $table->dateTime('waktu_pesan');
             $table->string('teks');
             $table->timestamps();
 
-            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayats')->cascadeOnDelete();
+            $table->foreign('id_riwayat')->references('id')->on('riwayats')->cascadeOnDelete();
         });
     }
 
