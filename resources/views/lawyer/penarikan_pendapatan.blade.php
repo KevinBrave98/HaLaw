@@ -10,18 +10,19 @@
                 <div class="col-md-6 p-3 border-end border-dark">
                     <div class="fw-bold mb-1">Informasi Pendapatan</div>
                     <small class="text-muted">Saldo</small>
-                    <div class="fs-5">Rp. {{number_format($saldo, 0, ',', '.')}}</div>
+                    <div class="fs-5">Rp. {{ number_format($saldo, 0, ',', '.') }}</div>
                 </div>
                 <div class="col-md-6 p-3 position-relative">
                     <div class="text-muted">Rekening Bank Saya</div>
                     <div class="d-flex align-items-center mt-2">
                         <i class="bi bi-bank me-2"></i>
                         <div>
-                            <div>{{$bank}}</div>
-                            <div>{{$nomor_rekening}}</div>
+                            <div>{{ $bank }}</div>
+                            <div>{{ $nomor_rekening }}</div>
                         </div>
                     </div>
-                    <a href="{{ route('lawyer.ubah.rekening') }}" class="position-absolute end-0 bottom-0 me-3 mb-2 fw-bold"
+                    <a href="{{ route('lawyer.ubah.rekening') }}"
+                        class="position-absolute end-0 bottom-0 me-3 mb-2 fw-bold"
                         style="font-size: 14px; color: #B99010;">Ubah ></a>
                 </div>
             </div>
@@ -35,8 +36,41 @@
         </div>
 
         <h5 class="mt-5 mb-3" style="color: #2F1D0E;">Riwayat Dana</h5>
-        <div class="rounded p-0 mb-5" style="background-color: #F1CEAA; overflow: hidden; height:40vw;">
+        <div class="rounded p-0 mb-5" style="background-color: #F1CEAA; overflow: scroll; height:40vw;">
 
+            @foreach ($riwayat_tarik as $riwayat)
+                @if ($riwayat->tipe_riwayat_dana == 'Tarik Dana')
+                    <div class="p-3 border-bottom border-dark">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
+                                <div class="text-muted">Ke Rekening {{ $nomor_rekening }}</div>
+                            </div>
+                            <div class="text-dark fw-semibold">-Rp. {{ number_format($riwayat->nominal, 0, ',', '.') }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">{{$riwayat->created_at}}</small>
+                            <span></span>
+                        </div>
+                    </div>
+                @else
+                    <div class="p-3 border-bottom border-dark">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
+                                <div class="text-muted">Dari {{ $riwayat->detail_riwayat_dana }}</div>
+                            </div>
+                            <div class="text-dark fw-semibold">+Rp. {{ number_format($riwayat->nominal, 0, ',', '.') }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">{{$riwayat->created_at}}</small>
+                            <span></span>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
             <div class="p-3 border-bottom border-dark">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -47,21 +81,6 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <small class="text-muted">31 Des 2999</small>
-                    <small class="text-muted">Biaya aplikasi : (-Rp15.000,00)</small>
-                </div>
-            </div>
-
-            <div class="p-3 border-bottom border-dark">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <div class="fw-bold">Tarik Dana</div>
-                        <div class="text-muted">Ke Rekening xxxxxxxxx</div>
-                    </div>
-                    <div class="text-dark fw-semibold">-Rp50.000,00</div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <small class="text-muted">31 Des 2999</small>
-                    <span></span>
                 </div>
             </div>
         </div>

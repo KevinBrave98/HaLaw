@@ -20,7 +20,7 @@
     <div class="container d-flex justify-content-center mb-5">
         <a href="{{ route('lawyer.penarikan.pendapatan') }}" class="btn mb-4"
             style="border: 1px solid #6C4521; color: #6C4521; padding: 6px 24px; border-radius: 8px; width: 12vw;">
-            Kembali
+            Coba Lagi
         </a>
     </div>
 

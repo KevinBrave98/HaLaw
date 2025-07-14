@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengacara;
+use App\Models\RiwayatDana;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,8 @@ class PenarikanController extends Controller
         $riwayat_dana_pengacara = $pengacara->riwayat_dana;
         $bank = $pengacara->nama_bank;
         $nomor_rekening = $pengacara->nomor_rekening;
-        return view('lawyer.penarikan_pendapatan', compact('pengacara', 'saldo', 'riwayat_dana_pengacara', 'bank', 'nomor_rekening'));
+        $riwayat_tarik = $pengacara->riwayat_danas()->orderBy('created_at', 'desc')->get();
+        return view('lawyer.penarikan_pendapatan', compact('pengacara', 'saldo', 'riwayat_dana_pengacara', 'bank', 'nomor_rekening','riwayat_tarik'));
     }
     public function detail()
     {
@@ -55,27 +57,38 @@ class PenarikanController extends Controller
 
         $pengacara = Auth::guard('lawyer')->user();
         $biaya = 1000;
-        $total_penarikan = $request->jumlah_penarikan + $biaya;
+        $total_penarikan = $request->jumlah_penarikan;
         session([
             'total_penarikan' => $total_penarikan,
         ]);
 
-        if ($pengacara->total_pendapatan < $total_penarikan) {
+        if ($pengacara->total_pendapatan < $total_penarikan+$biaya) {
             return redirect()->route('lawyer.penarikan_gagal');
         }
 
+        $riwayat = new RiwayatDana();
+        $riwayat->id_riwayat_dana = 99999;
+        $riwayat->nik_pengacara = $pengacara->nik_pengacara;
+        $riwayat->tipe_riwayat_dana = 'Tarik Dana';
+        $riwayat->detail_riwayat_dana = $pengacara->nomor_rekening;
+        $riwayat->nominal = $total_penarikan;
+        $riwayat->tanggal_riwayat_dana = '2024-12-5';
+        $riwayat->waktu_riwayat_dana = 0;
+        $riwayat->save();
         // Kurangi saldo pengacara
-        $pengacara->total_pendapatan -= $total_penarikan;
+        $pengacara->total_pendapatan -= $total_penarikan+$biaya;
         $pengacara->save();
 
         return redirect()->route('lawyer.hasil.penarikan');
     }
 
-    public function hasilpenarikan(){
+    public function hasilpenarikan()
+    {
         $total_penarikan = session('total_penarikan');
         return view('lawyer.hasil_penarikan', compact('total_penarikan'));
     }
-    public function gagal(){
+    public function gagal()
+    {
         $total_penarikan = session('total_penarikan');
         return view('lawyer.penarikan_gagal', compact('total_penarikan'));
     }
