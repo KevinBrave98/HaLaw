@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('jenis_kelamin')->default('Memilih tidak menjawab');
             $table->string('lokasi')->nullable();
             $table->string('spesialisasi')->nullable();
-            $table->integer('tarif_jasa')->nullable();
+            $table->integer('tarif_jasa')->default(50000);
             $table->integer('durasi_pengalaman')->nullable();
             $table->string('pengalaman_bekerja')->nullable();
             $table->string('pendidikan')->nullable();

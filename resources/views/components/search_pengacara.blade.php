@@ -78,11 +78,11 @@
                         <div class="price-input d-flex justify-content-between align-items-center w-100 mb-4">
                             <div class="price-field d-flex flex-column">
                                 <p class="m-0 w-25">Min</p>
-                                <input type="number" class="input-min" value="50000">
+                                <input type="number" class="input-min" value="25000">
                             </div>
                             <div class="price-field d-flex flex-column">
                                 <p class="m-0 w-25">Max</p>
-                                <input type="number" class="input-max" value="75000">
+                                <input type="number" class="input-max" value="100000">
                             </div>
                         </div>
                         <div
@@ -91,10 +91,10 @@
                                 <div class="progress"></div>
                             </div>
                             <div class="range-input w-100">
-                                <input type="range" name="min_price" class="range-min" min="25000" max="100000" value="50000"
+                                <input type="range" name="min_price" class="range-min" min="25000" max="100000" value="25000"
                                     step="1000">
                                 <input type="range" name="max_price" class="range-max" min="25000" max="100000"
-                                    value="75000" step="1000">
+                                    value="100000" step="1000">
                             </div>
                         </div>
                     </div>

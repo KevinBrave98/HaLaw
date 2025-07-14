@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Pengacara;
 
 class SearchController extends Controller
 {
@@ -50,9 +51,8 @@ class SearchController extends Controller
     {
         $query = $request->nama_pengacara;
         $lawyers = DB::table('pengacaras')->where('status_konsultasi', 1);
-
         if ($query) {
-            $lawyers = $lawyers->where('nama_pengacara', 'LIKE', "%$query%");
+            $lawyers = $lawyers->where('nama_pengacara', 'LIKE', "$query%");
         }
 
         if ($request->jenis_kelamin) {
