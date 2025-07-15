@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PenarikanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
@@ -79,6 +80,13 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
     Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
     Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
+    Route::get('/penarikan_pendapatan',[PenarikanController::class,'dashboard'])->name('lawyer.penarikan.pendapatan');
+    Route::get('/detail_penarikan', [PenarikanController::class,'detail'])->name('lawyer.detail_penarikan');
+    Route::get('/ubah_rekening', [PenarikanController::class, 'viewUpdate'])->name('lawyer.ubah.rekening');
+    Route::post('/ubah_rekening', [PenarikanController::class, 'updateRekening']);
+    Route::post('/detail_penarikan', [PenarikanController::class, 'tarikDana'])->middleware('auth:lawyer')->name('pengacara.tarikDana');
+    Route::get('/hasil_penarikan', [PenarikanController::class, 'hasilpenarikan'])->name('lawyer.hasil.penarikan');
+    Route::get('/penarikan_gagal', [PenarikanController::class, 'gagal'])->name('lawyer.penarikan_gagal');
 });
 
 Route::get('/kamus', function () {
@@ -88,3 +96,6 @@ Route::get('/kamus', function () {
 use App\Http\Controllers\KamusController;
 
 Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
+
+
+
