@@ -9,6 +9,10 @@ body{
     margin-top: 5%;
 }
 
+.button-bg{
+    width:100vw;
+}
+
 .button-back{
     margin-left: 10%;
 }
