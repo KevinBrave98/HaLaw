@@ -12,6 +12,7 @@ use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\DetailPengacaraController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
     Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
+    Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
 });
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
@@ -86,3 +88,5 @@ Route::get('/kamus', function () {
 use App\Http\Controllers\KamusController;
 
 Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
+
+

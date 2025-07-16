@@ -26,3 +26,131 @@ h1 {
     gap: 0.5rem;
     font-weight: 600;
 }
+
+
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.lawyer-card {
+  display: flex;
+  background-color: white;
+  color: #654220;
+  border-radius: 16px;
+  min-width: 300px;
+  max-width: 90vw;
+  flex: 0 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2vw;
+}
+
+.image_wrapper {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lawyer-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  flex: 1;
+}
+
+.nama {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.spesialisasi {
+    font-size: 0.9rem;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.badge-custom {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #C9A93E;
+    color: #C9A93E;
+    border-radius: 20px;
+    padding: 6px 6px;
+    font-size: 0.8rem;
+    gap: 2px;
+}
+
+.badge-custom svg {
+    margin-right: 6px;
+}
+
+.price-detail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.harga {
+    font-weight: bold;
+    color: #000;
+}
+
+.btn-detail {
+    background: #C9A93E; /* warna emas */
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-detail:hover {
+    background: #A98827;
+}
+
+@media (max-width: 768px) {
+    .lawyer-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .image_wrapper {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .price-detail {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

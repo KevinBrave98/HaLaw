@@ -38,27 +38,27 @@
             <div class="form-element nama">
                 <label for="" class="form-label">Nama Lengkap</label>
                 <input id="namaLengkap" required type="text" class="form-control input-text"
-                    value="Fajar Nugroho, S. H., M.H.">
+                    value="">
             </div>
             <div readonly class="form-element nik">
                 <label for="" class="form-label">NIK</label>
-                <input readonly type="text" class="form-control input-text" value="09876543210">
+                <input readonly type="text" class="form-control input-text" value="">
             </div>
             <div class="form-element email">
                 <label for="" class="form-label">Email</label>
-                <input id="email" type="email" class="form-control input-text" value="fajarnugroho@gmail.com">
+                <input id="email" type="email" class="form-control input-text" value="">
             </div>
             <div class="form-element telepon">
                 <label for="" class="form-label">Nomor Telepon</label>
-                <input id="nomorTelepon" type="text" class="form-control input-text" value="087123456789">
+                <input id="nomorTelepon" type="text" class="form-control input-text" value="">
             </div>
             <div class="form-element alamat">
                 <label for="" class="form-label">Lokasi Tempat Kerja</label>
-                <input id="lokasi" type="text" class="form-control input-text" value="Jakarta">
+                <input id="lokasi" type="text" class="form-control input-text" value="">
             </div>
             <div class="form-element tarifJasa">
                 <label for="" class="form-label">Tarif jasa</label>
-                <input id="tarifJasa" type="text" class="form-control input-text" value="Rp300.000,00">
+                <input id="tarifJasa" type="text" class="form-control input-text" value="">
             </div>
             <div class="input-pengalaman-container">
                 <label class="form-label">Spesialisasi Hukum</label>
@@ -124,18 +124,15 @@
             </div>
             <div class="form-element pendidikan">
                 <label for="" class="form-label">Informasi Pendidikan</label>
-                <textarea class="form-control input-pendidikan" rows="4">Sarjana Hukum (S.H.) - Fakultas Hukum, Bina Nusantara University (2015-2019)
-Magister Hukum (M.H.) - Universitas Indonesia, Konsentrasi Hukum Bisnis (2020-2022)</textarea>
+                <textarea class="form-control input-pendidikan" rows="4"></textarea>
             </div>
             <div class="form-element pengalaman">
                 <label for="" class="form-label">Pengalaman Kerja</label>
-                <textarea class="form-control input-pendidikan" rows="8">1. Associate Lawyer Widjaja & Partners | 2020 - Sekarang Perdata, ketenagakerjaan, dan kontrak bisnis.
-2. Legal Officer PT Sentosa Finance | 2018 - 2020 Dokumen hukum, perizinan, dan kepatuhan regulasi.
-3. Legal Intern Mahkamah Agung RI | 2017 Riset yuridis dan pendampingan analisis perkara.</textarea>
+                <textarea class="form-control input-pendidikan" rows="8"></textarea>
             </div>
             <div class="form-element durasi_kerja">
                 <label for="" class="form-label">Durasi Pengalaman Kerja</label>
-                <input type="text" class="form-control input-text" id="durasi"value="1 Tahun">
+                <input type="text" class="form-control input-text" id="durasi"value="">
             </div>
             <div class="form-element gender">
                 <label class="form-label">Jenis Kelamin</label>
