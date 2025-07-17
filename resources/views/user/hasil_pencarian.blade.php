@@ -4,6 +4,9 @@
 @endpush
 <x-layout_user :title="'Pencarian Pengacara'">
     <div class="container">
+        <a class="button-back mt-4 d-block" href="{{ route('search.pengacara.view') }}">
+            <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
+        </a>
         <div class="search-bar p-4 rounded-4 d-flex align-items-center">
             <x-search_pengacara></x-search_pengacara>
         </div>
