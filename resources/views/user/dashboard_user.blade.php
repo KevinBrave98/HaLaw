@@ -10,39 +10,6 @@
         <div class="scroll-wrapper">
             <div class="scroll-container">
                 @foreach ($pengacara as $lawyer_card)
-                    {{-- <div class="badges">
-                        @if ($lawyer_card->chat)
-                            <span class="badge-custom">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
-                                    <path d="M8 0a8 8 0 0 0-6.84 12.29L0 16l3.71-1.16A8 8 0 1 0 8 0z" />
-                                </svg>
-                                Pesan
-                            </span>
-                        @endif
-
-                        @if ($lawyer_card->voice_chat)
-                            <span class="badge-custom">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                                </svg>
-                                Panggilan suara
-                            </span>
-                        @endif
-
-                        @if ($lawyer_card->video_call)
-                            <span class="badge-custom">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M0 5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v.5l3.5-2v9l-3.5-2V11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5z" />
-                                </svg>
-                                Panggilan Video
-                            </span>
-                        @endif
-                    </div> --}}
                     <div class="lawyer-card">
                         @if ($lawyer_card->foto_pengacara == null)
                             <div class="image_wrapper">
@@ -62,23 +29,37 @@
                                     Hukum perdata, Hukum pidana, Litigasi & Sengketa...
                                 </p>
                                 <div class="badges">
-                                    <span class="badge-custom">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6.5 0a.5.5 0 0 0-.5.5V2H3a2 2 0 0 0-2 2v1h14V4a2 2 0 0 0-2-2H10V.5a.5.5 0 0 0-.5-.5h-3zM7 2V1h2v1H7z" />
-                                            <path d="M0 5v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5H0z" />
-                                        </svg>
-                                        7 - 10 tahun
-                                    </span>
-                                    <span class="badge-custom">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M13 7c1.105 0 2-.672 2-1.5S14.105 4 13 4s-2 .672-2 1.5S11.895 7 13 7zM6.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm6.5 1c-1.183 0-3.337.356-4.5 1.21C7.337 9.356 5.183 9 4 9c-1.5 0-4 .75-4 2.25V13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-.75c0-1.5-2.5-2.25-4-2.25z" />
-                                        </svg>
-                                        40 klien
-                                    </span>
+                                    @if ($lawyer_card->chat)
+                                        <span class="badge-custom">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+                                                <path d="M8 0a8 8 0 0 0-6.84 12.29L0 16l3.71-1.16A8 8 0 1 0 8 0z" />
+                                            </svg>
+                                            Pesan
+                                        </span>
+                                    @endif
+
+                                    @if ($lawyer_card->voice_chat)
+                                        <span class="badge-custom">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                                            </svg>
+                                            Panggilan suara
+                                        </span>
+                                    @endif
+
+                                    @if ($lawyer_card->video_call)
+                                        <span class="badge-custom">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M0 5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v.5l3.5-2v9l-3.5-2V11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5z" />
+                                            </svg>
+                                            Panggilan Video
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="price-detail">
