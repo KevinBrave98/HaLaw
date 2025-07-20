@@ -1,17 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KamusController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\LawyerProfileController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\LawyerDashboardController;
+use Tests\Feature\ConsultationRoomTest;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\PembayaranController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -41,7 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
     Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
+    Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
+    Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
 });
+//  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
@@ -76,12 +82,14 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/profil_pengacara/ubah', [LawyerProfileController::class, 'edit'])->name('lawyer.profile.edit');
     Route::post('/profil_pengacara/ubah', [LawyerProfileController::class, 'update'])->name('lawyer.profile.update');
     Route::get('/keluar', [LawyerProfileController::class, 'exit'])->name('lawyer.profile.exit');
+    Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.lawyer');
+    Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
 });
 
 Route::get('/kamus', function () {
     return view('user.kamus_sebelum');
 });
 
-use App\Http\Controllers\KamusController;
 
 Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
+//  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
