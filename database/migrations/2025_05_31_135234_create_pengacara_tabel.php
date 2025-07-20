@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('jenis_kelamin')->default('Memilih tidak menjawab');
             $table->string('lokasi')->nullable();
             $table->string('spesialisasi')->nullable();
-            $table->integer('tarif_jasa')->nullable();
+            $table->integer('tarif_jasa')->default(50000);
             $table->integer('durasi_pengalaman')->nullable();
             $table->string('pengalaman_bekerja')->nullable();
             $table->string('pendidikan')->nullable();
@@ -29,6 +29,8 @@ return new class extends Migration
             $table->boolean('video_call')->default(1);
             $table->boolean('status_konsultasi')->default(0);
             $table->decimal('total_pendapatan', 15, 2)->default(0);
+            $table->string('nama_bank')->nullable();
+            $table->integer('nomor_rekening')->nullable();
             $table->string('foto_pengacara')->nullable();
             $table->string('tanda_pengenal')->nullable();
             $table->timestamps();

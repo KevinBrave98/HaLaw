@@ -33,6 +33,8 @@ class Pengacara extends Authenticatable
         'video_call',
         'status_konsultasi',
         'total_pendapatan',
+        'nama_bank',
+        'nomor_rekening',
         'foto_pengacara',
         'tanda_pengenal'
     ];
@@ -42,12 +44,12 @@ class Pengacara extends Authenticatable
         'remember_token'
     ];
 
-    public function riwayat(): HasMany
+    public function riwayats(): HasMany
     {
         return $this->hasMany(Riwayat::class, 'nik_pengacara', 'nik_pengacara');
     }
 
-    public function riwayat_dana(): HasMany
+    public function riwayat_danas(): HasMany
     {
         return $this->hasMany(RiwayatDana::class, 'nik_pengacara', 'nik_pengacara');
     }

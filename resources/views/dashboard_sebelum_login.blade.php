@@ -1,8 +1,8 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_sebelum_login.css') }}">
 @endpush
-<x-layout>
-    <x-slot:title>Home</x-slot:title>
+<x-layout :title="'Home'">
+    <x-slot:title>HaLaw</x-slot:title>
     <div class="relative">
         <div class="dasbor-top">
             <div class="banner-container">
