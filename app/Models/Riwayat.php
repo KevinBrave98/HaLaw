@@ -22,7 +22,7 @@ class Riwayat extends Model
         'nominal'
     ];
 
-    public function pesan(): HasMany
+    public function pesans(): HasMany
     {
         return $this->hasMany(Pesan::class, 'id_riwayat', 'id_riwayat');
     }

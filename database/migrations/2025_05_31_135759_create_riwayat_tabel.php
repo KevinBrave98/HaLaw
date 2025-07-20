@@ -24,7 +24,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacaras')->cascadeOnDelete();
-            $table->foreign('nik_pengguna')->references('nik_pengguna')->on('penggunas')->cascadeOnDelete();
+            $table->
+            
+            foreign('nik_pengguna')->references('nik_pengguna')->on('penggunas')->cascadeOnDelete();
         });
     }
 

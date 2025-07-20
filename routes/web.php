@@ -2,14 +2,18 @@
 
 use App\Http\Controllers\PenarikanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KamusController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\LawyerProfileController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\LawyerDashboardController;
+use Tests\Feature\ConsultationRoomTest;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PembayaranController;
@@ -59,7 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
     Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
+    Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
+    Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
 });
+//  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
@@ -101,12 +108,14 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::post('/detail_penarikan', [PenarikanController::class, 'tarikDana'])->middleware('auth:lawyer')->name('pengacara.tarikDana');
     Route::get('/hasil_penarikan', [PenarikanController::class, 'hasilpenarikan'])->name('lawyer.hasil.penarikan');
     Route::get('/penarikan_gagal', [PenarikanController::class, 'gagal'])->name('lawyer.penarikan_gagal');
+    Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.lawyer');
+    Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
 });
 
 Route::get('/kamus', function () {
     return view('user.kamus_sebelum');
 });
 
-use App\Http\Controllers\KamusController;
 
 Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
+//  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
