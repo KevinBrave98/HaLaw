@@ -3,7 +3,7 @@
 @endpush
 <x-layout_user :title="'Halaw - Metode Pembayaran'">
 <div class="d-flex border-bottom mb-3 w-100" style="height: 80px">
-  <a href="" 
+  <a href="{{ route('konsultasi.berlangsung') }}" 
      class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected" 
      style="font-weight: bold; font-size: 25px;">
     Sedang Berlangsung

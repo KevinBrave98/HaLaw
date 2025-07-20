@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('dashboard.view') }}">
                 <img src="{{ asset('assets/images/logo_putih.png') }}" alt="Bootstrap" width="auto" height="77">
             </a>
         </div>
@@ -14,7 +14,7 @@
                     <a class="nav-link" href="{{ route('login.show') }}">Konsultasi</a>
                 </li>
                 <li class="nav-item kamus">
-                    <a class="nav-link " href="#">Kamus Hukum</a>
+                    <a class="nav-link " href="{{ route('kamus') }}">Kamus Hukum</a>
                 </li>
                 <div class="profil-wrapper d-flex align-items-center">
                     <li class="nav-item m-0">

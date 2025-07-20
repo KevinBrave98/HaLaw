@@ -49,7 +49,7 @@
                             </div>
                             <div class="price-detail">
                                 <div class="harga">Rp. {{ number_format($lawyer_card->tarif_jasa, 0, ',', '.') }}</div>
-                                <a href="#" class="btn-detail">Lihat Detail</a>
+                                <a href="{{ route('detail.pengacara', $lawyer_card->nik_pengacara) }}" class="btn-detail">Lihat Detail</a>
                             </div>
                         </div>
                     </div>

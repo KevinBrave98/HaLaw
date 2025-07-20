@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pesans', function (Blueprint $table) {
             $table->id();
-            $table->string('id_riwayat');
+            $table->unsignedBigInteger('id_riwayat');
             $table->string('nik', 16);
             // $table->dateTime('waktu_pesan');
             $table->text('teks');

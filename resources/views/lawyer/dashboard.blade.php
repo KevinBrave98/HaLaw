@@ -85,7 +85,7 @@
                     <h5 class="card-title">Total Pendapatan</h5>
                     <div class="isi-card">
                         <p class="card-text"> Rp.{{ number_format($totalPendapatan, 0, ',', '.') }}</p>
-                        <a href="#" class="btn">Tarik Pendapatan</a>
+                        <a href="{{ route('lawyer.penarikan.pendapatan') }}" class="btn">Tarik Pendapatan</a>
                     </div>
                 </div>
             </div>

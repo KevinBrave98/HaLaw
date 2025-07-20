@@ -16,7 +16,7 @@ use App\Http\Controllers\LawyerDashboardController;
 use Tests\Feature\ConsultationRoomTest;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\PembayaranController;
+// use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\DetailPengacaraController;
 
@@ -28,6 +28,7 @@ Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])-
 
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
+Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
     Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
@@ -91,7 +92,7 @@ Route::post('/reset-password/pengacara', [ResetPasswordController::class, 'lawye
 
 Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.view');
 
-Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
+// Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 
 Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::get('/dashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyer.dashboard');
@@ -112,10 +113,4 @@ Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
 });
 
-Route::get('/kamus', function () {
-    return view('user.kamus_sebelum');
-});
-
-
-Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
 //  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');

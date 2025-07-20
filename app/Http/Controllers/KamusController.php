@@ -28,7 +28,7 @@ class KamusController extends Controller
         if (Auth::check()) {
             return view('user.kamus_setelah', compact('kamus', 'query', 'letter'));
         } else {
-            return view('user.kamus_sebelum', compact('kamus', 'query', 'letter'));
+            return view('kamus_sebelum', compact('kamus', 'query', 'letter'));
         }
     
     }
