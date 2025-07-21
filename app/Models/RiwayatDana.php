@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RiwayatDana extends Model
 {
-    protected $primaryKey = 'id_riwayat_dana';
+    // protected $primaryKey = 'id_riwayat_dana';
     protected $fillable = [
-        'id_riwayat_dana',
+        // 'id_riwayat_dana',
         'nik_pengacara',
         'tipe_riwayat_dana',
         'detail_riwayat_dana',
-        'tanggal_riwayat_dana',
-        'waktu_riwayat_dana',
+        // 'tanggal_riwayat_dana',
+        // 'waktu_riwayat_dana',
         'nominal',
     ];
 

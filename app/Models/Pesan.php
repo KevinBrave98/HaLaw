@@ -16,6 +16,6 @@ class Pesan extends Model
 
     public function riwayat(): BelongsTo
     {
-        return $this->belongsTo(Riwayat::class, 'id_riwayat', 'id_riwayat');
+        return $this->belongsTo(Riwayat::class, 'id_riwayat');
     }
 }
