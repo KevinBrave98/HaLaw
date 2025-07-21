@@ -29,7 +29,7 @@ Route::post('/daftar/pengacara', [RegisterController::class, 'registerLawyer'])-
 Route::get('/daftar', [RegisterController::class, 'showRegister'])->name('register.show');
 
 Route::get('/kamus', [KamusController::class, 'index'])->name('kamus');
-Route::middleware('auth')->group(function () {
+Route::middleware(['user.auth'])->group(function () {
     Route::get('/dashboard_user', [UserDashboardController::class,'greetings'])->name('dashboard.user');
     Route::get('/profil', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profil/ubah', [UserProfileController::class, 'edit'])->name('profile.edit');
@@ -71,12 +71,14 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
-Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
+Route::middleware(['guest.redirect'])->group(function () {
+    Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
+    Route::get('/masuk/pengguna', [LoginController::class, 'showLoginUser'])->name('userLogin.show');
+    Route::get('/masuk/pengacara', [LoginController::class, 'showLoginLawyer'])->name('lawyerLogin.show');
+    Route::post('/masuk/pengguna', [LoginController::class, 'loginUser'])->name('userLogin.login');
+    Route::post('/masuk/pengacara', [LoginController::class, 'loginLawyer'])->name('lawyerLogin.login');
+});
 
-Route::get('/masuk/pengguna', [LoginController::class, 'showLoginUser'])->name('userLogin.show');
-Route::get('/masuk/pengacara', [LoginController::class, 'showLoginLawyer'])->name('lawyerLogin.show');
-Route::post('/masuk/pengguna', [LoginController::class, 'loginUser'])->name('userLogin.login');
-Route::post('/masuk/pengacara', [LoginController::class, 'loginLawyer'])->name('lawyerLogin.login');
 
 Route::get('/lupa-password/pengguna', [ForgotPasswordController::class, 'showUserLinkRequestForm'])->name('userPassword.request');
 Route::post('/lupa-password/pengguna', [ForgotPasswordController::class, 'sendUserResetLinkEmail'])->name('userPassword.email');
@@ -94,7 +96,7 @@ Route::get('/', [DashboardController::class, 'dashboardView'])->name('dashboard.
 
 // Route::get(uri: '/dashboard_sebelum_login', action: [DashboardController::class, 'dashboardView'])->name('dashboard.sebelum_login');
 
-Route::prefix('lawyer')->middleware(['auth:lawyer'])->group(function () {
+Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
     Route::get('/dashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyer.dashboard');
     Route::post('/dashboard/status-toggle', [LawyerDashboardController::class, 'toggleStatus'])->name('lawyer.status.toggle');
     Route::post('/dashboard/layanan', [LawyerDashboardController::class, 'updateLayanan'])->name('lawyer.layanan.update');

@@ -17,7 +17,7 @@
                         <p class="text-light">Kami hadir untuk mendampingi setiap langkahmu mencari keadilan, karena
                             setiap orang berhak dimengerti dan dibela di hadapan hukum.</p>
                     </div>
-                    <button class="banner-btn">Konsultasi Sekarang</button>
+                    <button class="banner-btn" onclick="window.location.href = '/daftar'">Konsultasi Sekarang</button>
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
                         <p class="middle-deskripsi">Istilah hukum yang jelas adalah langkah pertama menuju keputusan
                             yang benar.</p>
                     </div>
-                    <button class="btn-kamus">Telusuri Istilah Hukum</button>
+                    <button class="btn-kamus" onclick="window.location.href = '/kamus'">Telusuri Istilah Hukum</button>
                 </div>
             </div>
         </div>

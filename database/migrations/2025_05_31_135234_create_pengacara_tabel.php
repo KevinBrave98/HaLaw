@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('chat')->default(1);
             $table->boolean('voice_chat')->default(1);
             $table->boolean('video_call')->default(1);
-            $table->boolean('status_konsultasi')->default(0);
+            $table->boolean('status_konsultasi')->default(1);
             $table->decimal('total_pendapatan', 15, 2)->default(0);
             $table->string('nama_bank')->nullable();
             $table->integer('nomor_rekening')->nullable();

@@ -23,7 +23,7 @@ class PengacaraSeeder extends Seeder
                 'nama_pengacara' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => Hash::make('pengacara123'), // default password
-                'nomor_telepon' => $faker->unique()->phoneNumber,
+                'nomor_telepon' => $faker->unique()->e164phoneNumber,
                 'jenis_kelamin' => $faker->randomElement(['Laki-laki', 'Perempuan', 'Memilih tidak menjawab']),
                 'lokasi' => $faker->city,
                 'spesialisasi' => $faker->randomElement(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Tata Negara']),

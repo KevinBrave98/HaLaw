@@ -16,7 +16,9 @@ class Riwayat extends Model
         'tanggal',
         'waktu',
         'status',
-        'jenis_layanan',
+        'chat',
+        'voice_chat',
+        'video_call',
         'penilaian',
         'ulasan',
         'nominal'

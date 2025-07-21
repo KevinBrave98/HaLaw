@@ -18,7 +18,9 @@ return new class extends Migration
             // $table->date('tanggal');
             // $table->time('waktu');
             $table->string('status');
-            // $table->string('jenis_layanan');
+            $table->boolean('chat')->default(1);
+            $table->boolean('voice_chat')->default(1);
+            $table->boolean('video_call')->default(1);
             $table->integer('penilaian')->nullable();
             $table->text('ulasan')->nullable();
             $table->timestamps();

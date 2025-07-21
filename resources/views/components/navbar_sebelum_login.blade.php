@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-navbox me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.sebelum_login') }}">Dasbor</a>
+                    <a class="nav-link" href="{{ route('dashboard.view') }}">Dasbor</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login.show') }}">Konsultasi</a>
