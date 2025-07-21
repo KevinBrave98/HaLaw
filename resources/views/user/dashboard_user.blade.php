@@ -61,7 +61,7 @@
     <div class="search-wrapper mx-auto mt-5 d-flex flex-column align-items-center">
         <div class="search-header">Telusuri Pengacara</div>
         <div class="search-bar p-4 rounded-4 d-flex align-items-center">
-            <x-search_pengacara></x-search_pengacara>
+            <x-search_pengacara :hargaMin="$harga_min" :hargaMax="$harga_max"></x-search_pengacara>
         </div>
     </div>
 

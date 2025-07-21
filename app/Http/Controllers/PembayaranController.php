@@ -9,10 +9,10 @@ use Midtrans\Snap;
 
 class PembayaranController extends Controller
 {
-    
-    public function show()
+
+    public function show($id)
     {
-        $lawyer = Pengacara::where('nik_pengacara', '0347522761319141')->first();
+        $lawyer = Pengacara::where('nik_pengacara', $id)->first();
 
         $total_klien = DB::table('pengacaras')
             ->join('riwayats', 'pengacaras.nik_pengacara', '=', 'riwayats.nik_pengacara')

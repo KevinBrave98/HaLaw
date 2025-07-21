@@ -38,7 +38,7 @@ Route::middleware(['user.auth'])->group(function () {
     Route::post('/dashboard_user', [SearchController::class, 'search'])->name('dashboard.search.lawyer');
     Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
     Route::post('/hasil_pencarian', [SearchController::class, 'search'])->name('search.pengacara.search');
-    Route::get('/pembayaran', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
+    Route::get('/pembayaran/{id}', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
     // Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
     // Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
     // Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});

@@ -35,10 +35,6 @@
             <label for="" class="form-label">Lokasi Tempat Kerja</label>
             <input readonly type="text" class="form-control input-lokasi" value="{{ $pengacara->lokasi }}">
         </div>
-        <div class="form-element tarifJasa">
-            <label for="" class="form-label">Tarif jasa</label>
-            <input readonly type="text" class="form-control input-tarifJasa" value="{{ $pengacara->tarif_jasa }}">
-        </div>
         <div class="form-element spesialisasi">
             <label for="" class="form-label">Spesialisasi</label>
             <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties"
@@ -78,6 +74,13 @@
         <div class="form-element jenis_layanan mb-5">
             <label for="" class="form-label">Jenis Layanan</label>
             <input readonly type="text" class="form-control input-text" value="{{ implode(', ', $layanan) }}">
+        </div>
+        <div class="d-flex flex-column align-items-center">
+            <h4>Tarif Jasa</h4>
+            <h2>Rp{{ number_format($pengacara->tarif_jasa, 0, ',', '.') }}</h2>
+        </div>
+        <div class="button-exit d-flex justify-content-center" style="margin-top: 0px;">
+            <button onclick="window.location.href='{{ route('pembayaran.pengacara', ['id' => $pengacara->nik_pengacara]) }}'">Konsultasi Sekarang</button>
         </div>
     </div>
 </x-layout_user>
