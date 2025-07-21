@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Riwayat;
+use App\Models\Pengacara;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Integer;
 use App\Http\Controllers\Pengguna;
-use Illuminate\Support\Facades\DB;
 // use App\Http\Controllers\pengacara;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller

@@ -37,7 +37,7 @@
                             <option value="Hukum Keluarga">Hukum Keluarga</option>
                             <option value="Hukum Perusahaan">Hukum Perusahaan</option>
                             <option value="Hukum Hak Kekayaan Intelektual">Hukum Hak Kekayaan Intelektual</option>
-                            <option value="Hukum Pajak">Hukum Oajak</option>
+                            <option value="Hukum Pajak">Hukum Pajak</option>
                             <option value="Hukum Kepailitan">Hukum Kepailitan</option>
                             <option value="Hukum Lingkungan Hidup">Hukum Lingkungan Hidup</option>
                             <option value="Hukum Kepentingan Publik">Hukum Kepentingan Publik</option>
