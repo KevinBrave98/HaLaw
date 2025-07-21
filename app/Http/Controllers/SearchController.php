@@ -10,6 +10,10 @@ class SearchController extends Controller
 {
     public function view()
     {
+        $lawyers = Pengacara::where('status_konsultasi', 1);
+        $harga_max = $lawyers->max('tarif_jasa');
+        $harga_min = $lawyers->min('tarif_jasa');
+
         $request = request();
         $filters = session('filters', []);
         $lawyers_search = session('lawyers_search', []);
@@ -44,11 +48,14 @@ class SearchController extends Controller
             return redirect()->route('search.pengacara.search');
         }
 
-        return view('user.hasil_pencarian', compact('lawyers_search', 'filters', 'layananLabels'));
+        return view('user.hasil_pencarian', compact('lawyers_search', 'filters', 'layananLabels', 'harga_max', 'harga_min'));
     }
 
     public function search(Request $request)
     {
+        $lawyers = Pengacara::where('status_konsultasi', 1);
+        $harga_max = $lawyers->max('tarif_jasa');
+        $harga_min = $lawyers->min('tarif_jasa');
         $query = $request->nama_pengacara;
         $lawyers = DB::table('pengacaras')->where('status_konsultasi', 1);
         if ($query) {
@@ -79,7 +86,8 @@ class SearchController extends Controller
         $max = $request->input('max_price');
 
         if (!is_null($min) && !is_null($max)) {
-            $lawyers = $lawyers->whereBetween('tarif_jasa', [$min, $max]);
+            $lawyers = $lawyers->where('tarif_jasa', '>=', $min)
+                ->where('tarif_jasa', '<=', $max);
         }
 
         // Ambil hasil dan simpan session
@@ -95,6 +103,6 @@ class SearchController extends Controller
                 'max_price' => $max,
             ],
         ]);
-        return redirect()->route('search.pengacara.view');
+        return redirect()->route('search.pengacara.view', compact('harga_max', 'harga_min'));
     }
 }

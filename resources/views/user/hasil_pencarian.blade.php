@@ -8,7 +8,7 @@
             <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
         </a>
         <div class="search-bar p-4 rounded-4 d-flex align-items-center">
-            <x-search_pengacara></x-search_pengacara>
+             <x-search_pengacara :hargaMin="$harga_min" :hargaMax="$harga_max"></x-search_pengacara>
         </div>
         <h2 class="fw-bold">Filter Pencarian</h2>
         {{-- Filter Tags --}}
