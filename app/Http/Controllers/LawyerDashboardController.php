@@ -18,8 +18,8 @@ class LawyerDashboardController extends Controller
 
 
         $pengacara = Pengacara::where('email', Auth::guard('lawyer')->user()->email)->first();
-        $status_konsultasi = DB::table('pengacaras')->value('status_konsultasi');
-        $totalPendapatan = DB::table('pengacaras')->value('total_pendapatan');
+        $status_konsultasi = $pengacara->status_konsultasi;
+        $totalPendapatan = $pengacara->total_pendapatan;
 
         $penilaian = DB::table('pengacaras')
         ->join('riwayats', 'pengacaras.nik_pengacara', '=', 'riwayats.nik_pengacara')

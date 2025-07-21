@@ -2,6 +2,12 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/lawyer_dashboard.css') }}">
 @endpush
 <x-layout_lawyer :title="'Halaw - Dashboard Lawyer'">
+    @if (session('notification'))
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ session('notification') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="container">
         <div class="greetings">
             <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>
@@ -104,6 +110,8 @@
             </div>
         </div>
     </div>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script>
         const checkboxes = document.querySelectorAll('.layanan-checkbox');
         const layananTerpilih = document.getElementById('layanan-terpilih');
@@ -120,5 +128,19 @@
 
         checkboxes.forEach(cb => cb.addEventListener('change', updateLayanan));
         updateLayanan();
+
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
+            cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+            forceTLS: true
+        });
+
+        const pengacaraId = {{ $pengacara->id }};
+        const channel = pusher.subscribe('pengacara.' + pengacaraId);
+
+        channel.bind('App\\Events\\KonsultasiBaruEvent', function(data) {
+            alert(data.message); // atau pakai modal / tampilan notif HTML
+        });
     </script>
 </x-layout_lawyer>

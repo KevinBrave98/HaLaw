@@ -96,3 +96,15 @@ if (riwayatId) {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     });
 }
+
+// --- NOTIFIKASI PEMBAYARAN BERHASIL ---
+
+const nikPengacara = document.querySelector('meta[name="user-nik"]')?.getAttribute("content");
+
+if (nikPengacara) {
+    Echo.private(`lawyer.${nikPengacara}`)
+        .listen('.pembayaran.berhasil', (e) => {
+            console.log('Notifikasi pembayaran diterima:', e);
+            alert(`Pembayaran baru dari ${e.pengguna.nama_pengguna}`);
+        });
+}
