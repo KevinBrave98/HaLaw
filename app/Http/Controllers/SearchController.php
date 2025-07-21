@@ -13,13 +13,13 @@ class SearchController extends Controller
         $lawyers = Pengacara::where('status_konsultasi', 1);
         $harga_max = $lawyers->max('tarif_jasa');
         $harga_min = $lawyers->min('tarif_jasa');
-
         if($harga_max % 1000 != 0) {
             $harga_max += 1000 - ($harga_max % 1000);
+            // dd($harga_max);
         }
 
         if($harga_min % 1000 != 0) {
-            $harga_min -= 1000 - ($harga_min % 1000);
+            $harga_min -= 1000 + ($harga_min % 1000);
         }
 
         $request = request();
@@ -67,10 +67,11 @@ class SearchController extends Controller
 
         if($harga_max % 1000 != 0) {
             $harga_max += 1000 - ($harga_max % 1000);
+            // dd($harga_max);
         }
 
         if($harga_min % 1000 != 0) {
-            $harga_min -= 1000 - ($harga_min % 1000);
+            $harga_min -= 1000 + ($harga_min % 1000);
         }
 
         $query = $request->nama_pengacara;
