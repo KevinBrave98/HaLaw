@@ -13,16 +13,16 @@ class ConsultationController extends Controller
 {
     public function index($id)
     {
-        $riwayat = Riwayat::where('id_riwayat', $id)->first();
+        $riwayat = Riwayat::where('id', $id)->first();
         if ($riwayat) {
             $pesan = $riwayat->pesans;
         } else {
             if (Auth::guard('web')->check()) {
-                return redirect()->route('dashboard.user');
+                return redirect()->route('konsultasi.berlangsung');
             } else if (Auth::guard('lawyer')->check()) {
                 return redirect()->route('lawyer.dashboard');
             } else {
-                return redirect()->route('dashboard.sebelum_login');
+                return redirect()->route('dashboard.view');
             }
         }
         if (Auth::guard('web')->check()) {
@@ -30,7 +30,7 @@ class ConsultationController extends Controller
         } else if (Auth::guard('lawyer')->check()) {
             return view('lawyer.lawyer_discussion', compact('riwayat', 'pesan'));
         } else {
-            return redirect()->route('dashboard.sebelum_login');
+            return redirect()->route('dashboard.view');
         }
     }
 

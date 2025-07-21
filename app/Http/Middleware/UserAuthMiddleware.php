@@ -18,14 +18,15 @@ class UserAuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         // Check if user is authenticated using the 'web' guard (default user guard)
-        if (!Auth::guard('web')->check()) {
+        if (Auth::guard('lawyer')->check()) {
+            return redirect()->route('lawyer.dashboard');
+        }
+
+        if (!Auth::check()) {
             return redirect()->route('login.show');
         }
 
         // If lawyer is logged in instead of user, redirect to lawyer dashboard
-        if (Auth::guard('lawyer')->check()) {
-            return redirect()->route('lawyer.dashboard');
-        }
 
         return $next($request);
     }

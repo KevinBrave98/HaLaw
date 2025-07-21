@@ -21,7 +21,7 @@
                         <a class="nav-link" href="{{ route('lawyer.profile.show') }}">Profil</a>
                     </li>
                     <div class="container-profil">
-                        <a class="navbar-brand" href="{{ route('lawyer.profile.show') }">
+                        <a class="navbar-brand" href="{{ route('lawyer.profile.show') }}">
                              {{-- @if ($pengacara->foto_pengacara)
                                 <img src="{{ asset('storage/'. $pengacara->foto_pengacara) }}" alt="foto_pengacara" class="rounded-circle" width="45" height="45">
                             @else --}}

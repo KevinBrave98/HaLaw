@@ -58,7 +58,7 @@
             @endforeach
         </section>
         <section class="d-flex flex-row discussion-input w-100 p-4 mt-4">
-            <form action="{{ route('consultation.client.send', ['id' => $riwayat->id_riwayat]) }}" method="POST" id="form_masuk" class="d-flex flex-row w-100 gap-4 form_kirim_chat" data-riwayat-id="{{ $riwayat->id_riwayat }}">
+            <form action="{{ route('consultation.client.send', ['id' => $riwayat->id]) }}" method="POST" id="form_masuk" class="d-flex flex-row w-100 gap-4 form_kirim_chat" data-riwayat-id="{{ $riwayat->id_riwayat }}">
                 @csrf
                 <a href="#">
                     <img src="{{ asset('assets/images/ant-design_paper-clip-outlined(1).png') }}">
