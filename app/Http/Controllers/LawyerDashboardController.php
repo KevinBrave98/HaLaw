@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Riwayat;
 use App\Models\Pengacara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,12 @@ class LawyerDashboardController extends Controller
 {
     public function dashboard()
     {
+        // $pengacara = Auth::guard('lawyer')->user();
+        $konsultasi = Riwayat::findOrFail(1);
+        $konsultasi->status = 'dibatalkan';
+        $konsultasi->save();
+
+
         $pengacara = Pengacara::where('email', Auth::guard('lawyer')->user()->email)->first();
         $status_konsultasi = DB::table('pengacaras')->value('status_konsultasi');
         $totalPendapatan = DB::table('pengacaras')->value('total_pendapatan');

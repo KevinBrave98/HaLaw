@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class KonsultasiDibatalkanNotification extends Notification
+class NotifPengacara extends Notification
 {
    use Queueable;
 
@@ -26,7 +26,7 @@ class KonsultasiDibatalkanNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Konsultasi dengan Pengacara   ' . $this->riwayat->pengacara->nama_pengacara . ' telah dibatalkan.',
+            'message' => 'Konsultasi dengan Pengguna   ' . $this->riwayat->pengguna->nama_pengguna . ' telah dibatalkan.',
             'status' => $this->riwayat->status,
         ];
     }

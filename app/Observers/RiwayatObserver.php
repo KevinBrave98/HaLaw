@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Riwayat;
+use App\Notifications\NotifPengacara;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\KonsultasiDibatalkanNotification;
 
@@ -35,7 +36,7 @@ class RiwayatObserver
             }
 
             if ($pengacara) {
-                Notification::send($pengacara, new KonsultasiDibatalkanNotification($riwayat));
+                Notification::send($pengacara, new NotifPengacara($riwayat));
             }
         }
     }

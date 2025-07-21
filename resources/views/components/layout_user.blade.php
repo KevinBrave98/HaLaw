@@ -25,14 +25,35 @@
 
     <x-navbar_user :pengguna=$pengguna />
     <main>
-        @foreach (auth()->user()->notifications as $notif)
-            <div class="alert alert-info">
+        @foreach (auth()->user()->unreadNotifications as $notif)
+            <div class="alert alert-info mb-2 notification-item" data-id="{{ $notif->id }}">
                 {{ $notif->data['message'] }}
             </div>
         @endforeach
+
         {{ $slot }}
     </main>
     <x-footer />
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.notification-item').forEach(el => {
+                const id = el.dataset.id;
+
+                // Hapus dari UI
+                el.remove();
+
+                // Kirim request hapus ke controller
+                fetch('/delete-notification/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+            });
+        }, 2000); // 3 detik delay
+    </script>
     @stack('scripts')
 </body>
 

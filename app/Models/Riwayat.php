@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Riwayat extends Model
 {
-    protected $primaryKey = 'id_riwayat';
+    // protected $primaryKey = 'id_riwayat';
     protected $fillable = [
-        'id_riwayat',
+        // 'id',
         'nik_pengacara',
         'nik_pengguna',
         'tanggal',

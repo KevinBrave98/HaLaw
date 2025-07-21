@@ -15,7 +15,7 @@ class UserDashboardController extends Controller
     {
         $pengacara = DB::table('pengacaras')->inRandomOrder()->limit(5)->get();
         $pengguna = Auth::user();
-        $konsultasi = Riwayat::findOrFail(0);
+        $konsultasi = Riwayat::findOrFail(1);
         $konsultasi->status = 'dibatalkan';
         $konsultasi->save();
         return view('user.dashboard_user', compact('pengacara', 'pengguna'));
