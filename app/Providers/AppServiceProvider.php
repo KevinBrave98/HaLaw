@@ -2,13 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Riwayat;
 use App\Models\Pengguna;
 use App\Models\Pengacara;
+use App\Observers\RiwayatObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use App\View\Composers\NavbarComposer;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
-use App\View\Composers\NavbarComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('components.layout_user', NavbarComposer::class);
         View::composer('components.layout_lawyer', NavbarComposer::class);
+        Riwayat::observe(RiwayatObserver::class);
     }
 }

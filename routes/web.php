@@ -1,24 +1,25 @@
 <?php
 
-use App\Http\Controllers\PenarikanController;
 use Illuminate\Support\Facades\Route;
+use Tests\Feature\ConsultationRoomTest;
 use App\Http\Controllers\KamusController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PenarikanController;
+use App\Http\Controllers\KonsultasiController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\LawyerProfileController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\DetailPengacaraController;
+// use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LawyerDashboardController;
-use Tests\Feature\ConsultationRoomTest;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-// use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\KonsultasiController;
-use App\Http\Controllers\DetailPengacaraController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -114,5 +115,7 @@ Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.lawyer');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
 });
+Route::post('/delete-notification/{id}', [NotifikasiController::class, 'hapus'])->name('notifikasi.hapus');
+Route::post('/delete-notification-pengacara/{id}', [NotifikasiController::class, 'hapusnotifpengacara']);
 
 //  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
