@@ -30,7 +30,6 @@
                 {{ $notif->data['message'] }}
             </div>
         @endforeach
-
         {{ $slot }}
     </main>
     <x-footer />
@@ -52,7 +51,8 @@
                     }
                 });
             });
-        }, 2000); 
+        }, 2000);
+    </script>
     @stack('scripts')
 </body>
 
