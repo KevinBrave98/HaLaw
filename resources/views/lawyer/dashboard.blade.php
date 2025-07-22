@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/lawyer_dashboard.css') }}">
 @endpush
 <x-layout_lawyer :title="'Halaw - Dashboard Lawyer'">
-    <input type="hidden" id="nik_pengacara" value="{{ auth('lawyer')->user()->nik_pengacara }}">
     <div class="container">
         <div class="greetings">
             <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>
@@ -104,38 +103,138 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-4">
+            <div id="notifikasi-box" style="
+                display: none;
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #fff7e6;
+                border: 1px solid #f4d03f;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                z-index: 9999;
+                width: 300px;
+            ">
+                <!-- Akan diisi oleh JS -->
+            </div>
+        </div>
     </div>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        const checkboxes = document.querySelectorAll('.layanan-checkbox');
-        const layananTerpilih = document.getElementById('layanan-terpilih');
+<script>
+    const checkboxes = document.querySelectorAll('.layanan-checkbox');
+    const layananTerpilih = document.getElementById('layanan-terpilih');
 
-        function updateLayanan() {
-            const aktif = Array.from(checkboxes)
+    function updateLayanan() {
+        const aktif = Array.from(checkboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-            layananTerpilih.textContent = aktif.length > 0
+        layananTerpilih.textContent = aktif.length > 0
             ? 'Layanan Anda Saat Ini : ' + aktif.join(', ')
             : 'Layanan Anda Saat Ini : -';
-        }
+    }
 
-        checkboxes.forEach(cb => cb.addEventListener('change', updateLayanan));
-        updateLayanan();
+    checkboxes.forEach(cb => cb.addEventListener('change', updateLayanan));
+    updateLayanan();
 
-        Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
 
+    const pengacaraId = {{ $pengacaraId ?? 'null' }};
+    if (pengacaraId) {
         const pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
             cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
             forceTLS: true
         });
 
-        const pengacaraId = {{ $pengacara->id }};
         const channel = pusher.subscribe('pengacara.' + pengacaraId);
-
         channel.bind('App\\Events\\KonsultasiBaruEvent', function(data) {
-            alert(data.message); // atau pakai modal / tampilan notif HTML
+            alert(data.message);
         });
-    </script>
+    }
+
+    // === NOTIFIKASI LOGIC DIBAWAH INI ===
+    let pollingInterval;
+    let notifikasiAktif = false;
+
+    function mulaiPolling() {
+        pollingInterval = setInterval(() => {
+            if (!notifikasiAktif) {
+                fetch("/lawyer/notifikasi-konsultasi")
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ada_notifikasi) {
+                            tampilkanNotifikasi(data.data);
+                            notifikasiAktif = true;
+                            clearInterval(pollingInterval); // stop polling
+                        } else {
+                            document.getElementById("notifikasi-box").style.display = 'none';
+                        }
+                    });
+            }
+        }, 5000);
+    }
+
+    function tampilkanNotifikasi(riwayats) {
+        const box = document.getElementById("notifikasi-box");
+        box.innerHTML = '';
+        box.style.display = 'block';
+
+        riwayats.forEach(riwayat => {
+            const div = document.createElement('div');
+            div.className = 'alert alert-warning alert-dismissible fade show shadow-sm mb-3';
+            div.role = 'alert';
+            div.innerHTML = `
+                <strong>Konsultasi Baru!</strong><br>
+                Klien: ${riwayat.nama_pengguna ?? 'Tidak Diketahui'}<br>
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-success me-1" onclick="konfirmasi(${riwayat.id})">Konfirmasi</button>
+                    <button class="btn btn-sm btn-danger" onclick="batalkan(${riwayat.id})">Batalkan</button>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            box.appendChild(div);
+        });
+    }
+
+    function setelahNotifikasiDiproses() {
+        const box = document.getElementById("notifikasi-box");
+        box.innerHTML = '';
+        box.style.display = 'none';
+        notifikasiAktif = false;
+        mulaiPolling(); // mulai polling ulang
+    }
+
+    function konfirmasi(id) {
+        fetch(`/lawyer/konsultasi/${id}/konfirmasi`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.success) {
+                setelahNotifikasiDiproses();
+            }
+        });
+    }
+
+    function batalkan(id) {
+        fetch(`/lawyer/konsultasi/${id}/batalkan`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.success) {
+                setelahNotifikasiDiproses();
+            }
+        });
+    }
+
+    // Mulai polling saat halaman selesai dimuat
+    document.addEventListener('DOMContentLoaded', mulaiPolling);
+</script>
 </x-layout_lawyer>

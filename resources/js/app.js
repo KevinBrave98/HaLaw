@@ -96,15 +96,3 @@ if (riwayatId) {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     });
 }
-
-// --- NOTIFIKASI PEMBAYARAN BERHASIL ---
-
-const nikPengacara = document.querySelector('meta[name="user-nik"]')?.getAttribute("content");
-
-if (nikPengacara) {
-    Echo.private(`pengacara.${nikPengacara}`)
-        .listen('.pembayaran.dikonfirmasi', (e) => {
-            console.log('Notifikasi pembayaran diterima:', e);
-            alert(`Klien ${e.nama_pengguna} telah membayar!`);
-        });
-}

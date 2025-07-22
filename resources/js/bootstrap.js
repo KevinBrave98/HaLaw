@@ -44,14 +44,3 @@ window.Echo = new Echo({
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allow your team to quickly build robust real-time web applications.
  */
-
-import './echo';
-
-window.io = require('socket.io-client');
-
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001', // port dari laravel-echo-server
-    authEndpoint: '/broadcasting/auth',
-    csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-});

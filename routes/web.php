@@ -20,6 +20,7 @@ use App\Http\Controllers\DetailPengacaraController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+// use App\Http\Controllers\PembayaranController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -114,6 +115,9 @@ Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
     Route::get('/penarikan_gagal', [PenarikanController::class, 'gagal'])->name('lawyer.penarikan_gagal');
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.lawyer');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
+    Route::get('/notifikasi-konsultasi', [NotifikasiController::class, 'cekNotifikasi']);
+    Route::post('/konsultasi/{id}/konfirmasi', [NotifikasiController::class, 'konfirmasi']);
+    Route::post('/konsultasi/{id}/batalkan', [NotifikasiController::class, 'batalkan']);
 });
 Route::post('/delete-notification/{id}', [NotifikasiController::class, 'hapus'])->name('notifikasi.hapus');
 Route::post('/delete-notification-pengacara/{id}', [NotifikasiController::class, 'hapusnotifpengacara']);

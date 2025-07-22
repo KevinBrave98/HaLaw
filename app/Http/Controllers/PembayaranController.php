@@ -68,22 +68,18 @@ class PembayaranController extends Controller
         $cek = DB::table('riwayats')->where([
             ['nik_pengacara', '=', $request->nik_pengacara],
             ['nik_pengguna', '=', $user->nik_pengguna],
-            ['status', '=', 'sedang'],
+            ['status', '=', 'sedang berlangsung'],
         ])->first();
 
         if (!$cek) {
             DB::table('riwayats')->insert([
                 'nik_pengacara' => $request->nik_pengacara,
                 'nik_pengguna' => $user->nik_pengguna,
-                'status' => 'sedang berlangsung',
+                'status' => 'menunggu konfirmasi',
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
         }
-
-        $nik_pengacara = $request->nik_pengacara;
-
-        event(new PembayaranDikonfirmasi($user->nama_pengguna, $nik_pengacara));
 
         return response()->json(['message' => 'Berhasil disimpan'], 200);
     }
