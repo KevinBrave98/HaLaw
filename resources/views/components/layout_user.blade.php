@@ -33,7 +33,6 @@
                 {{ $notif->data['message'] }}
             </div>
         @endforeach
-
         {{ $slot }}
     </main>
     <x-footer />
@@ -55,7 +54,7 @@
                     }
                 });
             });
-        }, 2000); // 3 detik delay
+        }, 2000);
     </script>
     @stack('scripts')
 </body>
