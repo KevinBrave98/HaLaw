@@ -52,8 +52,7 @@
                     }
                 });
             });
-        }, 2000); // 3 detik delay
-    </script>
+        }, 2000); 
     @stack('scripts')
 </body>
 
