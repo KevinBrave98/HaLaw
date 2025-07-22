@@ -69,7 +69,9 @@ class NotifikasiController extends Controller
         $riwayat->status = 'sedang berlangsung';
         $riwayat->save();
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true,
+            'redirect' => route('consultation.lawyer', ['id' => $riwayat->id])]);
+        
     }
 
     public function batalkan($id)

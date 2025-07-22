@@ -189,7 +189,7 @@
                 <strong>Konsultasi Baru!</strong><br>
                 Klien: ${riwayat.nama_pengguna ?? 'Tidak Diketahui'}<br>
                 <div class="mt-2">
-                    <button class="btn btn-sm btn-success me-1" onclick="konfirmasi(${riwayat.id})">Konfirmasi</button>
+                    <button class="btn btn-sm btn-success me-1" onclick="konfirmasi(${riwayat.id})">Lanjut ke Chat</button>
                     <button class="btn btn-sm btn-danger" onclick="batalkan(${riwayat.id})">Batalkan</button>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -215,6 +215,7 @@
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
+                window.location.href = `/lawyer/chatroom/${id}`;
                 setelahNotifikasiDiproses();
             }
         });

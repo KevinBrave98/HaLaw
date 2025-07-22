@@ -1,7 +1,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/konsultasi.css') }}">
 @endpush
-<x-layout_user :title="'Halaw - Metode Pembayaran'">
+<x-layout_user :title="'Halaw - Konsultasi Sedang Berlangsung'">
 <div class="d-flex border-bottom mb-3 w-100" style="height: 80px">
   <a href="{{ route('konsultasi.berlangsung') }}" 
      class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected" 
