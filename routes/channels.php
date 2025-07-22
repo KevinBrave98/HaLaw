@@ -22,6 +22,6 @@ Broadcast::channel('chatroom.{id}', function ($user, $id) {
     return $currentUserNik === $riwayat->nik_pengguna || $currentUserNik === $riwayat->nik_pengacara;
 });
 
-Broadcast::channel('lawyer.{nik_pengacara}', function ($user, $nik_pengacara) {
-    return auth('lawyer')->check() && auth('lawyer')->user()->nik_pengacara === $nik_pengacara;
-});
+Broadcast::channel('pengacara.{nik_pengacara}', function ($lawyer, $nik_pengacara) {
+    return $lawyer->nik_pengacara === $nik_pengacara;
+}, ['guards' => ['lawyer']]);

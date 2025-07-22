@@ -102,9 +102,9 @@ if (riwayatId) {
 const nikPengacara = document.querySelector('meta[name="user-nik"]')?.getAttribute("content");
 
 if (nikPengacara) {
-    Echo.private(`lawyer.${nikPengacara}`)
-        .listen('.pembayaran.berhasil', (e) => {
+    Echo.private(`pengacara.${nikPengacara}`)
+        .listen('.pembayaran.dikonfirmasi', (e) => {
             console.log('Notifikasi pembayaran diterima:', e);
-            alert(`Pembayaran baru dari ${e.pengguna.nama_pengguna}`);
+            alert(`Klien ${e.nama_pengguna} telah membayar!`);
         });
 }

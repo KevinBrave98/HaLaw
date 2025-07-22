@@ -2,12 +2,7 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/lawyer_dashboard.css') }}">
 @endpush
 <x-layout_lawyer :title="'Halaw - Dashboard Lawyer'">
-    @if (session('notification'))
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            {{ session('notification') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <input type="hidden" id="nik_pengacara" value="{{ auth('lawyer')->user()->nik_pengacara }}">
     <div class="container">
         <div class="greetings">
             <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>

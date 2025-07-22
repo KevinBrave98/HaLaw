@@ -86,6 +86,11 @@ return [
             'driver' => 'null',
         ],
 
+        'guards' => [
+            'web',
+            'lawyer', // tambahkan ini
+        ],
+
     ],
 
 ];

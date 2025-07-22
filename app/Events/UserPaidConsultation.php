@@ -12,19 +12,24 @@ use Illuminate\Queue\SerializesModels;
 
 class UserPaidConsultation implements ShouldBroadcast
 {
-    use InteractsWithSockets;
+    use SerializesModels;
 
-    public $user;
+    public $nama_pengguna;
     public $nik_pengacara;
 
-    public function __construct($user, $nik_pengacara)
+    public function __construct($nama_pengguna, $nik_pengacara)
     {
-        $this->user = $user;
+        $this->nama_pengguna = $nama_pengguna;
         $this->nik_pengacara = $nik_pengacara;
     }
 
     public function broadcastOn()
     {
         return new PrivateChannel('pengacara.' . $this->nik_pengacara);
+    }
+
+    public function broadcastAs()
+    {
+        return 'pembayaran.dikonfirmasi';
     }
 }

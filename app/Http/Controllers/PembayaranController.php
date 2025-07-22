@@ -81,11 +81,9 @@ class PembayaranController extends Controller
             ]);
         }
 
-        $pengacara = DB::table('pengacaras')->where('nik_pengacara', $request->nik_pengacara)->first();
+        $nik_pengacara = $request->nik_pengacara;
 
-        if ($pengacara) {
-            event(new UserPaidConsultation($user, $pengacara->nik_pengacara));
-        }
+        event(new PembayaranDikonfirmasi($user->nama_pengguna, $nik_pengacara));
 
         return response()->json(['message' => 'Berhasil disimpan'], 200);
     }
