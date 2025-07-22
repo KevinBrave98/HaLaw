@@ -23,13 +23,17 @@
                         order_id: result.order_id,
                         nik_pengacara: '{{ $lawyer->nik_pengacara }}'
                     })
-                }).then(response => {
-                    if(response.ok){
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success){
+                        // Tunggu konfirmasi sukses dari backend
                         window.location.href = "/konsultasi/sedang-berlangsung";
                     } else {
                         alert("Gagal menyimpan riwayat.");
                     }
-                }).catch(error => {
+                })
+                .catch(error => {
                     alert("Gagal menyimpan riwayat. Coba lagi.");
                 });
             },

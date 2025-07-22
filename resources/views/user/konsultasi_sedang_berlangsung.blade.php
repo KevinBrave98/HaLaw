@@ -14,7 +14,7 @@
     Riwayat Konsultasi
   </a>
 </div>
-<div class="container mt-4" style="padding: 20px">
+<div class="container mt-4" id="konsultasi-list" style="padding: 20px">
     @foreach($riwayats as $riwayat)
     <div class="card shadow-sm mb-3" style="border: 1px solid #B99010; background-color: #fdf5ee;">
         <div class="card-body d-flex align-items-center justify-content-between flex-wrap">

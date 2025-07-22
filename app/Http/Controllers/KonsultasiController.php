@@ -29,6 +29,10 @@ class KonsultasiController extends Controller
             )
             ->get();
 
-        return view('user.konsultasi_sedang_berlangsung', compact('riwayats'));
+        return response()
+            ->view('user.konsultasi_sedang_berlangsung', compact('riwayats'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 }
