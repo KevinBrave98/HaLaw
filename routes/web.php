@@ -16,11 +16,9 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\LawyerProfileController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\DetailPengacaraController;
-// use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-// use App\Http\Controllers\PembayaranController;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
