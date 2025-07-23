@@ -6,6 +6,7 @@ use App\Models\Riwayat;
 use App\Models\Pengguna;
 use App\Models\Pengacara;
 use App\Observers\RiwayatObserver;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\View\Composers\NavbarComposer;
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         View::composer('components.layout_user', NavbarComposer::class);
         View::composer('components.layout_lawyer', NavbarComposer::class);
         Riwayat::observe(RiwayatObserver::class);
