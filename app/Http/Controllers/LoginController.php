@@ -50,7 +50,7 @@ class LoginController extends Controller
 
          if(Auth::guard('lawyer')->attempt($validated)){
             $request->session()->regenerate();
-            return redirect()->route('dashboard.view');
+            return redirect()->route('lawyer.dashboard');
         };
 
         return back()->withErrors([
@@ -66,7 +66,7 @@ class LoginController extends Controller
 
         if(Auth::attempt($validated)){
             $request->session()->regenerate();
-            return redirect()->route('dashboard.view');
+            return redirect()->route('dashboard.user');
         };
 
         return back()->withErrors([

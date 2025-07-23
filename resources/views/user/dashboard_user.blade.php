@@ -88,7 +88,7 @@
             <h1>Pahami Sebelum Bertindak</h1>
             <h5>Istilah hukum yang jelas adalah langkah pertama menuju keputusan yang benar.</h5>
             <div class="telusuri">
-                <button type="button" class="button btn btn-lg">Telusuri Istilah Hukum</button>
+                <button type="button" class="button btn btn-lg" onclick="window.location.href = 'kamus'">Telusuri Istilah Hukum</button>
             </div>
         </div>
     </div>

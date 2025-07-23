@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pengacara;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Config;
+use App\Models\Pengacara;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PembayaranController extends Controller
 {
@@ -35,9 +36,9 @@ class PembayaranController extends Controller
                 'gross_amount' => $total_biaya,
             ],
             'customer_details' => [
-                'first_name' => auth()->user()->nama_pengguna,
-                'email' => auth()->user()->email,
-                'phone' => auth()->user()->nomor_telepon,
+                'first_name' => Auth::user()->nama_pengguna,
+                'email' => Auth::user()->email,
+                'phone' => Auth::user()->nomor_telepon,
             ],
             'callbacks' => [
                 'finish' => url('/konsultasi/sedang-berlangsung')
@@ -62,7 +63,7 @@ class PembayaranController extends Controller
 
     public function storeRiwayat(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Cek dulu apakah sudah ada riwayat untuk user ini dengan pengacara itu
         $cek = DB::table('riwayats')->where([
