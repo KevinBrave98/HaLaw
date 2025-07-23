@@ -15,8 +15,8 @@ class KonsultasiController extends Controller
         $riwayats = DB::table('riwayats')
             ->join('pengacaras', 'riwayats.nik_pengacara', '=', 'pengacaras.nik_pengacara')
             ->where('riwayats.nik_pengguna', $nik_pengguna)
-            ->where('riwayats.status', 'sedang berlangsung')
-            ->orWhere('riwayats.status', 'menunggu konfirmasi')
+            ->where('riwayats.status', 'Sedang Berlangsung')
+            ->orWhere('riwayats.status', 'Menunggu Konfirmasi')
             ->select(
                 'riwayats.*',
                 'pengacaras.nama_pengacara',

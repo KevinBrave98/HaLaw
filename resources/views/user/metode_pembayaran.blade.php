@@ -10,9 +10,8 @@
     document.getElementById('pay-button').addEventListener('click', function () {
         snap.pay('{{ $snapToken }}', {
             onSuccess: function(result){
-                alert("SUKSES");
-                console.log(result);
-
+                // alert("SUKSES");
+                // console.log(result);
                 fetch('/payment/store-riwayat', {
                     method: 'POST',
                     headers: {
