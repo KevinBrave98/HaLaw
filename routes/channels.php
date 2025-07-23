@@ -21,3 +21,7 @@ Broadcast::channel('chatroom.{id}', function ($user, $id) {
     //    participants listed in the riwayat record.
     return $currentUserNik === $riwayat->nik_pengguna || $currentUserNik === $riwayat->nik_pengacara;
 });
+
+Broadcast::channel('pengacara.{nik_pengacara}', function ($lawyer, $nik_pengacara) {
+    return $lawyer->nik_pengacara === $nik_pengacara;
+}, ['guards' => ['lawyer']]);

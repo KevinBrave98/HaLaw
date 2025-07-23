@@ -16,6 +16,7 @@ class KonsultasiController extends Controller
             ->join('pengacaras', 'riwayats.nik_pengacara', '=', 'pengacaras.nik_pengacara')
             ->where('riwayats.nik_pengguna', $nik_pengguna)
             ->where('riwayats.status', 'sedang berlangsung')
+            ->orWhere('riwayats.status', 'menunggu konfirmasi')
             ->select(
                 'riwayats.*',
                 'pengacaras.nama_pengacara',
@@ -28,6 +29,10 @@ class KonsultasiController extends Controller
             )
             ->get();
 
-        return view('user.konsultasi_sedang_berlangsung', compact('riwayats'));
+        return response()
+            ->view('user.konsultasi_sedang_berlangsung', compact('riwayats'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 }

@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>{{ $title }}</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     @stack('css')
@@ -30,7 +33,6 @@
                 {{ $notif->data['message'] }}
             </div>
         @endforeach
-
         {{ $slot }}
     </main>
     <x-footer />
@@ -52,7 +54,7 @@
                     }
                 });
             });
-        }, 2000); // 3 detik delay
+        }, 2000);
     </script>
     @stack('scripts')
 </body>

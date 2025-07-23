@@ -1,7 +1,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/konsultasi.css') }}">
 @endpush
-<x-layout_user :title="'Halaw - Metode Pembayaran'">
+<x-layout_user :title="'Halaw - Konsultasi Sedang Berlangsung'">
 <div class="d-flex border-bottom mb-3 w-100" style="height: 80px">
   <a href="{{ route('konsultasi.berlangsung') }}" 
      class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected" 
@@ -14,7 +14,7 @@
     Riwayat Konsultasi
   </a>
 </div>
-<div class="container mt-4" style="padding: 20px">
+<div class="container mt-4" id="konsultasi-list" style="padding: 20px">
     @foreach($riwayats as $riwayat)
     <div class="card shadow-sm mb-3" style="border: 1px solid #B99010; background-color: #fdf5ee;">
         <div class="card-body d-flex align-items-center justify-content-between flex-wrap">

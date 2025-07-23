@@ -1,7 +1,6 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_user.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/search_pengacara.css') }}">
-    <link rel="stylesheet" href="">
 @endpush
 <x-layout_user :title="'Halaw - Dashboard User'">
     <div class="content">
@@ -123,21 +122,5 @@
             scrollContainer.scrollLeft = scrollLeft - walk;
         });
     </script>
-    <script>
-    // Tunggu hingga semua elemen DOM siap
-    document.addEventListener("DOMContentLoaded", function () {
-        const alerts = document.querySelectorAll('.alert.alert-info');
-        alerts.forEach(alert => {
-            setTimeout(() => {
-                alert.style.transition = 'opacity 0.5s ease-out';
-                alert.style.opacity = '0';
-
-                setTimeout(() => {
-                    alert.remove(); // hilangkan elemen dari DOM setelah efek selesai
-                }, 500);
-            }, 2000); // tunggu 3 detik sebelum mulai menghilang
-        });
-    });
-</script>
     <script src="{{ asset('assets/scripts/search_pengguna.js') }}"></script>
 </x-layout_user>

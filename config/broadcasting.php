@@ -30,6 +30,14 @@ return [
 
     'connections' => [
 
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => null,
+            'retry_after' => 90,
+            'block_for' => null,
+        ],
+
         'reverb' => [
             'driver' => 'reverb',
             'key' => env('REVERB_APP_KEY'),
@@ -75,6 +83,11 @@ return [
 
         'null' => [
             'driver' => 'null',
+        ],
+
+        'guards' => [
+            'web',
+            'lawyer', // tambahkan ini
         ],
 
     ],
