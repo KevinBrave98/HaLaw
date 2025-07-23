@@ -17,7 +17,7 @@ class PenarikanController extends Controller
         $bank = $pengacara->nama_bank;
         $nomor_rekening = $pengacara->nomor_rekening;
         $riwayat_tarik = $pengacara->riwayat_danas()->orderBy('created_at', 'desc')->get();
-        return view('lawyer.penarikan_pendapatan', compact('pengacara', 'saldo', 'riwayat_dana_pengacara', 'bank', 'nomor_rekening','riwayat_tarik'));
+        return view('lawyer.penarikan_pendapatan', compact('pengacara', 'saldo', 'riwayat_dana_pengacara', 'bank', 'nomor_rekening', 'riwayat_tarik'));
     }
     public function detail()
     {
@@ -62,21 +62,18 @@ class PenarikanController extends Controller
             'total_penarikan' => $total_penarikan,
         ]);
 
-        if ($pengacara->total_pendapatan < $total_penarikan+$biaya) {
+        if ($pengacara->total_pendapatan < $total_penarikan + $biaya) {
             return redirect()->route('lawyer.penarikan_gagal');
         }
-
+        // tolong masukkan kedalam tabel riwayat_dana
         $riwayat = new RiwayatDana();
-        $riwayat->id_riwayat_dana = 99999;
         $riwayat->nik_pengacara = $pengacara->nik_pengacara;
         $riwayat->tipe_riwayat_dana = 'Tarik Dana';
         $riwayat->detail_riwayat_dana = $pengacara->nomor_rekening;
         $riwayat->nominal = $total_penarikan;
-        $riwayat->tanggal_riwayat_dana = '2024-12-5';
-        $riwayat->waktu_riwayat_dana = 0;
         $riwayat->save();
         // Kurangi saldo pengacara
-        $pengacara->total_pendapatan -= $total_penarikan+$biaya;
+        $pengacara->total_pendapatan -= $total_penarikan + $biaya;
         $pengacara->save();
 
         return redirect()->route('lawyer.hasil.penarikan');
