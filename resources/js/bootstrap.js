@@ -25,7 +25,7 @@ window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'reverb', // or pusher
     key: import.meta.env.VITE_REVERB_APP_KEY,
-    wsHost: halaw-reverb-production.up.railway.app,
+    wsHost: 'halaw-reverb-production.up.railway.app',
     wsPort: 80,
     wssPort: 443,
     forceTLS: true,
