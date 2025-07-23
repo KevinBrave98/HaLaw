@@ -11,10 +11,7 @@ class LawyerAuthMiddleware
         // If regular user is logged in, redirect to user dashboard
         if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard.user');
-        }
-        
-        // If no lawyer is logged in, redirect to login
-        if (!Auth::guard('lawyer')->check()) {
+        } else if (!Auth::guard('lawyer')->check()) {
             return redirect()->route('login.show');
         }
         

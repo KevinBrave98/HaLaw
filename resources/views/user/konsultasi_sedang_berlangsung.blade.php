@@ -27,7 +27,7 @@
             </div>
             <div class="d-flex gap-3">
                 @if ($riwayat->chat)
-                    <a href="#" class="text-brown fs-4"><i class="bi bi-chat-left-text-fill"></i></a>
+                    <a href="{{ route('consultation.client', ['id' => $riwayat->id]) }}" class="text-brown fs-4"><i class="bi bi-chat-left-text-fill"></i></a>
                 @else
                     <span class="fs-4 icon-disabled">
                         <i class="bi bi-chat-left-text-fill" style="text-decoration: line-through;"></i>

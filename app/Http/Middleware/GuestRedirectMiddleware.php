@@ -21,9 +21,7 @@ class GuestRedirectMiddleware
         if ($request->routeIs('login')) {
             if (Auth::guard('lawyer')->check()) {
                 return redirect()->route('lawyer.dashboard');
-            }
-            
-            if (Auth::guard('web')->check()) {
+            } else if (Auth::guard('web')->check()) {
                 return redirect()->route('dashboard.user');
             }
         }
