@@ -90,6 +90,7 @@ class PembayaranController extends Controller
             //     'updated_at' => now()
             // ]);
         }
+        return redirect()->route('konsultasi.berlangsung');
 
         return response()->json(['message' => 'Berhasil disimpan'], 200);
     }
