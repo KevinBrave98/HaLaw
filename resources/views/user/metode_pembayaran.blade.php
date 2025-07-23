@@ -27,7 +27,7 @@
                 .then(data => {
                     if(data.success){
                         // Tunggu konfirmasi sukses dari backend
-                        window.location.replace("{{ route('konsultasi.berlangsung') }}" + "?_=" + Date.now());
+                        window.location.href = "/konsultasi/sedang-berlangsung";
                     } else {
                         alert("Gagal menyimpan riwayat.");
                     }
