@@ -17,7 +17,10 @@ window.axios.defaults.withCredentials = true;
  */
 
 import Echo from 'laravel-echo';
-// import Reverb from 'laravel-reverb';
+import Pusher from 'pusher-js';
+
+// This line is the key! It makes the Pusher library globally available.
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'reverb', // or pusher
