@@ -11,15 +11,6 @@ class LawyerDashboardController extends Controller
 {
     public function dashboard()
     {
-        // $pengacara = Auth::guard('lawyer')->user();
-        // $konsultasi = Riwayat::findOrFail(1);
-        // $konsultasi->status = 'dibatalkan';
-        // $konsultasi->save();
-        // $konsultasi = Riwayat::findOrFail(1);
-        // $konsultasi->status = 'dibatalkan';
-        // $konsultasi->save();
-
-
         $pengacara = Pengacara::where('email', Auth::guard('lawyer')->user()->email)->first();
         $status_konsultasi = $pengacara->status_konsultasi;
         $totalPendapatan = $pengacara->total_pendapatan;

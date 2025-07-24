@@ -27,7 +27,9 @@ class KonsultasiDibatalkanNotification extends Notification
     {
         return [
             'message' => 'Konsultasi dengan Pengacara   ' . $this->riwayat->pengacara->nama_pengacara . ' telah dibatalkan.',
+            'pesan' => 'Dana sebesar '. $this->riwayat->pengacara->tarif_jasa + 10000 . ' akan dikembalikan ke rekening anda.',
             'status' => $this->riwayat->status,
         ];
     }
 }
+
