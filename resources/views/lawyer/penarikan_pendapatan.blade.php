@@ -38,7 +38,7 @@
         <h5 class="mt-5 mb-3" style="color: #2F1D0E;">Riwayat Dana</h5>
         <div class="rounded p-0 mb-5" style="background-color: #F1CEAA; overflow: scroll; height:40vw;">
 
-            @foreach ($riwayat_tarik as $riwayat)
+            @forelse ($riwayat_tarik as $riwayat)
                 @if ($riwayat->tipe_riwayat_dana == 'Tarik Dana')
                     <div class="p-3 border-bottom border-dark">
                         <div class="d-flex justify-content-between">
@@ -46,11 +46,11 @@
                                 <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
                                 <div class="text-muted">Ke Rekening {{ $nomor_rekening }}</div>
                             </div>
-                            <div class="text-dark fw-semibold">-Rp. {{ number_format($riwayat->nominal, 0, ',', '.') }}
+                            <div class="text-dark fw-semibold">-Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <small class="text-muted">{{$riwayat->created_at}}</small>
+                            <small class="text-muted">{{ $riwayat->created_at }}</small>
                             <span></span>
                         </div>
                     </div>
@@ -61,30 +61,22 @@
                                 <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
                                 <div class="text-muted">Dari {{ $riwayat->detail_riwayat_dana }}</div>
                             </div>
-                            <div class="text-dark fw-semibold">+Rp. {{ number_format($riwayat->nominal, 0, ',', '.') }}
+                            <div class="text-dark fw-semibold">+Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <small class="text-muted">{{$riwayat->created_at}}</small>
+                            <small class="text-muted">{{ $riwayat->created_at }}</small>
                             <span></span>
                         </div>
                     </div>
                 @endif
-            @endforeach
-            <div class="p-3 border-bottom border-dark">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <div class="fw-bold">Terima Pembayaran</div>
-                        <div class="text-muted">Dari Nama Pengguna</div>
+                @empty
+                    <div class="p-5 text-center text-muted" style="justify-content: center; align-items: center; margin-top: 15vw; font-size: 1.5vw;">
+                        Belum ada transaksi
                     </div>
-                    <div class="text-dark fw-semibold">+Rp150.000,00</div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <small class="text-muted">31 Des 2999</small>
-                </div>
+                @endforelse
             </div>
         </div>
-    </div>
-    {{-- ini link untuk ikon bootstrap --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</x-layout_lawyer>
+        {{-- ini link untuk ikon bootstrap --}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    </x-layout_lawyer>
