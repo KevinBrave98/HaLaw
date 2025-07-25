@@ -15,6 +15,129 @@ const endCallBtn = document.getElementById("endCallBtn");
 const startCallLink = document.getElementById("startCallLink");
 
 // ============================
+// 🧹 SDP Cleaning Helper
+// ============================
+function cleanSDP(sdp) {
+    if (!sdp || typeof sdp !== 'string') {
+        console.warn("⚠️ Invalid SDP provided for cleaning");
+        return sdp;
+    }
+    
+    console.log("🔍 Original SDP length:", sdp.length);
+    
+    let cleanedSDP = sdp;
+    let changesMade = false;
+    
+    // Check if this is a video call (has video media line)
+    const hasVideo = cleanedSDP.includes('m=video') || cleanedSDP.includes('a=rtpmap') && cleanedSDP.includes('VP8');
+    console.log("🎥 Video call detected:", hasVideo);
+    
+    // APPROACH 1: Try to fix SSRC lines by adding missing attributes
+    if (hasVideo) {
+        console.log("🔧 Attempting to fix SSRC lines for video call...");
+        
+        // Fix SSRC lines by ensuring they have proper msid attributes
+        cleanedSDP = cleanedSDP.replace(
+            /a=ssrc:(\d+)\s+cname:([^\r\n]+)(?!\r\n.*a=ssrc:\1\s+msid)/g,
+            (match, ssrc, cname) => {
+                console.log(`🔧 Adding msid to SSRC: ${ssrc}`);
+                changesMade = true;
+                // Add a generic msid - browsers will typically accept this
+                return `a=ssrc:${ssrc} cname:${cname}\r\na=ssrc:${ssrc} msid:stream track`;
+            }
+        );
+        
+        // Also try adding mslabel and label if missing
+        cleanedSDP = cleanedSDP.replace(
+            /a=ssrc:(\d+)\s+cname:([^\r\n]+)(?!\r\n.*a=ssrc:\1\s+mslabel)/g,
+            (match, ssrc, cname) => {
+                console.log(`🔧 Adding mslabel/label to SSRC: ${ssrc}`);
+                changesMade = true;
+                return `${match}\r\na=ssrc:${ssrc} mslabel:stream\r\na=ssrc:${ssrc} label:track`;
+            }
+        );
+    }
+    
+    // Remove curly braces from any attributes
+    const cnameRegex = /cname:\{([^}]+)\}/g;
+    cleanedSDP = cleanedSDP.replace(cnameRegex, (match, cname) => {
+        console.log(`🔧 Removed curly braces: "${match}" -> "cname:${cname}"`);
+        changesMade = true;
+        return `cname:${cname}`;
+    });
+    
+    // APPROACH 2: If this is audio-only OR fixing didn't work, remove problematic SSRC lines
+    if (!hasVideo) {
+        console.log("🗑️ Audio-only call - removing SSRC lines for maximum compatibility");
+        const problematicSSRCRegex = /a=ssrc:\d+\s+cname:[^\r\n]*[\r\n]*/g;
+        const ssrcMatches = cleanedSDP.match(problematicSSRCRegex);
+        
+        if (ssrcMatches && ssrcMatches.length > 0) {
+            console.log("🗑️ Removing SSRC lines:", ssrcMatches);
+            cleanedSDP = cleanedSDP.replace(problematicSSRCRegex, '');
+            changesMade = true;
+        }
+    }
+    
+    // Clean up any excessive line breaks
+    cleanedSDP = cleanedSDP.replace(/(\r\n){3,}/g, '\r\n\r\n');
+    
+    // Log the result
+    if (changesMade) {
+        console.log("🧹 SDP cleaned successfully");
+        console.log("🔍 Cleaned SDP length:", cleanedSDP.length);
+        
+        // Show a sample of SSRC lines after cleaning (for debugging)
+        const remainingSSRCLines = cleanedSDP.split('\n').filter(line => line.includes('ssrc:'));
+        if (remainingSSRCLines.length > 0) {
+            console.log("🔍 Remaining SSRC lines:", remainingSSRCLines.slice(0, 3));
+        }
+    } else {
+        console.log("ℹ️ No SDP cleaning needed");
+    }
+    
+    return cleanedSDP;
+}
+
+// ============================
+// 🔒 Safe Remote Description Setter
+// ============================
+async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
+    try {
+        console.log("🔍 Setting remote description, type:", sessionDescription.type);
+        
+        // Log problematic SDP lines for debugging
+        if (sessionDescription.sdp && sessionDescription.sdp.includes('ssrc:')) {
+            const ssrcLines = sessionDescription.sdp.split('\n').filter(line => line.includes('ssrc:'));
+            console.log("🔍 SSRC lines found:", ssrcLines.slice(0, 3)); // Show first 3 for debugging
+        }
+        
+        // Clean the SDP before setting
+        const cleanedSDP = cleanSDP(sessionDescription.sdp);
+        const cleanedSessionDesc = new RTCSessionDescription({
+            type: sessionDescription.type,
+            sdp: cleanedSDP
+        });
+        
+        await peerConnection.setRemoteDescription(cleanedSessionDesc);
+        console.log("✅ Remote description set successfully");
+        return true;
+    } catch (error) {
+        console.error("❌ Error setting remote description:", error);
+        
+        // Log the exact SDP line that's causing issues for further debugging
+        if (error.message && error.message.includes('ssrc:')) {
+            const match = error.message.match(/a=ssrc:[\d\s\w:-]+/);
+            if (match) {
+                console.error("🔍 Problematic SDP line:", match[0]);
+            }
+        }
+        
+        throw error;
+    }
+}
+
+// ============================
 // 🎨 UI Helper
 // ============================
 function showCallStatus() {
@@ -250,8 +373,8 @@ if (window.callId) {
                     }
                 }
 
-                // Set remote description
-                await peerConnection.setRemoteDescription(new RTCSessionDescription(e.offer));
+                // Set remote description using the safe method
+                await setRemoteDescriptionSafely(peerConnection, e.offer);
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
                 console.log("✅ Offer set as remote description");
@@ -299,7 +422,7 @@ if (window.callId) {
                 // Check if we should set the remote description
                 if (peerConnection.signalingState === "have-local-offer") {
                     isProcessingRemoteDescription = true;
-                    await peerConnection.setRemoteDescription(new RTCSessionDescription(e.answer));
+                    await setRemoteDescriptionSafely(peerConnection, e.answer);
                     remoteDescriptionSet = true;
                     isProcessingRemoteDescription = false;
                     console.log("✅ Answer set as remote description");
