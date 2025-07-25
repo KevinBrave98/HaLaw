@@ -11,7 +11,7 @@
                     <a class="nav-link" href="{{ route('lawyer.dashboard') }}">Dasbor</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Konsultasi</a>
+                    <a class="nav-link" href="{{ route('lawyer.konsultasi.berlangsung') }}">Konsultasi</a>
                 </li>
                 <li class="nav-item penarikan-pendapatan">
                     <a class="nav-link " href="{{ route('lawyer.penarikan.pendapatan') }}">Penarikan Pendapatan</a>

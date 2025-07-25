@@ -12,7 +12,7 @@ class UserAuthMiddleware
         if (Auth::guard('lawyer')->check()) {
             return redirect()->route('lawyer.dashboard');
         } else if (!Auth::guard('web')->check()) {  // Be specific about the guard
-            return redirect()->route('login.show');
+            return redirect()->route('userLogin.show');
         }
         
         return $next($request);
