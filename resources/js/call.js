@@ -126,18 +126,21 @@ function cleanupCall() {
 // 🧊 ICE Candidate Helper
 // ============================
 async function processPendingCandidates() {
-  if (!peerConnection || !remoteDescriptionSet || pendingCandidates.length === 0) return;
+  if (!peerConnection || !peerConnection.remoteDescription || pendingCandidates.length === 0) return;
 
   console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
-  for (const candidate of pendingCandidates) {
+  const candidatesToProcess = [...pendingCandidates];
+  pendingCandidates = [];
+  
+  for (const candidate of candidatesToProcess) {
     try {
       await peerConnection.addIceCandidate(candidate);
       console.log("✅ Queued ICE candidate added");
     } catch (err) {
       console.error("❌ Error adding queued ICE candidate:", err);
+      // Don't re-queue failed candidates
     }
   }
-  pendingCandidates = [];
 }
 
 // ============================
@@ -153,14 +156,18 @@ async function ensurePeerConnection() {
       rtcpMuxPolicy: "require", // Require RTCP multiplexing
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
-        { urls: "stun:stun1.l.google.com:19302" }, // Additional STUN server
+        { urls: "stun:stun1.l.google.com:19302" },
+        { urls: "stun:stun2.l.google.com:19302" },
         {
-          urls: [
-            "turn:34.101.170.104:3478?transport=udp",
-            "turn:34.101.170.104:3478?transport=tcp",
-            "turns:34.101.170.104:5349?transport=tcp",
-          ],
+          // Only UDP relay since your coturn doesn't support TCP relay
+          urls: "turn:34.101.170.104:3478?transport=udp",
           username: "halaw",
+          credential: "halawAhKnR123",
+        },
+        {
+          // TURNS over TLS for secure connections (still UDP relay)
+          urls: "turns:34.101.170.104:5349?transport=tcp",
+          username: "halaw", 
           credential: "halawAhKnR123",
         },
       ],
@@ -171,7 +178,22 @@ async function ensurePeerConnection() {
     peerConnection.onicecandidate = async (event) => {
       if (!peerConnection || !callActive) return;
       if (event.candidate) {
-        console.log("📤 Sending ICE candidate:", event.candidate.type, event.candidate.protocol);
+        // Enhanced logging for TURN server debugging
+        const candidate = event.candidate;
+        console.log("📤 Sending ICE candidate:", {
+          type: candidate.type,
+          protocol: candidate.protocol,
+          address: candidate.address,
+          port: candidate.port,
+          relatedAddress: candidate.relatedAddress,
+          foundation: candidate.foundation
+        });
+        
+        // Log if this is a TURN/relay candidate
+        if (candidate.type === 'relay') {
+          console.log("🔄 TURN relay candidate generated successfully!");
+        }
+        
         try {
           await axios.post("/call/ice", { call_id: window.callId, candidate: event.candidate });
         } catch (err) {
@@ -179,6 +201,23 @@ async function ensurePeerConnection() {
         }
       } else {
         console.log("🔚 ICE gathering completed");
+        
+        // Log final candidate summary
+        peerConnection.getStats().then(stats => {
+          let hostCandidates = 0, srflxCandidates = 0, relayCandidates = 0;
+          stats.forEach(report => {
+            if (report.type === 'local-candidate') {
+              if (report.candidateType === 'host') hostCandidates++;
+              else if (report.candidateType === 'srflx') srflxCandidates++;
+              else if (report.candidateType === 'relay') relayCandidates++;
+            }
+          });
+          console.log(`📊 Final candidate summary: ${hostCandidates} host, ${srflxCandidates} srflx, ${relayCandidates} relay`);
+          
+          if (relayCandidates === 0) {
+            console.warn("⚠️ No TURN relay candidates generated - TURN server may not be working!");
+          }
+        });
       }
     };
 
@@ -220,7 +259,6 @@ async function ensurePeerConnection() {
       console.log("📡 Signaling state:", peerConnection.signalingState);
     };
 
-    // Enhanced logging for debugging
     peerConnection.oniceconnectionstatechange = () => {
       const state = peerConnection.iceConnectionState;
       console.log("🌐 ICE connection state:", state);
@@ -235,6 +273,30 @@ async function ensurePeerConnection() {
             }
           });
         });
+      }
+      
+      if (state === "disconnected") {
+        console.warn("⚠️ ICE connection disconnected");
+        // For Chrome mobile, try more aggressive reconnection
+        setTimeout(async () => {
+          if (peerConnection && peerConnection.iceConnectionState === "disconnected") {
+            console.log("🔄 Attempting to add more ICE candidates");
+            // Try to process any remaining pending candidates
+            if (pendingCandidates.length > 0) {
+              await processPendingCandidates();
+            }
+            
+            // If still disconnected after 2 more seconds, try ICE restart
+            setTimeout(() => {
+              if (peerConnection && peerConnection.iceConnectionState === "disconnected") {
+                console.log("🔄 Attempting ICE restart after disconnection");
+                if (peerConnection.restartIce) {
+                  peerConnection.restartIce();
+                }
+              }
+            }, 2000);
+          }
+        }, 1000);
       }
     };
   }
@@ -405,31 +467,32 @@ if (window.callId) {
         const candidate = new RTCIceCandidate(e.candidate);
         console.log("📥 Received ICE candidate:", candidate.type, candidate.protocol);
         
-        if (isProcessingRemoteDescription) {
-          console.log("⏳ Waiting for remote description processing");
-          setTimeout(async () => {
-            if (remoteDescriptionSet && !isProcessingRemoteDescription) {
-              try {
-                await peerConnection.addIceCandidate(candidate);
-                console.log("✅ Delayed ICE candidate added");
-              } catch (err) {
-                console.error("❌ Error adding delayed ICE candidate:", err);
-              }
-            } else {
-              pendingCandidates.push(candidate);
-              console.log("⏳ Added ICE candidate to pending queue (delayed)");
-            }
-          }, 100);
-          return;
+        // Check if we can add immediately
+        const canAddImmediately = peerConnection.remoteDescription && 
+                                  peerConnection.remoteDescription.sdp && 
+                                  !isProcessingRemoteDescription;
+        
+        if (canAddImmediately) {
+          try {
+            await peerConnection.addIceCandidate(candidate);
+            console.log("✅ ICE candidate added immediately");
+            return;
+          } catch (err) {
+            console.warn("⚠️ Failed to add candidate immediately, queuing:", err.message);
+          }
         }
         
-        if (remoteDescriptionSet) {
-          await peerConnection.addIceCandidate(candidate);
-          console.log("✅ ICE candidate added immediately");
-        } else {
-          pendingCandidates.push(candidate);
-          console.log("⏳ Added ICE candidate to pending queue");
-        }
+        // Queue the candidate
+        pendingCandidates.push(candidate);
+        console.log("⏳ Added ICE candidate to pending queue");
+        
+        // Try to process pending candidates periodically
+        setTimeout(async () => {
+          if (peerConnection && peerConnection.remoteDescription && !isProcessingRemoteDescription) {
+            await processPendingCandidates();
+          }
+        }, 200);
+        
       } catch (err) {
         console.error("❌ Error processing ICE candidate:", err);
       }
