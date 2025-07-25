@@ -14,88 +14,59 @@ const callStatus = document.getElementById("callStatus");
 const endCallBtn = document.getElementById("endCallBtn");
 const startCallLink = document.getElementById("startCallLink");
 
-// ============================
-// 🧹 SDP Cleaning Helper
-// ============================
 function cleanSDP(sdp) {
-    if (!sdp || typeof sdp !== 'string') {
+    if (!sdp || typeof sdp !== "string") {
         console.warn("⚠️ Invalid SDP provided for cleaning");
         return sdp;
     }
-    
+
     console.log("🔍 Original SDP length:", sdp.length);
-    
+
     let cleanedSDP = sdp;
     let changesMade = false;
-    
-    // Check if this is a video call (has video media line)
-    const hasVideo = cleanedSDP.includes('m=video') || cleanedSDP.includes('a=rtpmap') && cleanedSDP.includes('VP8');
+
+    // ✅ Detect if the SDP negotiates video
+    const hasVideo = /m=video/.test(cleanedSDP);
     console.log("🎥 Video call detected:", hasVideo);
-    
-    // APPROACH 1: Try to fix SSRC lines by adding missing attributes
-    if (hasVideo) {
-        console.log("🔧 Attempting to fix SSRC lines for video call...");
-        
-        // Fix SSRC lines by ensuring they have proper msid attributes
-        cleanedSDP = cleanedSDP.replace(
-            /a=ssrc:(\d+)\s+cname:([^\r\n]+)(?!\r\n.*a=ssrc:\1\s+msid)/g,
-            (match, ssrc, cname) => {
-                console.log(`🔧 Adding msid to SSRC: ${ssrc}`);
-                changesMade = true;
-                // Add a generic msid - browsers will typically accept this
-                return `a=ssrc:${ssrc} cname:${cname}\r\na=ssrc:${ssrc} msid:stream track`;
-            }
-        );
-        
-        // Also try adding mslabel and label if missing
-        cleanedSDP = cleanedSDP.replace(
-            /a=ssrc:(\d+)\s+cname:([^\r\n]+)(?!\r\n.*a=ssrc:\1\s+mslabel)/g,
-            (match, ssrc, cname) => {
-                console.log(`🔧 Adding mslabel/label to SSRC: ${ssrc}`);
-                changesMade = true;
-                return `${match}\r\na=ssrc:${ssrc} mslabel:stream\r\na=ssrc:${ssrc} label:track`;
-            }
-        );
-    }
-    
-    // Remove curly braces from any attributes
-    const cnameRegex = /cname:\{([^}]+)\}/g;
-    cleanedSDP = cleanedSDP.replace(cnameRegex, (match, cname) => {
-        console.log(`🔧 Removed curly braces: "${match}" -> "cname:${cname}"`);
-        changesMade = true;
-        return `cname:${cname}`;
-    });
-    
-    // APPROACH 2: If this is audio-only OR fixing didn't work, remove problematic SSRC lines
+
     if (!hasVideo) {
-        console.log("🗑️ Audio-only call - removing SSRC lines for maximum compatibility");
-        const problematicSSRCRegex = /a=ssrc:\d+\s+cname:[^\r\n]*[\r\n]*/g;
-        const ssrcMatches = cleanedSDP.match(problematicSSRCRegex);
-        
+        // 🎧 Audio-only: remove *all* SSRC lines
+        console.log(
+            "🗑️ Audio-only call - removing ALL SSRC lines for maximum compatibility"
+        );
+        const allSSRCRegex = /^a=ssrc:[^\r\n]*\r?\n?/gm;
+        const ssrcMatches = cleanedSDP.match(allSSRCRegex);
         if (ssrcMatches && ssrcMatches.length > 0) {
             console.log("🗑️ Removing SSRC lines:", ssrcMatches);
-            cleanedSDP = cleanedSDP.replace(problematicSSRCRegex, '');
+            cleanedSDP = cleanedSDP.replace(allSSRCRegex, "");
             changesMade = true;
         }
+    } else {
+        // 🎥 Video: leave SSRC lines intact
+        console.log("✅ Video call - keeping SSRC lines intact");
+        // (If you ever need to add msid/mslabel fixes, you can do it here.)
     }
-    
-    // Clean up any excessive line breaks
-    cleanedSDP = cleanedSDP.replace(/(\r\n){3,}/g, '\r\n\r\n');
-    
-    // Log the result
+
+    // ✨ Clean up excessive blank lines
+    cleanedSDP = cleanedSDP.replace(/(\r\n){3,}/g, "\r\n\r\n");
+
     if (changesMade) {
         console.log("🧹 SDP cleaned successfully");
         console.log("🔍 Cleaned SDP length:", cleanedSDP.length);
-        
-        // Show a sample of SSRC lines after cleaning (for debugging)
-        const remainingSSRCLines = cleanedSDP.split('\n').filter(line => line.includes('ssrc:'));
+
+        const remainingSSRCLines = cleanedSDP
+            .split("\n")
+            .filter((line) => line.startsWith("a=ssrc:"));
         if (remainingSSRCLines.length > 0) {
-            console.log("🔍 Remaining SSRC lines:", remainingSSRCLines.slice(0, 3));
+            console.log(
+                "🔍 Remaining SSRC lines:",
+                remainingSSRCLines.slice(0, 3)
+            );
         }
     } else {
         console.log("ℹ️ No SDP cleaning needed");
     }
-    
+
     return cleanedSDP;
 }
 
@@ -104,35 +75,43 @@ function cleanSDP(sdp) {
 // ============================
 async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
     try {
-        console.log("🔍 Setting remote description, type:", sessionDescription.type);
-        
+        console.log(
+            "🔍 Setting remote description, type:",
+            sessionDescription.type
+        );
+
         // Log problematic SDP lines for debugging
-        if (sessionDescription.sdp && sessionDescription.sdp.includes('ssrc:')) {
-            const ssrcLines = sessionDescription.sdp.split('\n').filter(line => line.includes('ssrc:'));
+        if (
+            sessionDescription.sdp &&
+            sessionDescription.sdp.includes("ssrc:")
+        ) {
+            const ssrcLines = sessionDescription.sdp
+                .split("\n")
+                .filter((line) => line.includes("ssrc:"));
             console.log("🔍 SSRC lines found:", ssrcLines.slice(0, 3)); // Show first 3 for debugging
         }
-        
+
         // Clean the SDP before setting
         const cleanedSDP = cleanSDP(sessionDescription.sdp);
         const cleanedSessionDesc = new RTCSessionDescription({
             type: sessionDescription.type,
-            sdp: cleanedSDP
+            sdp: cleanedSDP,
         });
-        
+
         await peerConnection.setRemoteDescription(cleanedSessionDesc);
         console.log("✅ Remote description set successfully");
         return true;
     } catch (error) {
         console.error("❌ Error setting remote description:", error);
-        
+
         // Log the exact SDP line that's causing issues for further debugging
-        if (error.message && error.message.includes('ssrc:')) {
+        if (error.message && error.message.includes("ssrc:")) {
             const match = error.message.match(/a=ssrc:[\d\s\w:-]+/);
             if (match) {
                 console.error("🔍 Problematic SDP line:", match[0]);
             }
         }
-        
+
         throw error;
     }
 }
@@ -181,12 +160,18 @@ function cleanupCall() {
 // 🧊 ICE Candidate Helper
 // ============================
 async function processPendingCandidates() {
-    if (!peerConnection || !remoteDescriptionSet || pendingCandidates.length === 0) {
+    if (
+        !peerConnection ||
+        !remoteDescriptionSet ||
+        pendingCandidates.length === 0
+    ) {
         return;
     }
 
-    console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
-    
+    console.log(
+        `🔄 Processing ${pendingCandidates.length} pending ICE candidates`
+    );
+
     for (const candidate of pendingCandidates) {
         try {
             await peerConnection.addIceCandidate(candidate);
@@ -221,7 +206,7 @@ async function ensurePeerConnection() {
 
         peerConnection.onicecandidate = async (event) => {
             if (!peerConnection || !callActive) return;
-            
+
             if (event.candidate) {
                 // Log detailed candidate info for debugging
                 console.log("🔍 ICE Candidate Details:", {
@@ -231,11 +216,14 @@ async function ensurePeerConnection() {
                     port: event.candidate.port,
                     priority: event.candidate.priority,
                     foundation: event.candidate.foundation,
-                    candidate: event.candidate.candidate
+                    candidate: event.candidate.candidate,
                 });
-                
+
                 // Only send non-empty candidates
-                if (event.candidate.candidate && event.candidate.candidate.trim() !== '') {
+                if (
+                    event.candidate.candidate &&
+                    event.candidate.candidate.trim() !== ""
+                ) {
                     console.log("📤 Sending ICE candidate:", event.candidate);
                     try {
                         await axios.post("/call/ice", {
@@ -267,8 +255,8 @@ async function ensurePeerConnection() {
 
         peerConnection.oniceconnectionstatechange = () => {
             console.log("🌐 ICE state:", peerConnection.iceConnectionState);
-            
-            if (peerConnection.iceConnectionState === 'failed') {
+
+            if (peerConnection.iceConnectionState === "failed") {
                 console.log("❌ ICE connection failed, attempting ICE restart");
                 // Optionally trigger ICE restart
                 // restartIce();
@@ -292,16 +280,16 @@ async function startCall() {
         localStream = await navigator.mediaDevices.getUserMedia({
             audio: true,
         });
-        
+
         localStream.getTracks().forEach((track) => {
             peerConnection.addTrack(track, localStream);
         });
 
         const offer = await peerConnection.createOffer({
             offerToReceiveAudio: true,
-            offerToReceiveVideo: false
+            offerToReceiveVideo: false,
         });
-        
+
         await peerConnection.setLocalDescription(offer);
 
         await axios.post("/call/offer", {
@@ -362,12 +350,16 @@ if (window.callId) {
                 // Add local mic before setting remote description
                 if (!localStream) {
                     try {
-                        localStream = await navigator.mediaDevices.getUserMedia({
-                            audio: true,
-                        });
-                        localStream.getTracks().forEach((track) =>
-                            peerConnection.addTrack(track, localStream)
+                        localStream = await navigator.mediaDevices.getUserMedia(
+                            {
+                                audio: true,
+                            }
                         );
+                        localStream
+                            .getTracks()
+                            .forEach((track) =>
+                                peerConnection.addTrack(track, localStream)
+                            );
                     } catch (err) {
                         console.error("❌ Lawyer mic error:", err);
                     }
@@ -403,7 +395,7 @@ if (window.callId) {
             try {
                 console.log("📥 Received answer:", e.answer);
                 console.log("📥 Full event object:", e);
-                
+
                 if (!peerConnection) {
                     console.warn("No peer connection available");
                     return;
@@ -429,7 +421,10 @@ if (window.callId) {
 
                     await processPendingCandidates();
                 } else {
-                    console.log("ℹ️ Ignoring answer - wrong signaling state:", peerConnection.signalingState);
+                    console.log(
+                        "ℹ️ Ignoring answer - wrong signaling state:",
+                        peerConnection.signalingState
+                    );
                 }
             } catch (err) {
                 console.error("❌ Error handling answer:", err);
@@ -442,29 +437,43 @@ if (window.callId) {
                 return;
             }
 
-            if (!e.candidate || !e.candidate.candidate || e.candidate.candidate.trim() === '') {
+            if (
+                !e.candidate ||
+                !e.candidate.candidate ||
+                e.candidate.candidate.trim() === ""
+            ) {
                 console.log("ℹ️ Received empty ICE candidate, ignoring");
                 return;
             }
 
             try {
                 const candidate = new RTCIceCandidate(e.candidate);
-                
+
                 // Wait if remote description is being processed
                 if (isProcessingRemoteDescription) {
-                    console.log("⏳ Waiting for remote description processing to complete");
+                    console.log(
+                        "⏳ Waiting for remote description processing to complete"
+                    );
                     // Add a small delay and retry
                     setTimeout(async () => {
-                        if (remoteDescriptionSet && !isProcessingRemoteDescription) {
+                        if (
+                            remoteDescriptionSet &&
+                            !isProcessingRemoteDescription
+                        ) {
                             try {
                                 await peerConnection.addIceCandidate(candidate);
                                 console.log("✅ Delayed ICE candidate added");
                             } catch (err) {
-                                console.error("❌ Error adding delayed ICE candidate:", err);
+                                console.error(
+                                    "❌ Error adding delayed ICE candidate:",
+                                    err
+                                );
                             }
                         } else {
                             pendingCandidates.push(candidate);
-                            console.log("⏳ Added ICE candidate to pending queue (delayed)");
+                            console.log(
+                                "⏳ Added ICE candidate to pending queue (delayed)"
+                            );
                         }
                     }, 100);
                     return;
