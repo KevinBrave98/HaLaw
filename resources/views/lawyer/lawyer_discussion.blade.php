@@ -26,18 +26,7 @@
                 <a href="#">
                     <img src="{{ asset('assets/images/weui_video-call-filled.png') }}">
                 </a> --}}
-                <audio id="remoteAudio" autoplay playsinline  hidden></audio>
             </div>
-            <div id="callStatus" class="position-fixed bottom-0 end-0 m-3 p-3 bg-dark text-white rounded shadow d-none"
-                style="z-index:1050; min-width:200px;">
-
-                <p class="mb-2">🔔 Calling…</p>
-                <button id="endCallBtn" class="btn btn-danger btn-sm">
-                    End Call
-                </button>
-            </div>
-
-
         </section>
         <section class="d-flex flex-column chat_wrapper my-4">
             @foreach ($pesan as $pesan_item)
@@ -69,9 +58,7 @@
             @endforeach
         </section>
         <section class="d-flex flex-row discussion-input w-100 p-4 mt-4">
-            <form action="{{ route('consultation.lawyer.send', ['id' => $riwayat->id]) }}" method="POST"
-                id="form_kirim_chat" class="d-flex flex-row w-100 gap-4 form_kirim_chat"
-                data-riwayat-id="{{ $riwayat->id }}">
+            <form action="{{ route('consultation.lawyer.send', ['id' => $riwayat->id]) }}" method="POST" id="form_kirim_chat" class="d-flex flex-row w-100 gap-4 form_kirim_chat" data-riwayat-id="{{ $riwayat->id }}">
                 @csrf
                 <a href="#">
                     <img src="{{ asset('assets/images/ant-design_paper-clip-outlined(1).png') }}">
@@ -83,10 +70,4 @@
             </form>
         </section>
     </main>
-    @push('scripts')
-        <script>
-            // Pass the riwayat ID to JS
-            window.callId = "{{ $riwayat->id }}";
-        </script>
-    @endpush
-</x-layout_lawyer>
+</x-layout_user>

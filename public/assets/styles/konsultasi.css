@@ -11,13 +11,6 @@ body {
     background-color: #3c2a1e;
 }
 
-.text-bold {
-    font-weight: bold;
-    background: #b99010;
-    border-radius: 10px;
-    color: white !important;
-}
-
 .text-brown {
     color: #654220;
 }
@@ -29,7 +22,7 @@ body {
 }
 
 .icon-disabled::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 40%;
     left: -10%;
@@ -39,23 +32,23 @@ body {
 }
 
 .tab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1rem;
-    font-weight: bold;
-    font-size: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    /* font-family: ; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  font-weight: bold;
+  font-size: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 
 }
 
 .tab.selected {
-    background-color: #654220; /* bg-brown */
-    color: white;
+  background-color: #654220; /* bg-brown */
+  color: white;
 }
 
 .tab:not(.selected) {
-    background-color: #3c2a1a; /* bg-dark-brown */
-    color: #888; /* text-muted */
+  background-color: #3c2a1a; /* bg-dark-brown */
+  color: #888; /* text-muted */
 }

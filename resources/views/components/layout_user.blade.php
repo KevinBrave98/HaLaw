@@ -27,7 +27,7 @@
 <body class="h-full">
 
     <x-navbar_user :pengguna=$pengguna />
-    <main style="min-height: 80vh">
+    <main>
         @foreach (auth()->user()->unreadNotifications as $notif)
             <div class="alert alert-info mb-2 notification-item" data-id="{{ $notif->id }}">
                 {{ $notif->data['message'] }}

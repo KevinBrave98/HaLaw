@@ -19,12 +19,10 @@
     <div class="card shadow-sm mb-3" style="border: 1px solid #B99010; background-color: #fdf5ee;">
         <div class="card-body d-flex align-items-center justify-content-between flex-wrap">
             <div class="d-flex align-items-center mb-2 mb-md-0">
-                <img src="{{ asset($riwayat->pengacara->foto_pengacara) }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #ddd;">
+                <img src="{{ asset($riwayat->foto_pengacara) }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #ddd;">
                 <div class="ms-3">
-                    <h5 class="mb-0">{{ $riwayat->pengacara->nama_pengacara }}</h5>
-                    @if($riwayat->pesans)
-                        <small class="text-muted">{{ $riwayat->pesans->last()->teks }}</small>
-                    @endif
+                    <h5 class="mb-0">{{ $riwayat->nama_pengacara }}</h5>
+                    <small class="text-muted">Lorem ipsum dolor sit amet.</small>
                 </div>
             </div>
             <div class="d-flex gap-3">

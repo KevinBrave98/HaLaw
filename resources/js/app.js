@@ -1,6 +1,5 @@
 import "./bootstrap";
 import "bootstrap";
-import './call';
 
 // --- SENDING ---
 document.querySelectorAll(".form_kirim_chat").forEach((form) => {
