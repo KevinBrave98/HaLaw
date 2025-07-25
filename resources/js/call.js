@@ -58,12 +58,18 @@ function cleanupCall() {
 // 🧊 ICE Candidate Helper
 // ============================
 async function processPendingCandidates() {
-    if (!peerConnection || !remoteDescriptionSet || pendingCandidates.length === 0) {
+    if (
+        !peerConnection ||
+        !remoteDescriptionSet ||
+        pendingCandidates.length === 0
+    ) {
         return;
     }
 
-    console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
-    
+    console.log(
+        `🔄 Processing ${pendingCandidates.length} pending ICE candidates`
+    );
+
     for (const candidate of pendingCandidates) {
         try {
             await peerConnection.addIceCandidate(candidate);
@@ -98,7 +104,7 @@ async function ensurePeerConnection() {
 
         peerConnection.onicecandidate = async (event) => {
             if (!peerConnection || !callActive) return;
-            
+
             if (event.candidate) {
                 // Log detailed candidate info for debugging
                 console.log("🔍 ICE Candidate Details:", {
@@ -108,11 +114,14 @@ async function ensurePeerConnection() {
                     port: event.candidate.port,
                     priority: event.candidate.priority,
                     foundation: event.candidate.foundation,
-                    candidate: event.candidate.candidate
+                    candidate: event.candidate.candidate,
                 });
-                
+
                 // Only send non-empty candidates
-                if (event.candidate.candidate && event.candidate.candidate.trim() !== '') {
+                if (
+                    event.candidate.candidate &&
+                    event.candidate.candidate.trim() !== ""
+                ) {
                     console.log("📤 Sending ICE candidate:", event.candidate);
                     try {
                         await axios.post("/call/ice", {
@@ -144,8 +153,8 @@ async function ensurePeerConnection() {
 
         peerConnection.oniceconnectionstatechange = () => {
             console.log("🌐 ICE state:", peerConnection.iceConnectionState);
-            
-            if (peerConnection.iceConnectionState === 'failed') {
+
+            if (peerConnection.iceConnectionState === "failed") {
                 console.log("❌ ICE connection failed, attempting ICE restart");
                 // Optionally trigger ICE restart
                 // restartIce();
@@ -169,16 +178,16 @@ async function startCall() {
         localStream = await navigator.mediaDevices.getUserMedia({
             audio: true,
         });
-        
+
         localStream.getTracks().forEach((track) => {
             peerConnection.addTrack(track, localStream);
         });
 
         const offer = await peerConnection.createOffer({
             offerToReceiveAudio: true,
-            offerToReceiveVideo: false
+            offerToReceiveVideo: false,
         });
-        
+
         await peerConnection.setLocalDescription(offer);
 
         await axios.post("/call/offer", {
@@ -239,19 +248,30 @@ if (window.callId) {
                 // Add local mic before setting remote description
                 if (!localStream) {
                     try {
-                        localStream = await navigator.mediaDevices.getUserMedia({
-                            audio: true,
-                        });
-                        localStream.getTracks().forEach((track) =>
-                            peerConnection.addTrack(track, localStream)
+                        localStream = await navigator.mediaDevices.getUserMedia(
+                            {
+                                audio: true,
+                            }
                         );
+                        localStream
+                            .getTracks()
+                            .forEach((track) =>
+                                peerConnection.addTrack(track, localStream)
+                            );
                     } catch (err) {
                         console.error("❌ Lawyer mic error:", err);
                     }
                 }
 
+                const cleanedSdp = e.offer.sdp
+                    .replace(/{/g, "")
+                    .replace(/}/g, "");
+                const cleanedOffer = { type: "offer", sdp: cleanedSdp };
+
                 // Set remote description
-                await peerConnection.setRemoteDescription(new RTCSessionDescription(e.offer));
+                await peerConnection.setRemoteDescription(
+                    new RTCSessionDescription(cleanedOffer)
+                );
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
                 console.log("✅ Offer set as remote description");
@@ -280,7 +300,7 @@ if (window.callId) {
             try {
                 console.log("📥 Received answer:", e.answer);
                 console.log("📥 Full event object:", e);
-                
+
                 if (!peerConnection) {
                     console.warn("No peer connection available");
                     return;
@@ -299,15 +319,27 @@ if (window.callId) {
                 // Check if we should set the remote description
                 if (peerConnection.signalingState === "have-local-offer") {
                     isProcessingRemoteDescription = true;
-                    
-                    await peerConnection.setRemoteDescription(new RTCSessionDescription(e.answer));
+                    const cleanedSdp = e.answer.sdp
+                        .replace(/{/g, "")
+                        .replace(/}/g, "");
+                    const cleanedAnswer = { type: "answer", sdp: cleanedSdp };
+
+                    console.log(
+                        "ℹ️ Cleaned SDP for cross-browser compatibility."
+                    );
+                    await peerConnection.setRemoteDescription(
+                        new RTCSessionDescription(cleanedAnswer)
+                    );
                     remoteDescriptionSet = true;
                     isProcessingRemoteDescription = false;
                     console.log("✅ Answer set as remote description");
 
                     await processPendingCandidates();
                 } else {
-                    console.log("ℹ️ Ignoring answer - wrong signaling state:", peerConnection.signalingState);
+                    console.log(
+                        "ℹ️ Ignoring answer - wrong signaling state:",
+                        peerConnection.signalingState
+                    );
                 }
             } catch (err) {
                 console.error("❌ Error handling answer:", err);
@@ -320,29 +352,43 @@ if (window.callId) {
                 return;
             }
 
-            if (!e.candidate || !e.candidate.candidate || e.candidate.candidate.trim() === '') {
+            if (
+                !e.candidate ||
+                !e.candidate.candidate ||
+                e.candidate.candidate.trim() === ""
+            ) {
                 console.log("ℹ️ Received empty ICE candidate, ignoring");
                 return;
             }
 
             try {
                 const candidate = new RTCIceCandidate(e.candidate);
-                
+
                 // Wait if remote description is being processed
                 if (isProcessingRemoteDescription) {
-                    console.log("⏳ Waiting for remote description processing to complete");
+                    console.log(
+                        "⏳ Waiting for remote description processing to complete"
+                    );
                     // Add a small delay and retry
                     setTimeout(async () => {
-                        if (remoteDescriptionSet && !isProcessingRemoteDescription) {
+                        if (
+                            remoteDescriptionSet &&
+                            !isProcessingRemoteDescription
+                        ) {
                             try {
                                 await peerConnection.addIceCandidate(candidate);
                                 console.log("✅ Delayed ICE candidate added");
                             } catch (err) {
-                                console.error("❌ Error adding delayed ICE candidate:", err);
+                                console.error(
+                                    "❌ Error adding delayed ICE candidate:",
+                                    err
+                                );
                             }
                         } else {
                             pendingCandidates.push(candidate);
-                            console.log("⏳ Added ICE candidate to pending queue (delayed)");
+                            console.log(
+                                "⏳ Added ICE candidate to pending queue (delayed)"
+                            );
                         }
                     }, 100);
                     return;

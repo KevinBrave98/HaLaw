@@ -15,7 +15,7 @@ body {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.lawyer-container {
+.container {
     padding-top: 8vh;
     padding-bottom: 8vh;
     padding-left: 5vw;
@@ -25,12 +25,12 @@ body {
     gap: 3rem;
     width: 80%;
     height: max-content;
-    justify-content: center;
+    justify: center;
 }
 
 .greetings {
     width: 100%;
-    justify-content : center;
+    justify: center;
     text-align: center;
 }
 

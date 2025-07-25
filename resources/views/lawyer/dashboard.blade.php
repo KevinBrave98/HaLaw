@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/lawyer_dashboard.css') }}">
 @endpush
 <x-layout_lawyer :title="'Halaw - Dashboard Lawyer'">
-    <div class="lawyer-container">
+    <div class="container">
         <div class="greetings">
             <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>
         </div>
