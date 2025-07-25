@@ -304,7 +304,6 @@ if (window.callId) {
                     isProcessingRemoteDescription = false;
                     console.log("✅ Answer set as remote description");
 
-                    // Process any pending ICE candidates
                     await processPendingCandidates();
                 } else {
                     console.log("ℹ️ Ignoring answer - wrong signaling state:", peerConnection.signalingState);
