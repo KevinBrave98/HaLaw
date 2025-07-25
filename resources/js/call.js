@@ -37,10 +37,19 @@ function sanitizeSSRC(sdp) {
   return fixed.join("\r\n");
 }
 
-// 🎨 Clean SDP for audio-only calls (remove all SSRC lines)
+// 🎨 Enhanced SDP cleaning for Chrome compatibility
 function cleanAudioOnlySDP(sdp) {
-  console.log("🗑️ Audio-only call - removing ALL SSRC lines");
-  return sdp.replace(/^a=ssrc:[^\r\n]*\r?\n?/gm, "");
+  console.log("🗑️ Audio-only call - cleaning SDP for Chrome compatibility");
+  
+  // Remove SSRC lines but preserve essential media attributes
+  let cleanedSdp = sdp.replace(/^a=ssrc:[^\r\n]*\r?\n?/gm, "");
+  
+  // Ensure proper media attributes for Chrome mobile
+  if (!cleanedSdp.includes("a=sendrecv")) {
+    cleanedSdp = cleanedSdp.replace(/^m=audio/gm, "m=audio 9 UDP/TLS/RTP/SAVPF 111 126\r\na=sendrecv");
+  }
+  
+  return cleanedSdp;
 }
 
 // ============================
@@ -59,7 +68,7 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
     // Always sanitize malformed SSRC lines
     sdp = sanitizeSSRC(sdp);
 
-    // For audio-only calls, remove all SSRC lines for compatibility
+    // For audio-only calls, clean SDP for Chrome compatibility
     if (!hasVideo) {
       sdp = cleanAudioOnlySDP(sdp);
     } else {
@@ -132,14 +141,19 @@ async function processPendingCandidates() {
 }
 
 // ============================
-// 📡 Ensure PeerConnection
+// 📡 Enhanced PeerConnection Setup
 // ============================
 async function ensurePeerConnection() {
   if (!peerConnection) {
-    peerConnection = new RTCPeerConnection({
+    // Enhanced configuration for Chrome mobile compatibility
+    const pcConfig = {
       iceTransportPolicy: "all",
+      iceCandidatePoolSize: 10, // Pre-gather more candidates
+      bundlePolicy: "max-bundle", // Bundle all media
+      rtcpMuxPolicy: "require", // Require RTCP multiplexing
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" }, // Additional STUN server
         {
           urls: [
             "turn:34.101.170.104:3478?transport=udp",
@@ -150,12 +164,14 @@ async function ensurePeerConnection() {
           credential: "halawAhKnR123",
         },
       ],
-    });
+    };
+
+    peerConnection = new RTCPeerConnection(pcConfig);
 
     peerConnection.onicecandidate = async (event) => {
       if (!peerConnection || !callActive) return;
       if (event.candidate) {
-        console.log("📤 Sending ICE candidate:", event.candidate);
+        console.log("📤 Sending ICE candidate:", event.candidate.type, event.candidate.protocol);
         try {
           await axios.post("/call/ice", { call_id: window.callId, candidate: event.candidate });
         } catch (err) {
@@ -178,39 +194,90 @@ async function ensurePeerConnection() {
     };
 
     peerConnection.oniceconnectionstatechange = () => {
-      console.log("🌐 ICE state:", peerConnection.iceConnectionState);
+      console.log("🌐 ICE connection state:", peerConnection.iceConnectionState);
       if (peerConnection.iceConnectionState === "failed") {
-        console.warn("❌ ICE connection failed");
+        console.warn("❌ ICE connection failed - attempting restart");
+        // Attempt ICE restart for Chrome mobile
+        if (peerConnection.restartIce) {
+          peerConnection.restartIce();
+        }
+      }
+      if (peerConnection.iceConnectionState === "disconnected") {
+        console.warn("⚠️ ICE connection disconnected");
+        // Give it a moment to reconnect before restarting
+        setTimeout(() => {
+          if (peerConnection && peerConnection.iceConnectionState === "disconnected") {
+            console.log("🔄 Attempting ICE restart after disconnection");
+            if (peerConnection.restartIce) {
+              peerConnection.restartIce();
+            }
+          }
+        }, 5000);
       }
     };
 
     peerConnection.onsignalingstatechange = () => {
       console.log("📡 Signaling state:", peerConnection.signalingState);
     };
+
+    // Enhanced logging for debugging
+    peerConnection.oniceconnectionstatechange = () => {
+      const state = peerConnection.iceConnectionState;
+      console.log("🌐 ICE connection state:", state);
+      
+      if (state === "failed") {
+        console.warn("❌ ICE connection failed");
+        // Log more details for debugging
+        peerConnection.getStats().then(stats => {
+          stats.forEach(report => {
+            if (report.type === 'candidate-pair' && report.state === 'failed') {
+              console.warn("❌ Failed candidate pair:", report);
+            }
+          });
+        });
+      }
+    };
   }
 }
 
 // ============================
-// 📞 Start Call
+// 📞 Enhanced Start Call
 // ============================
 async function startCall(video = false) {
   try {
     console.log("📞 Starting call…");
     await ensurePeerConnection();
 
-    localStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
+    // Enhanced constraints for Chrome mobile
+    const constraints = {
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      },
       video: video,
+    };
+
+    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    localStream.getTracks().forEach((track) => {
+      console.log("🎵 Adding track:", track.kind, track.enabled);
+      peerConnection.addTrack(track, localStream);
     });
 
-    localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
-
-    const offer = await peerConnection.createOffer({
+    // Enhanced offer options for Chrome compatibility
+    const offerOptions = {
       offerToReceiveAudio: true,
       offerToReceiveVideo: video,
-    });
+      // Force offer to include all ICE candidates
+      iceRestart: false,
+    };
 
+    const offer = await peerConnection.createOffer(offerOptions);
     await peerConnection.setLocalDescription(offer);
+
+    // Wait a bit for ICE gathering to start before sending offer
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     await axios.post("/call/offer", { call_id: window.callId, offer });
 
@@ -253,7 +320,7 @@ if (endCallBtn) {
 }
 
 // ============================
-// 📡 Echo Signaling
+// 📡 Enhanced Echo Signaling
 // ============================
 if (window.callId) {
   Echo.private(`callroom.${window.callId}`)
@@ -267,8 +334,19 @@ if (window.callId) {
 
         if (!localStream) {
           try {
-            localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-            localStream.getTracks().forEach((t) => peerConnection.addTrack(t, localStream));
+            const constraints = {
+              audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true,
+              },
+              video: false
+            };
+            localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            localStream.getTracks().forEach((t) => {
+              console.log("🎵 Adding answerer track:", t.kind);
+              peerConnection.addTrack(t, localStream);
+            });
           } catch (err) {
             console.error("❌ Error accessing local media:", err);
           }
@@ -281,8 +359,17 @@ if (window.callId) {
 
         await processPendingCandidates();
 
-        const answer = await peerConnection.createAnswer();
+        // Enhanced answer options
+        const answerOptions = {
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: false,
+        };
+
+        const answer = await peerConnection.createAnswer(answerOptions);
         await peerConnection.setLocalDescription(answer);
+
+        // Small delay before sending answer to ensure local description is set
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         await axios.post("/call/answer", { call_id: window.callId, answer });
         if (callStatus) callStatus.classList.remove("d-none");
@@ -313,8 +400,11 @@ if (window.callId) {
     .listen(".candidate", async (e) => {
       if (!peerConnection || !callActive) return;
       if (!e.candidate || !e.candidate.candidate || e.candidate.candidate.trim() === "") return;
+      
       try {
         const candidate = new RTCIceCandidate(e.candidate);
+        console.log("📥 Received ICE candidate:", candidate.type, candidate.protocol);
+        
         if (isProcessingRemoteDescription) {
           console.log("⏳ Waiting for remote description processing");
           setTimeout(async () => {
@@ -332,6 +422,7 @@ if (window.callId) {
           }, 100);
           return;
         }
+        
         if (remoteDescriptionSet) {
           await peerConnection.addIceCandidate(candidate);
           console.log("✅ ICE candidate added immediately");
