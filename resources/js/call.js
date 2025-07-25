@@ -16,69 +16,111 @@ const startCallLink = document.getElementById("startCallLink");
 const remoteAudio = document.getElementById("remoteAudio");
 
 // ============================
+// 🔑 Generate TURN Credentials (Time-based)
+// ============================
+function generateTurnCredentials() {
+  // Most TURN servers use time-limited credentials
+  const ttl = 24 * 3600; // 24 hours
+  const timestamp = Math.floor(Date.now() / 1000) + ttl;
+  const tempUsername = `${timestamp}:halaw`;
+  
+  // If your TURN server uses HMAC-SHA1 for credentials:
+  // You'd need to generate the credential using your shared secret
+  // For now, let's try both static and time-based approaches
+  
+  return [
+    // Static credentials (your current setup)
+    {
+      username: "halaw",
+      credential: "halawAhKnR123"
+    },
+    // Time-based credentials (if your TURN server supports this)
+    {
+      username: tempUsername,
+      credential: "halawAhKnR123" // This should be HMAC-SHA1 hash in production
+    }
+  ];
+}
+// ============================
 // 🧪 TURN Server Diagnostic
 // ============================
 async function testTurnServer() {
   console.log("🧪 Testing TURN server connectivity...");
   
-  const testConfig = {
-    iceServers: [
-      {
-        urls: "turn:34.101.170.104:3478?transport=udp",
-        username: "halaw",
-        credential: "halawAhKnR123",
-      }
-    ],
-    iceTransportPolicy: "relay"
-  };
+  const credentials = generateTurnCredentials();
   
-  const testPC = new RTCPeerConnection(testConfig);
-  
-  return new Promise((resolve) => {
-    let relayFound = false;
-    let testTimeout;
+  // Test multiple credential configurations
+  for (let i = 0; i < credentials.length; i++) {
+    const cred = credentials[i];
+    console.log(`🧪 Testing TURN config ${i + 1}:`, cred.username);
     
-    testPC.onicecandidate = (event) => {
-      if (event.candidate) {
-        console.log("🧪 Test candidate:", {
-          type: event.candidate.type,
-          protocol: event.candidate.protocol,
-          address: event.candidate.address,
-          port: event.candidate.port
-        });
-        
-        if (event.candidate.type === 'relay') {
-          relayFound = true;
-          console.log("✅ TURN server is working - relay candidate found!");
+    const testConfig = {
+      iceServers: [
+        {
+          urls: ["turn:34.101.170.104:3478?transport=udp"],
+          username: cred.username,
+          credential: cred.credential,
         }
-      } else {
-        console.log("🧪 Test ICE gathering completed");
-        clearTimeout(testTimeout);
+      ],
+      iceTransportPolicy: "relay"
+    };
+    
+    const testPC = new RTCPeerConnection(testConfig);
+    
+    const result = await new Promise((resolve) => {
+      let relayFound = false;
+      let testTimeout;
+      
+      testPC.onicecandidate = (event) => {
+        if (event.candidate) {
+          console.log(`🧪 Test candidate (config ${i + 1}):`, {
+            type: event.candidate.type,
+            protocol: event.candidate.protocol,
+            address: event.candidate.address,
+            port: event.candidate.port
+          });
+          
+          if (event.candidate.type === 'relay') {
+            relayFound = true;
+            console.log(`✅ TURN server working with config ${i + 1}!`);
+          }
+        } else {
+          console.log(`🧪 Test ICE gathering completed for config ${i + 1}`);
+          clearTimeout(testTimeout);
+          testPC.close();
+          resolve(relayFound);
+        }
+      };
+      
+      testPC.onicegatheringstatechange = () => {
+        console.log(`🧪 Test ICE gathering state (config ${i + 1}):`, testPC.iceGatheringState);
+      };
+      
+      // Create a dummy offer to trigger ICE gathering
+      testPC.createOffer({offerToReceiveAudio: true})
+        .then(offer => testPC.setLocalDescription(offer))
+        .catch(err => {
+          console.error(`🧪 Test offer failed for config ${i + 1}:`, err);
+          testPC.close();
+          resolve(false);
+        });
+      
+      // Timeout after 8 seconds
+      testTimeout = setTimeout(() => {
+        console.warn(`🧪 TURN test timed out for config ${i + 1}`);
         testPC.close();
         resolve(relayFound);
-      }
-    };
+      }, 8000);
+    });
     
-    testPC.onicegatheringstatechange = () => {
-      console.log("🧪 Test ICE gathering state:", testPC.iceGatheringState);
-    };
-    
-    // Create a dummy offer to trigger ICE gathering
-    testPC.createOffer({offerToReceiveAudio: true})
-      .then(offer => testPC.setLocalDescription(offer))
-      .catch(err => {
-        console.error("🧪 Test offer failed:", err);
-        testPC.close();
-        resolve(false);
-      });
-    
-    // Timeout after 10 seconds
-    testTimeout = setTimeout(() => {
-      console.warn("🧪 TURN test timed out");
-      testPC.close();
-      resolve(relayFound);
-    }, 10000);
-  });
+    if (result) {
+      console.log(`✅ TURN server works with config ${i + 1}`);
+      return { working: true, config: cred };
+    }
+  }
+  
+  console.error("❌ No working TURN server configuration found");
+  return { working: false, config: credentials[0] };
 }
 
 // ============================
@@ -100,8 +142,53 @@ function sanitizeSSRC(sdp) {
   return fixed.join("\r\n");
 }
 
+// 🚑 Fix malformed telephone-event lines (Chrome bug)
+function fixTelephoneEvent(sdp) {
+  if (!sdp || typeof sdp !== "string") return sdp;
+  
+  console.log("🔧 Checking for telephone-event issues");
+  
+  // Fix malformed rtpmap lines for telephone-event
+  let fixedSdp = sdp.replace(
+    /^a=rtpmap:(\d+)\s+telephone-event\/8000$/gm,
+    'a=rtpmap:$1 telephone-event/8000/1'
+  );
+  
+  // Remove any duplicate or malformed telephone-event lines
+  let lines = fixedSdp.split(/\r\n|\n/);
+  let seenTelephoneEventRtpmap = new Set();
+  
+  lines = lines.filter((line) => {
+    if (line.match(/^a=rtpmap:\d+\s+telephone-event/)) {
+      const match = line.match(/^a=rtpmap:(\d+)/);
+      if (match) {
+        const payloadType = match[1];
+        if (seenTelephoneEventRtpmap.has(payloadType)) {
+          console.warn("⚠️ Removing duplicate telephone-event rtpmap:", line);
+          return false;
+        }
+        seenTelephoneEventRtpmap.add(payloadType);
+        
+        // Ensure proper format
+        if (!line.includes('/8000/1') && line.includes('telephone-event/8000')) {
+          console.warn("⚠️ Fixing telephone-event format:", line);
+          return false; // Remove malformed line, proper one will be added above
+        }
+      }
+    }
+    return true;
+  });
+  
+  return lines.join("\r\n");
+}
+
 function cleanAudioOnlySDP(sdp) {
   console.log("🗑️ Audio-only call - cleaning SDP");
+  
+  // First fix telephone-event issues
+  sdp = fixTelephoneEvent(sdp);
+  
+  // Then remove SSRC lines
   return sdp.replace(/^a=ssrc:[^\r\n]*\r?\n?/gm, "");
 }
 
@@ -208,41 +295,37 @@ async function ensurePeerConnection() {
     });
 
     // Test TURN server first
-    const turnWorking = await testTurnServer();
-    console.log("🧪 TURN server test result:", turnWorking);
+    const turnTest = await testTurnServer();
+    console.log("🧪 TURN server test result:", turnTest);
+
+    // Use the working TURN configuration
+    const workingCred = turnTest.config;
 
     // Multiple TURN server configurations to try
     const turnConfigs = [
-      // Config 1: Your current setup
+      // Use the tested working config first
       {
         urls: "turn:34.101.170.104:3478?transport=udp",
-        username: "halaw",
-        credential: "halawAhKnR123",
+        username: workingCred.username,
+        credential: workingCred.credential,
       },
-      // Config 2: Try with explicit credential type
-      {
-        urls: "turn:34.101.170.104:3478?transport=udp",
-        username: "halaw",
-        credential: "halawAhKnR123",
-        credentialType: "password"
-      },
-      // Config 3: TURNS for secure connection
+      // Backup with TURNS
       {
         urls: "turns:34.101.170.104:5349?transport=tcp",
-        username: "halaw",
-        credential: "halawAhKnR123",
+        username: workingCred.username,
+        credential: workingCred.credential,
       }
     ];
 
     const pcConfig = {
-      iceTransportPolicy: turnWorking ? "all" : "all", // Start with all, we'll force relay later if needed
-      iceCandidatePoolSize: 0, // Disable pre-gathering for better debugging
+      iceTransportPolicy: turnTest.working ? "all" : "all",
+      iceCandidatePoolSize: 0,
       bundlePolicy: "max-bundle",
       rtcpMuxPolicy: "require",
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
         { urls: "stun:stun1.l.google.com:19302" },
-        ...turnConfigs // Try all TURN configurations
+        ...turnConfigs
       ],
     };
 
