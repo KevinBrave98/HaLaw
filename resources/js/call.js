@@ -263,9 +263,14 @@ if (window.callId) {
                     }
                 }
 
+                const cleanedSdp = e.offer.sdp
+                    .replace(/{/g, "")
+                    .replace(/}/g, "");
+                const cleanedOffer = { type: "offer", sdp: cleanedSdp };
+
                 // Set remote description
                 await peerConnection.setRemoteDescription(
-                    new RTCSessionDescription(e.offer)
+                    new RTCSessionDescription(cleanedOffer)
                 );
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
