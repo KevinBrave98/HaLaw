@@ -148,30 +148,38 @@ async function processPendingCandidates() {
 // ============================
 async function ensurePeerConnection() {
   if (!peerConnection) {
-    // Enhanced configuration for Chrome mobile compatibility
+    // Detect if we're on Chrome mobile
+    const isChromeOnMobile = /Chrome/.test(navigator.userAgent) && /Mobile/.test(navigator.userAgent);
+    console.log("📱 Chrome mobile detected:", isChromeOnMobile);
+    
+    // Different config for Chrome mobile vs others
     const pcConfig = {
       iceTransportPolicy: "all",
-      iceCandidatePoolSize: 10, // Pre-gather more candidates
-      bundlePolicy: "max-bundle", // Bundle all media
-      rtcpMuxPolicy: "require", // Require RTCP multiplexing
+      iceCandidatePoolSize: isChromeOnMobile ? 0 : 10, // Disable pre-gathering on Chrome mobile
+      bundlePolicy: "max-bundle",
+      rtcpMuxPolicy: "require",
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
         { urls: "stun:stun1.l.google.com:19302" },
         { urls: "stun:stun2.l.google.com:19302" },
         {
-          // Only UDP relay since your coturn doesn't support TCP relay
           urls: "turn:34.101.170.104:3478?transport=udp",
           username: "halaw",
           credential: "halawAhKnR123",
         },
         {
-          // TURNS over TLS for secure connections (still UDP relay)
           urls: "turns:34.101.170.104:5349?transport=tcp",
           username: "halaw", 
           credential: "halawAhKnR123",
         },
       ],
     };
+
+    // For Chrome mobile, force relay-only mode to bypass local network issues
+    if (isChromeOnMobile) {
+      console.log("🔧 Using relay-only mode for Chrome mobile");
+      pcConfig.iceTransportPolicy = "relay";
+    }
 
     peerConnection = new RTCPeerConnection(pcConfig);
 
@@ -331,15 +339,37 @@ async function startCall(video = false) {
     const offerOptions = {
       offerToReceiveAudio: true,
       offerToReceiveVideo: video,
-      // Force offer to include all ICE candidates
-      iceRestart: false,
     };
 
+    // For Chrome mobile, use different timing strategy
+    const isChromeOnMobile = /Chrome/.test(navigator.userAgent) && /Mobile/.test(navigator.userAgent);
+    
     const offer = await peerConnection.createOffer(offerOptions);
     await peerConnection.setLocalDescription(offer);
 
-    // Wait a bit for ICE gathering to start before sending offer
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Different ICE gathering strategy for Chrome mobile
+    if (isChromeOnMobile) {
+      console.log("📱 Chrome mobile: waiting for ICE gathering to complete");
+      // Wait for ICE gathering to fully complete on Chrome mobile
+      await new Promise(resolve => {
+        if (peerConnection.iceGatheringState === 'complete') {
+          resolve();
+        } else {
+          const checkGathering = () => {
+            if (peerConnection.iceGatheringState === 'complete') {
+              peerConnection.removeEventListener('icegatheringstatechange', checkGathering);
+              resolve();
+            }
+          };
+          peerConnection.addEventListener('icegatheringstatechange', checkGathering);
+          // Don't wait more than 3 seconds
+          setTimeout(resolve, 3000);
+        }
+      });
+    } else {
+      // Normal timing for other browsers
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
 
     await axios.post("/call/offer", { call_id: window.callId, offer });
 
