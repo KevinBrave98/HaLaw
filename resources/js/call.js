@@ -14,6 +14,15 @@ const callStatus = document.getElementById("callStatus");
 const endCallBtn = document.getElementById("endCallBtn");
 const startCallLink = document.getElementById("startCallLink");
 
+// ============================
+// 📌 Browser Detection
+// ============================
+const isFirefox = /firefox/i.test(navigator.userAgent);
+console.log("🌐 Browser detected:", navigator.userAgent, "→ Firefox?", isFirefox);
+
+// ============================
+// ✨ SDP Cleaner (only used on Firefox)
+// ============================
 function cleanSDP(sdp) {
     if (!sdp || typeof sdp !== "string") {
         console.warn("⚠️ Invalid SDP provided for cleaning");
@@ -25,15 +34,11 @@ function cleanSDP(sdp) {
     let cleanedSDP = sdp;
     let changesMade = false;
 
-    // ✅ Detect if the SDP negotiates video
     const hasVideo = /m=video/.test(cleanedSDP);
     console.log("🎥 Video call detected:", hasVideo);
 
     if (!hasVideo) {
-        // 🎧 Audio-only: remove *all* SSRC lines
-        console.log(
-            "🗑️ Audio-only call - removing ALL SSRC lines for maximum compatibility"
-        );
+        console.log("🗑️ Audio-only call - removing ALL SSRC lines (Firefox compatibility)");
         const allSSRCRegex = /^a=ssrc:[^\r\n]*\r?\n?/gm;
         const ssrcMatches = cleanedSDP.match(allSSRCRegex);
         if (ssrcMatches && ssrcMatches.length > 0) {
@@ -42,27 +47,14 @@ function cleanSDP(sdp) {
             changesMade = true;
         }
     } else {
-        // 🎥 Video: leave SSRC lines intact
         console.log("✅ Video call - keeping SSRC lines intact");
-        // (If you ever need to add msid/mslabel fixes, you can do it here.)
     }
 
-    // ✨ Clean up excessive blank lines
     cleanedSDP = cleanedSDP.replace(/(\r\n){3,}/g, "\r\n\r\n");
 
     if (changesMade) {
         console.log("🧹 SDP cleaned successfully");
         console.log("🔍 Cleaned SDP length:", cleanedSDP.length);
-
-        const remainingSSRCLines = cleanedSDP
-            .split("\n")
-            .filter((line) => line.startsWith("a=ssrc:"));
-        if (remainingSSRCLines.length > 0) {
-            console.log(
-                "🔍 Remaining SSRC lines:",
-                remainingSSRCLines.slice(0, 3)
-            );
-        }
     } else {
         console.log("ℹ️ No SDP cleaning needed");
     }
@@ -73,51 +65,41 @@ function cleanSDP(sdp) {
 // ============================
 // 🔒 Safe Remote Description Setter
 // ============================
-async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
+async function setRemoteDescriptionSafely(pc, sessionDescription) {
     try {
-        console.log(
-            "🔍 Setting remote description, type:",
-            sessionDescription.type
-        );
+        console.log("🔍 Setting remote description, type:", sessionDescription.type);
 
-        // Log problematic SDP lines for debugging
-        if (
-            sessionDescription.sdp &&
-            sessionDescription.sdp.includes("ssrc:")
-        ) {
+        if (sessionDescription.sdp && sessionDescription.sdp.includes("ssrc:")) {
             const ssrcLines = sessionDescription.sdp
                 .split("\n")
                 .filter((line) => line.includes("ssrc:"));
-            console.log("🔍 SSRC lines found:", ssrcLines.slice(0, 3)); // Show first 3 for debugging
+            console.log("🔍 SSRC lines found:", ssrcLines.slice(0, 3));
         }
 
-        // Clean the SDP before setting
-        // const cleanedSDP = cleanSDP(sessionDescription.sdp);
-        // const cleanedSessionDesc = new RTCSessionDescription({
-        //     type: sessionDescription.type,
-        //     sdp: cleanedSDP,
-        // });
+        const finalSDP = isFirefox
+            ? cleanSDP(sessionDescription.sdp)
+            : sessionDescription.sdp;
 
-        await peerConnection.setRemoteDescription(cleanedSessionDesc);
+        if (!isFirefox) {
+            console.log("🛑 Skipping SDP cleaning (Chrome needs SSRC lines intact)");
+        }
+
+        const desc = new RTCSessionDescription({
+            type: sessionDescription.type,
+            sdp: finalSDP,
+        });
+
+        await pc.setRemoteDescription(desc);
         console.log("✅ Remote description set successfully");
         return true;
     } catch (error) {
         console.error("❌ Error setting remote description:", error);
-
-        // Log the exact SDP line that's causing issues for further debugging
-        if (error.message && error.message.includes("ssrc:")) {
-            const match = error.message.match(/a=ssrc:[\d\s\w:-]+/);
-            if (match) {
-                console.error("🔍 Problematic SDP line:", match[0]);
-            }
-        }
-
         throw error;
     }
 }
 
 // ============================
-// 🎨 UI Helper
+// 🎨 UI Helpers
 // ============================
 function showCallStatus() {
     if (callStatus) callStatus.classList.remove("d-none");
@@ -160,17 +142,11 @@ function cleanupCall() {
 // 🧊 ICE Candidate Helper
 // ============================
 async function processPendingCandidates() {
-    if (
-        !peerConnection ||
-        !remoteDescriptionSet ||
-        pendingCandidates.length === 0
-    ) {
+    if (!peerConnection || !remoteDescriptionSet || pendingCandidates.length === 0) {
         return;
     }
 
-    console.log(
-        `🔄 Processing ${pendingCandidates.length} pending ICE candidates`
-    );
+    console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
 
     for (const candidate of pendingCandidates) {
         try {
@@ -189,9 +165,9 @@ async function processPendingCandidates() {
 async function ensurePeerConnection() {
     if (!peerConnection) {
         peerConnection = new RTCPeerConnection({
-            iceTransportPolicy: "relay", // Temporarily changed from "relay" for debugging
+            iceTransportPolicy: "all",
             iceServers: [
-                // { urls: "stun:stun.l.google.com:19302" },
+                { urls: "stun:stun.l.google.com:19302" },
                 {
                     urls: [
                         "turn:34.101.170.104:3478?transport=udp",
@@ -208,33 +184,14 @@ async function ensurePeerConnection() {
             if (!peerConnection || !callActive) return;
 
             if (event.candidate) {
-                // Log detailed candidate info for debugging
-                console.log("🔍 ICE Candidate Details:", {
-                    type: event.candidate.type,
-                    protocol: event.candidate.protocol,
-                    address: event.candidate.address,
-                    port: event.candidate.port,
-                    priority: event.candidate.priority,
-                    foundation: event.candidate.foundation,
-                    candidate: event.candidate.candidate,
-                });
-
-                // Only send non-empty candidates
-                if (
-                    event.candidate.candidate &&
-                    event.candidate.candidate.trim() !== ""
-                ) {
-                    console.log("📤 Sending ICE candidate:", event.candidate);
-                    try {
-                        await axios.post("/call/ice", {
-                            call_id: window.callId,
-                            candidate: event.candidate,
-                        });
-                    } catch (err) {
-                        console.error("Error sending ICE:", err);
-                    }
-                } else {
-                    console.log("🔚 End-of-candidates signal received");
+                console.log("📤 Sending ICE candidate:", event.candidate);
+                try {
+                    await axios.post("/call/ice", {
+                        call_id: window.callId,
+                        candidate: event.candidate,
+                    });
+                } catch (err) {
+                    console.error("Error sending ICE:", err);
                 }
             } else {
                 console.log("🔚 ICE gathering completed");
@@ -255,12 +212,6 @@ async function ensurePeerConnection() {
 
         peerConnection.oniceconnectionstatechange = () => {
             console.log("🌐 ICE state:", peerConnection.iceConnectionState);
-
-            if (peerConnection.iceConnectionState === "failed") {
-                console.log("❌ ICE connection failed, attempting ICE restart");
-                // Optionally trigger ICE restart
-                // restartIce();
-            }
         };
 
         peerConnection.onsignalingstatechange = () => {
@@ -277,10 +228,7 @@ async function startCall() {
         console.log("📞 Starting call…");
         await ensurePeerConnection();
 
-        localStream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
-        });
-
+        localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         localStream.getTracks().forEach((track) => {
             peerConnection.addTrack(track, localStream);
         });
@@ -291,7 +239,6 @@ async function startCall() {
         });
 
         await peerConnection.setLocalDescription(offer);
-
         await axios.post("/call/offer", {
             call_id: window.callId,
             offer,
@@ -347,37 +294,26 @@ if (window.callId) {
                 isProcessingRemoteDescription = true;
                 await ensurePeerConnection();
 
-                // Add local mic before setting remote description
                 if (!localStream) {
                     try {
-                        localStream = await navigator.mediaDevices.getUserMedia(
-                            {
-                                audio: true,
-                            }
+                        localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        localStream.getTracks().forEach((track) =>
+                            peerConnection.addTrack(track, localStream)
                         );
-                        localStream
-                            .getTracks()
-                            .forEach((track) =>
-                                peerConnection.addTrack(track, localStream)
-                            );
                     } catch (err) {
                         console.error("❌ Lawyer mic error:", err);
                     }
                 }
 
-                // Set remote description using the safe method
                 await setRemoteDescriptionSafely(peerConnection, e.offer);
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
                 console.log("✅ Offer set as remote description");
 
-                // Process any pending ICE candidates
                 await processPendingCandidates();
 
-                // Create and send answer
                 const answer = await peerConnection.createAnswer();
                 await peerConnection.setLocalDescription(answer);
-
                 await axios.post("/call/answer", {
                     call_id: window.callId,
                     answer,
@@ -394,24 +330,12 @@ if (window.callId) {
         .listen(".answer", async (e) => {
             try {
                 console.log("📥 Received answer:", e.answer);
-                console.log("📥 Full event object:", e);
 
                 if (!peerConnection) {
                     console.warn("No peer connection available");
                     return;
                 }
 
-                if (!e.answer) {
-                    console.error("❌ Received undefined answer");
-                    return;
-                }
-
-                if (!e.answer.type || !e.answer.sdp) {
-                    console.error("❌ Invalid answer format:", e.answer);
-                    return;
-                }
-
-                // Check if we should set the remote description
                 if (peerConnection.signalingState === "have-local-offer") {
                     isProcessingRemoteDescription = true;
                     await setRemoteDescriptionSafely(peerConnection, e.answer);
@@ -421,10 +345,7 @@ if (window.callId) {
 
                     await processPendingCandidates();
                 } else {
-                    console.log(
-                        "ℹ️ Ignoring answer - wrong signaling state:",
-                        peerConnection.signalingState
-                    );
+                    console.log("ℹ️ Ignoring answer - wrong signaling state:", peerConnection.signalingState);
                 }
             } catch (err) {
                 console.error("❌ Error handling answer:", err);
@@ -437,11 +358,7 @@ if (window.callId) {
                 return;
             }
 
-            if (
-                !e.candidate ||
-                !e.candidate.candidate ||
-                e.candidate.candidate.trim() === ""
-            ) {
+            if (!e.candidate || !e.candidate.candidate || e.candidate.candidate.trim() === "") {
                 console.log("ℹ️ Received empty ICE candidate, ignoring");
                 return;
             }
@@ -449,31 +366,19 @@ if (window.callId) {
             try {
                 const candidate = new RTCIceCandidate(e.candidate);
 
-                // Wait if remote description is being processed
                 if (isProcessingRemoteDescription) {
-                    console.log(
-                        "⏳ Waiting for remote description processing to complete"
-                    );
-                    // Add a small delay and retry
+                    console.log("⏳ Waiting for remote description processing to complete");
                     setTimeout(async () => {
-                        if (
-                            remoteDescriptionSet &&
-                            !isProcessingRemoteDescription
-                        ) {
+                        if (remoteDescriptionSet && !isProcessingRemoteDescription) {
                             try {
                                 await peerConnection.addIceCandidate(candidate);
                                 console.log("✅ Delayed ICE candidate added");
                             } catch (err) {
-                                console.error(
-                                    "❌ Error adding delayed ICE candidate:",
-                                    err
-                                );
+                                console.error("❌ Error adding delayed ICE candidate:", err);
                             }
                         } else {
                             pendingCandidates.push(candidate);
-                            console.log(
-                                "⏳ Added ICE candidate to pending queue (delayed)"
-                            );
+                            console.log("⏳ Added ICE candidate to pending queue (delayed)");
                         }
                     }, 100);
                     return;
@@ -488,7 +393,6 @@ if (window.callId) {
                 }
             } catch (err) {
                 console.error("❌ Error processing ICE candidate:", err);
-                // Don't add to pending queue if there's a parsing error
             }
         })
         .listen(".call-ended", () => {
