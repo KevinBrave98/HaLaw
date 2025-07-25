@@ -92,11 +92,11 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
         }
 
         // Clean the SDP before setting
-        const cleanedSDP = cleanSDP(sessionDescription.sdp);
-        const cleanedSessionDesc = new RTCSessionDescription({
-            type: sessionDescription.type,
-            sdp: cleanedSDP,
-        });
+        // const cleanedSDP = cleanSDP(sessionDescription.sdp);
+        // const cleanedSessionDesc = new RTCSessionDescription({
+        //     type: sessionDescription.type,
+        //     sdp: cleanedSDP,
+        // });
 
         await peerConnection.setRemoteDescription(cleanedSessionDesc);
         console.log("✅ Remote description set successfully");
@@ -189,9 +189,9 @@ async function processPendingCandidates() {
 async function ensurePeerConnection() {
     if (!peerConnection) {
         peerConnection = new RTCPeerConnection({
-            iceTransportPolicy: "all", // Temporarily changed from "relay" for debugging
+            iceTransportPolicy: "relay", // Temporarily changed from "relay" for debugging
             iceServers: [
-                { urls: "stun:stun.l.google.com:19302" },
+                // { urls: "stun:stun.l.google.com:19302" },
                 {
                     urls: [
                         "turn:34.101.170.104:3478?transport=udp",
