@@ -2,37 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Riwayat;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class KonsultasiController extends Controller
 {
     public function konsultasiSedangBerlangsung()
     {
-        $nik_pengguna = auth()->user()->nik_pengguna;
+        $nik_pengguna = Auth::user()->nik_pengguna;
 
-        $riwayats = DB::table('riwayats')
-            ->join('pengacaras', 'riwayats.nik_pengacara', '=', 'pengacaras.nik_pengacara')
-            ->where('riwayats.nik_pengguna', $nik_pengguna)
-            ->where('riwayats.status', 'Sedang Berlangsung')
-            ->orWhere('riwayats.status', 'Menunggu Konfirmasi')
-            ->select(
-                'riwayats.*',
-                'pengacaras.nama_pengacara',
-                'pengacaras.foto_pengacara',
-                'pengacaras.spesialisasi',
-                'pengacaras.durasi_pengalaman',
-                'pengacaras.chat',
-                'pengacaras.voice_chat',
-                'pengacaras.video_call'
-            )
-            ->get();
+        $riwayats = Riwayat::where('nik_pengguna', $nik_pengguna)->where('status', "Sedang Berlangsung")->orWhere('status', "Menunggu Konfirmasi")->get();
 
         return response()
-            ->view('user.konsultasi_sedang_berlangsung', compact('riwayats'))
-            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
-            ->header('Pragma', 'no-cache')
-            ->header('Expires', '0');
+            ->view('user.konsultasi_sedang_berlangsung', compact('riwayats'));
+            // ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            // ->header('Pragma', 'no-cache')
+            // ->header('Expires', '0');
+    }
+
+    public function konsultasiSedangBerlangsungPengacara() {
+        $nik_pengacara = Auth::guard('lawyer')->user()->nik_pengacara;
+        $riwayats = Riwayat::where('nik_pengacara', $nik_pengacara)->where('status', "Sedang Berlangsung")->orWhere('status', "Menunggu Konfirmasi")->get();
+        return view('lawyer.konsultasi_sedang_berlangsung', compact('riwayats'));
     }
 }

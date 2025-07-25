@@ -22,6 +22,18 @@ Broadcast::channel('chatroom.{id}', function ($user, $id) {
     return $currentUserNik === $riwayat->nik_pengguna || $currentUserNik === $riwayat->nik_pengacara;
 });
 
+Broadcast::channel('callroom.{id}', function ($user, $id) {
+    $riwayat = Riwayat::find($id);
+
+    if (!$riwayat) {
+        return false;
+    }
+
+    $currentUserNik = $user->nik_pengguna ?? $user->nik_pengacara;
+
+    return $currentUserNik === $riwayat->nik_pengguna || $currentUserNik === $riwayat->nik_pengacara;
+});
+
 Broadcast::channel('pengacara.{nik_pengacara}', function ($lawyer, $nik_pengacara) {
     return $lawyer->nik_pengacara === $nik_pengacara;
 }, ['guards' => ['lawyer']]);

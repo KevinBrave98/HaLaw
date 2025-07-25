@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Tests\Feature\ConsultationRoomTest;
+use App\Http\Controllers\CallController;
 use App\Http\Controllers\KamusController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
@@ -111,6 +112,7 @@ Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
     Route::post('/detail_penarikan', [PenarikanController::class, 'tarikDana'])->middleware('auth:lawyer')->name('pengacara.tarikDana');
     Route::get('/hasil_penarikan', [PenarikanController::class, 'hasilpenarikan'])->name('lawyer.hasil.penarikan');
     Route::get('/penarikan_gagal', [PenarikanController::class, 'gagal'])->name('lawyer.penarikan_gagal');
+    Route::get('/konsultasi/sedang-berlangsung', [KonsultasiController::class, 'konsultasiSedangBerlangsungPengacara'])->name('lawyer.konsultasi.berlangsung');
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.lawyer');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.lawyer.send');
     Route::get('/notifikasi-konsultasi', [NotifikasiController::class, 'cekNotifikasi']);
@@ -121,3 +123,8 @@ Route::post('/delete-notification/{id}', [NotifikasiController::class, 'hapus'])
 Route::post('/delete-notification-pengacara/{id}', [NotifikasiController::class, 'hapusnotifpengacara']);
 
 //  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
+// routes/web.php
+Route::post('/call/offer', [CallController::class, 'sendOffer']);
+Route::post('/call/answer', [CallController::class, 'sendAnswer']);
+Route::post('/call/ice', [CallController::class, 'sendIce']);
+Route::post('/call/end', [CallController::class, 'endCall']);
