@@ -277,109 +277,41 @@ async function processPendingCandidates() {
   }
 }
 
-// ============================
-// 📡 Enhanced PeerConnection Setup with Multiple TURN Strategies
-// ============================
 async function ensurePeerConnection() {
   if (!peerConnection) {
-    const userAgent = navigator.userAgent;
-    const isChrome = /Chrome/.test(userAgent);
-    const isMobile = /Mobile|Android/.test(userAgent);
-    const isChromeOnMobile = isChrome && isMobile;
-    
-    console.log("🔍 Browser detection:", {
-      userAgent: userAgent,
-      isChrome: isChrome,
-      isMobile: isMobile,
-      isChromeOnMobile: isChromeOnMobile
-    });
+    console.log("🔧 Creating PeerConnection with forced TURN relay…");
 
-    // Test TURN server first
-    const turnTest = await testTurnServer();
-    console.log("🧪 TURN server test result:", turnTest);
-
-    // Use the working TURN configuration
-    const workingCred = turnTest.config;
-
-    // Multiple TURN server configurations to try
-    const turnConfigs = [
-      // Use the tested working config first
-      {
-        urls: "turn:34.101.170.104:3478?transport=udp",
-        username: workingCred.username,
-        credential: workingCred.credential,
-      },
-      // Backup with TURNS
-      {
-        urls: "turns:34.101.170.104:5349?transport=tcp",
-        username: workingCred.username,
-        credential: workingCred.credential,
-      }
+    const turnServers = [
+      { urls: "turn:34.101.170.104:3478?transport=udp", username: "halaw", credential: "halawAhKnR123" },
+      { urls: "turn:34.101.170.104:80?transport=udp", username: "halaw", credential: "halawAhKnR123" },
+      { urls: "turn:34.101.170.104:443?transport=udp", username: "halaw", credential: "halawAhKnR123" },
+      { urls: "turn:34.101.170.104:3478?transport=tcp", username: "halaw", credential: "halawAhKnR123" },
+      { urls: "turns:34.101.170.104:5349?transport=tcp", username: "halaw", credential: "halawAhKnR123" }
     ];
 
     const pcConfig = {
-      iceTransportPolicy: turnTest.working ? "all" : "all",
-      iceCandidatePoolSize: 0,
+      iceTransportPolicy: "relay", // force relay only, for testing
+      iceServers: turnServers,
       bundlePolicy: "max-bundle",
-      rtcpMuxPolicy: "require",
-      iceServers: [
-        { urls: "stun:stun.l.google.com:19302" },
-        { urls: "stun:stun1.l.google.com:19302" },
-        ...turnConfigs
-      ],
+      rtcpMuxPolicy: "require"
     };
 
-    console.log("🔧 PeerConnection config:", pcConfig);
     peerConnection = new RTCPeerConnection(pcConfig);
 
-    // Enhanced ICE candidate logging
     peerConnection.onicecandidate = async (event) => {
-      if (!peerConnection || !callActive) return;
+      if (!callActive || !peerConnection) return;
       if (event.candidate) {
-        const candidate = event.candidate;
-        console.log("📤 Generated ICE candidate:", {
-          type: candidate.type,
-          protocol: candidate.protocol,
-          address: candidate.address,
-          port: candidate.port,
-          relatedAddress: candidate.relatedAddress,
-          relatedPort: candidate.relatedPort,
-          foundation: candidate.foundation,
-          priority: candidate.priority,
-          component: candidate.component,
-          tcpType: candidate.tcpType
-        });
-        
-        if (candidate.type === 'relay') {
-          console.log("🎯 RELAY CANDIDATE FOUND! TURN server is working!");
+        console.log("📤 ICE candidate:", event.candidate);
+        if (event.candidate.type === "relay") {
+          console.log("🎯 RELAY CANDIDATE FOUND!");
         }
-        
         try {
           await axios.post("/call/ice", { call_id: window.callId, candidate: event.candidate });
         } catch (err) {
-          console.error("Error sending ICE:", err);
+          console.error("❌ Failed to send ICE:", err);
         }
       } else {
-        console.log("🔚 ICE gathering completed");
-        
-        // Final statistics
-        setTimeout(() => {
-          peerConnection.getStats().then(stats => {
-            let hostCount = 0, srflxCount = 0, relayCount = 0;
-            stats.forEach(report => {
-              if (report.type === 'local-candidate') {
-                if (report.candidateType === 'host') hostCount++;
-                else if (report.candidateType === 'srflx') srflxCount++;
-                else if (report.candidateType === 'relay') relayCount++;
-              }
-            });
-            console.log(`📊 FINAL CANDIDATE STATS: ${hostCount} host, ${srflxCount} srflx, ${relayCount} relay`);
-            
-            if (relayCount === 0) {
-              console.error("🚨 NO RELAY CANDIDATES! TURN server authentication or connectivity issue!");
-            }
-          });
-        }, 1000);
+        console.log("✅ ICE gathering complete");
       }
     };
 
@@ -394,58 +326,15 @@ async function ensurePeerConnection() {
       }
     };
 
-    // Enhanced connection state monitoring
     peerConnection.oniceconnectionstatechange = () => {
-      const state = peerConnection.iceConnectionState;
-      console.log("🌐 ICE connection state:", state);
-      
-      if (state === "checking") {
-        console.log("🔍 ICE is checking connections...");
-        // Log active candidate pairs
-        setTimeout(() => {
-          peerConnection.getStats().then(stats => {
-            stats.forEach(report => {
-              if (report.type === 'candidate-pair') {
-                console.log("🔗 Candidate pair:", {
-                  state: report.state,
-                  localType: report.localCandidateId,
-                  remoteType: report.remoteCandidateId,
-                  nominated: report.nominated,
-                  priority: report.priority
-                });
-              }
-            });
-          });
-        }, 2000);
+      console.log("🌐 ICE connection state:", peerConnection.iceConnectionState);
+      if (peerConnection.iceConnectionState === "failed") {
+        console.error("❌ ICE connection failed – check TURN connectivity and logs");
       }
-      
-      if (state === "disconnected") {
-        console.warn("⚠️ ICE disconnected - this often indicates TURN server issues");
-        
-        // Log detailed connection info
-        peerConnection.getStats().then(stats => {
-          stats.forEach(report => {
-            if (report.type === 'candidate-pair' && report.state === 'failed') {
-              console.error("❌ Failed candidate pair details:", report);
-            }
-          });
-        });
-      }
-      
-      if (state === "failed") {
-        console.error("❌ ICE connection failed - likely TURN server authentication issue");
-      }
-    };
-
-    peerConnection.onsignalingstatechange = () => {
-      console.log("📡 Signaling state:", peerConnection.signalingState);
-    };
-
-    peerConnection.onicegatheringstatechange = () => {
-      console.log("🧊 ICE gathering state:", peerConnection.iceGatheringState);
     };
   }
 }
+
 
 // ============================
 // 📞 Start Call
