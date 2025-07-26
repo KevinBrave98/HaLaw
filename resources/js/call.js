@@ -155,9 +155,9 @@ async function ensurePeerConnection() {
       bundlePolicy: "max-bundle", // Bundle all media
       rtcpMuxPolicy: "require", // Require RTCP multiplexing
       iceServers: [
-        { urls: "stun:stun.l.google.com:19302" },
-        { urls: "stun:stun1.l.google.com:19302" },
-        { urls: "stun:stun2.l.google.com:19302" },
+        // { urls: "stun:stun.l.google.com:19302" },
+        // { urls: "stun:stun1.l.google.com:19302" },
+        // { urls: "stun:stun2.l.google.com:19302" },
         {
           // Only UDP relay since your coturn doesn't support TCP relay
           urls: "turn:34.101.170.104:3478?transport=udp",
