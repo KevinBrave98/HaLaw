@@ -62,7 +62,7 @@ async function testTurnServer() {
           credential: cred.credential,
         }
       ],
-      iceTransportPolicy: "all"
+      iceTransportPolicy: "relay"
     };
     
     const testPC = new RTCPeerConnection(testConfig);
@@ -290,7 +290,7 @@ async function ensurePeerConnection() {
     ];
 
     const pcConfig = {
-      iceTransportPolicy: "all", // force relay only, for testing
+      iceTransportPolicy: "relay", // force relay only, for testing
       iceServers: turnServers,
       bundlePolicy: "max-bundle",
       rtcpMuxPolicy: "require"
