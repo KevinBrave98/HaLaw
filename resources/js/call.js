@@ -1,470 +1,325 @@
 import axios from "axios";
 
 // ============================
-
 // 🔧 Global variables
-
 // ============================
 
 let peerConnection = null;
-
 let localStream = null;
-
 let pendingCandidates = [];
-
 let remoteDescriptionSet = false;
-
 let callActive = false;
-
 let isProcessingRemoteDescription = false;
+let connectionAttempts = 0;
+let maxConnectionAttempts = 3;
 
 const callStatus = document.getElementById("callStatus");
-
 const endCallBtn = document.getElementById("endCallBtn");
-
 const startCallLink = document.getElementById("startCallLink");
-
 const remoteAudio = document.getElementById("remoteAudio");
 
 // ============================
-
-// 🔑 Generate TURN Credentials (Time-based)
-
+// 🔑 Enhanced TURN Configuration
 // ============================
 
-function generateTurnCredentials() {
-    // Most TURN servers use time-limited credentials
-
-    const ttl = 24 * 3600; // 24 hours
-
-    const timestamp = Math.floor(Date.now() / 1000) + ttl;
-
-    const tempUsername = `${timestamp}:halaw`;
-
-    // If your TURN server uses HMAC-SHA1 for credentials:
-
-    // You'd need to generate the credential using your shared secret
-
-    // For now, let's try both static and time-based approaches
-
-    return [
-        // Static credentials (your current setup)
-
-        {
-            username: "halaw",
-
-            credential: "halawAhKnR123",
-        },
-
-        // Time-based credentials (if your TURN server supports this)
-
-        {
-            username: tempUsername,
-
-            credential: "halawAhKnR123", // This should be HMAC-SHA1 hash in production
-        },
-    ];
+function getTurnConfiguration() {
+    // Simplified, proven TURN configuration
+    return {
+        iceServers: [
+            // Google's public STUN servers for basic connectivity
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:stun1.l.google.com:19302" },
+            
+            // Your TURN server - simplified to most reliable configuration
+            {
+                urls: [
+                    "turn:34.101.170.104:3478?transport=udp",
+                    "turn:34.101.170.104:3478?transport=tcp"
+                ],
+                username: "halaw",
+                credential: "halawAhKnR123"
+            }
+        ],
+        // Use 'all' for maximum compatibility, 'relay' only for testing
+        iceTransportPolicy: "all",
+        bundlePolicy: "max-bundle",
+        rtcpMuxPolicy: "require",
+        // Add these for better connectivity
+        iceCandidatePoolSize: 10
+    };
 }
 
 // ============================
-
-// 🧪 TURN Server Diagnostic
-
+// 🧪 Enhanced TURN Server Test
 // ============================
 
 async function testTurnServer() {
     console.log("🧪 Testing TURN server connectivity...");
-
-    const credentials = generateTurnCredentials();
-
-    // Test multiple credential configurations
-
-    for (let i = 0; i < credentials.length; i++) {
-        const cred = credentials[i];
-
-        console.log(`🧪 Testing TURN config ${i + 1}:`, cred.username);
-
-        const testConfig = {
-            iceServers: [
-                {
-                    urls: ["turn:34.101.170.104:3478?transport=udp"],
-
-                    username: cred.username,
-
-                    credential: cred.credential,
-                },
-            ],
-
-            iceTransportPolicy: "all",
-        };
-
-        const testPC = new RTCPeerConnection(testConfig);
-
-        const result = await new Promise((resolve) => {
-            let relayFound = false;
-
-            let testTimeout;
-
-            testPC.onicecandidate = (event) => {
-                if (event.candidate) {
-                    console.log(`🧪 Test candidate (config ${i + 1}):`, {
-                        type: event.candidate.type,
-
-                        protocol: event.candidate.protocol,
-
-                        address: event.candidate.address,
-
-                        port: event.candidate.port,
-                    });
-
-                    if (event.candidate.type === "relay") {
-                        relayFound = true;
-
-                        console.log(
-                            `✅ TURN server working with config ${i + 1}!`
-                        );
-                    }
-                } else {
-                    console.log(
-                        `🧪 Test ICE gathering completed for config ${i + 1}`
-                    );
-
-                    clearTimeout(testTimeout);
-
-                    testPC.close();
-
-                    resolve(relayFound);
-                }
-            };
-
-            testPC.onicegatheringstatechange = () => {
-                console.log(
-                    `🧪 Test ICE gathering state (config ${i + 1}):`,
-                    testPC.iceGatheringState
-                );
-            };
-
-            // Create a dummy offer to trigger ICE gathering
-
-            testPC
-                .createOffer({ offerToReceiveAudio: true })
-
-                .then((offer) => testPC.setLocalDescription(offer))
-
-                .catch((err) => {
-                    console.error(
-                        `🧪 Test offer failed for config ${i + 1}:`,
-                        err
-                    );
-
-                    testPC.close();
-
-                    resolve(false);
+    
+    const config = getTurnConfiguration();
+    const testPC = new RTCPeerConnection(config);
+    
+    return new Promise((resolve) => {
+        let relayFound = false;
+        let hostFound = false;
+        let timeout;
+        
+        testPC.onicecandidate = (event) => {
+            if (event.candidate) {
+                const candidate = event.candidate;
+                console.log(`🧪 Test candidate:`, {
+                    type: candidate.type,
+                    protocol: candidate.protocol,
+                    address: candidate.address,
+                    port: candidate.port
                 });
-
-            // Timeout after 8 seconds
-
-            testTimeout = setTimeout(() => {
-                console.warn(`🧪 TURN test timed out for config ${i + 1}`);
-
+                
+                if (candidate.type === "relay") {
+                    relayFound = true;
+                    console.log("✅ TURN relay working!");
+                } else if (candidate.type === "host") {
+                    hostFound = true;
+                }
+            } else {
+                console.log("🧪 ICE gathering completed");
+                clearTimeout(timeout);
                 testPC.close();
-
-                resolve(relayFound);
-            }, 8000);
-        });
-
-        if (result) {
-            console.log(`✅ TURN server works with config ${i + 1}`);
-
-            return { working: true, config: cred };
-        }
-    }
-
-    console.error("❌ No working TURN server configuration found");
-
-    return { working: false, config: credentials[0] };
+                resolve({ relay: relayFound, host: hostFound });
+            }
+        };
+        
+        // Create offer to start ICE gathering
+        testPC.createOffer({ offerToReceiveAudio: true })
+            .then(offer => testPC.setLocalDescription(offer))
+            .catch(err => {
+                console.error("🧪 Test offer failed:", err);
+                testPC.close();
+                resolve({ relay: false, host: false });
+            });
+        
+        // Timeout after 10 seconds
+        timeout = setTimeout(() => {
+            console.warn("🧪 TURN test timed out");
+            testPC.close();
+            resolve({ relay: relayFound, host: hostFound });
+        }, 10000);
+    });
 }
 
 // ============================
-
-// 🛠 SDP Helpers
-
+// 🛠 Platform Detection & SDP Processing 
 // ============================
 
-function sanitizeSSRC(sdp) {
+function detectPlatform() {
+    const userAgent = navigator.userAgent;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const isChrome = /Chrome/.test(userAgent) && !/Edge|Edg/.test(userAgent);
+    const isFirefox = /Firefox/.test(userAgent);
+    
+    return {
+        isMobile,
+        isDesktop: !isMobile,
+        isChrome,
+        isFirefox,
+        platform: isMobile ? 'mobile' : 'desktop',
+        browser: isChrome ? 'chrome' : isFirefox ? 'firefox' : 'other'
+    };
+}
+
+// DESKTOP Chrome SDP fixes (your original working code)
+function sanitizeSSRCDesktop(sdp) {
     if (!sdp || typeof sdp !== "string") return sdp;
 
     let lines = sdp.split(/\r\n|\n/);
-
     let fixed = lines.map((line) => {
         if (line.startsWith("a=ssrc:")) {
             if (line.includes("cname:{")) {
                 console.warn("⚠️ Fixing malformed SSRC cname:", line);
-
                 return line.replace(/\{|\}/g, "");
             }
         }
-
         return line;
     });
 
     return fixed.join("\r\n");
 }
 
-// 🚑 Fix malformed telephone-event lines (Chrome bug)
-
-function fixTelephoneEvent(sdp) {
+function fixTelephoneEventDesktop(sdp) {
     if (!sdp || typeof sdp !== "string") return sdp;
 
-    console.log("🔧 Checking for telephone-event issues");
+    console.log("🔧 Desktop: Checking for telephone-event issues");
 
     // Fix malformed rtpmap lines for telephone-event
-
     let fixedSdp = sdp.replace(
         /^a=rtpmap:(\d+)\s+telephone-event\/8000$/gm,
-
         "a=rtpmap:$1 telephone-event/8000/1"
     );
 
     // Remove any duplicate or malformed telephone-event lines
-
     let lines = fixedSdp.split(/\r\n|\n/);
-
     let seenTelephoneEventRtpmap = new Set();
 
     lines = lines.filter((line) => {
         if (line.match(/^a=rtpmap:\d+\s+telephone-event/)) {
             const match = line.match(/^a=rtpmap:(\d+)/);
-
             if (match) {
                 const payloadType = match[1];
-
                 if (seenTelephoneEventRtpmap.has(payloadType)) {
-                    console.warn(
-                        "⚠️ Removing duplicate telephone-event rtpmap:",
-                        line
-                    );
-
+                    console.warn("⚠️ Removing duplicate telephone-event rtpmap:", line);
                     return false;
                 }
-
                 seenTelephoneEventRtpmap.add(payloadType);
 
-                // Ensure proper format
-
-                if (
-                    !line.includes("/8000/1") &&
-                    line.includes("telephone-event/8000")
-                ) {
+                // Ensure proper format for desktop
+                if (!line.includes("/8000/1") && line.includes("telephone-event/8000")) {
                     console.warn("⚠️ Fixing telephone-event format:", line);
-
                     return false; // Remove malformed line, proper one will be added above
                 }
             }
         }
-
         return true;
     });
 
     return lines.join("\r\n");
 }
 
-function cleanAudioOnlySDP(sdp) {
-    console.log("🗑️ Audio-only call - cleaning SDP");
-
+function cleanAudioOnlySDPDesktop(sdp) {
+    console.log("🗑️ Desktop: Audio-only call - cleaning SDP");
+    
     // First fix telephone-event issues
-
-    sdp = fixTelephoneEvent(sdp);
-
-    // Then remove SSRC lines
-
+    sdp = fixTelephoneEventDesktop(sdp);
+    
+    // Then remove SSRC lines for desktop
     return sdp.replace(/^a=ssrc:[^\r\n]*\r?\n?/gm, "");
 }
 
+// MOBILE SDP processing - minimal/no changes
+function cleanSDPMobile(sdp, isVideoCall = false) {
+    console.log("📱 Mobile: Minimal SDP processing, video:", isVideoCall);
+    
+    // For mobile, just clean up excessive line breaks
+    let cleanedSdp = sdp.replace(/(\r\n){3,}/g, "\r\n\r\n");
+    
+    console.log("📱 Mobile SDP processed, length:", cleanedSdp.length);
+    return cleanedSdp;
+}
+
+// DESKTOP SDP processing - your original aggressive cleaning
+function cleanSDPDesktop(sdp, isVideoCall = false) {
+    console.log("🖥️ Desktop: Full SDP cleaning, video:", isVideoCall);
+    
+    let cleanedSdp = sanitizeSSRCDesktop(sdp);
+    
+    if (!isVideoCall) {
+        cleanedSdp = cleanAudioOnlySDPDesktop(cleanedSdp);
+    } else {
+        cleanedSdp = fixTelephoneEventDesktop(cleanedSdp);
+    }
+    
+    // Clean up excessive line breaks
+    cleanedSdp = cleanedSdp.replace(/(\r\n){3,}/g, "\r\n\r\n");
+    
+    console.log("🖥️ Desktop SDP cleaned, length:", cleanedSdp.length);
+    return cleanedSdp;
+}
+
+// Main SDP cleaning function - routes to platform-specific handler
+function cleanSDP(sdp, isVideoCall = false) {
+    const platform = detectPlatform();
+    
+    console.log(`🔧 Platform detected: ${platform.platform} ${platform.browser}`);
+    
+    if (platform.isMobile) {
+        return cleanSDPMobile(sdp, isVideoCall);
+    } else {
+        return cleanSDPDesktop(sdp, isVideoCall);
+    }
+}
+
 // ============================
-
 // 🔒 Safe Remote Description Setter
-
 // ============================
 
 async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
     try {
-        console.log(
-            "🔍 Setting remote description, type:",
-            sessionDescription.type
-        );
-
-        let sdp = sessionDescription.sdp;
-
-        console.log("🔍 Original SDP length:", sdp.length);
-
-        const hasVideo = /m=video/.test(sdp);
-
-        console.log("🎥 Video call detected:", hasVideo);
-
-        sdp = sanitizeSSRC(sdp);
-
-        if (!hasVideo) {
-            sdp = cleanAudioOnlySDP(sdp);
-        }
-
-        sdp = sdp.replace(/(\r\n){3,}/g, "\r\n\r\n");
-
+        console.log("🔍 Setting remote description, type:", sessionDescription.type);
+        
+        const isVideoCall = /m=video/.test(sessionDescription.sdp);
+        const cleanedSdp = cleanSDP(sessionDescription.sdp, isVideoCall);
+        
         const cleanedSessionDesc = new RTCSessionDescription({
             type: sessionDescription.type,
-
-            sdp: sdp,
+            sdp: cleanedSdp
         });
-
+        
         await peerConnection.setRemoteDescription(cleanedSessionDesc);
-
         console.log("✅ Remote description set successfully");
-
         return true;
+        
     } catch (error) {
         console.error("❌ Error setting remote description:", error);
-
         throw error;
     }
 }
 
 // ============================
-
-// 📞 Cleanup
-
+// 🔄 Connection Recovery
 // ============================
 
-function cleanupCall() {
-    console.log("🧹 Cleaning up call…");
-
-    callActive = false;
-
-    remoteDescriptionSet = false;
-
-    isProcessingRemoteDescription = false;
-
-    pendingCandidates = [];
-
+async function handleConnectionFailure() {
+    if (connectionAttempts >= maxConnectionAttempts) {
+        console.error("❌ Max connection attempts reached");
+        cleanupCall();
+        return false;
+    }
+    
+    connectionAttempts++;
+    console.log(`🔄 Connection attempt ${connectionAttempts}/${maxConnectionAttempts}`);
+    
+    // Force TURN relay on retry
     if (peerConnection) {
-        try {
-            peerConnection.onicecandidate = null;
-
-            peerConnection.ontrack = null;
-
-            peerConnection.oniceconnectionstatechange = null;
-
-            peerConnection.close();
-        } catch (e) {
-            console.warn("Error closing peerConnection", e);
-        }
-
+        peerConnection.close();
         peerConnection = null;
     }
-
-    if (localStream) {
-        localStream.getTracks().forEach((t) => t.stop());
-
-        localStream = null;
-    }
-
-    if (callStatus) callStatus.classList.add("d-none");
+    
+    await ensurePeerConnection(true); // Force relay mode
+    return true;
 }
 
 // ============================
-
-// 🧊 ICE Candidate Helper
-
+// 📞 Enhanced PeerConnection Setup
 // ============================
 
-async function processPendingCandidates() {
-    if (
-        !peerConnection ||
-        !peerConnection.remoteDescription ||
-        pendingCandidates.length === 0
-    )
-        return;
-
-    console.log(
-        `🔄 Processing ${pendingCandidates.length} pending ICE candidates`
-    );
-
-    const candidatesToProcess = [...pendingCandidates];
-
-    pendingCandidates = [];
-
-    for (const candidate of candidatesToProcess) {
-        try {
-            await peerConnection.addIceCandidate(candidate);
-
-            console.log("✅ Queued ICE candidate added");
-        } catch (err) {
-            console.error("❌ Error adding queued ICE candidate:", err);
-        }
-    }
-}
-
-async function ensurePeerConnection() {
+async function ensurePeerConnection(forceRelay = false) {
     if (!peerConnection) {
-        console.log("🔧 Creating PeerConnection with forced TURN relay…");
-
-        const turnServers = [
-            {
-                urls: "turn:34.101.170.104:3478?transport=udp",
-                username: "halaw",
-                credential: "halawAhKnR123",
-            },
-
-            {
-                urls: "turn:34.101.170.104:80?transport=udp",
-                username: "halaw",
-                credential: "halawAhKnR123",
-            },
-
-            {
-                urls: "turn:34.101.170.104:443?transport=udp",
-                username: "halaw",
-                credential: "halawAhKnR123",
-            },
-
-            {
-                urls: "turn:34.101.170.104:3478?transport=tcp",
-                username: "halaw",
-                credential: "halawAhKnR123",
-            },
-
-            {
-                urls: "turns:34.101.170.104:5349?transport=tcp",
-                username: "halaw",
-                credential: "halawAhKnR123",
-            },
-        ];
-
-        const pcConfig = {
-            iceTransportPolicy: "all", // force relay only, for testing
-
-            iceServers: turnServers,
-
-            bundlePolicy: "max-bundle",
-
-            rtcpMuxPolicy: "require",
-        };
-
-        peerConnection = new RTCPeerConnection(pcConfig);
-
+        console.log("🔧 Creating PeerConnection...");
+        
+        const config = getTurnConfiguration();
+        
+        // Force relay mode for difficult connections
+        if (forceRelay || connectionAttempts > 0) {
+            console.log("🔄 Forcing TURN relay mode");
+            config.iceTransportPolicy = "relay";
+        }
+        
+        peerConnection = new RTCPeerConnection(config);
+        
+        // Enhanced ICE candidate handling
         peerConnection.onicecandidate = async (event) => {
             if (!callActive || !peerConnection) return;
-
+            
             if (event.candidate) {
-                console.log("📤 ICE candidate:", event.candidate);
-
-                if (event.candidate.type === "relay") {
-                    console.log("🎯 RELAY CANDIDATE FOUND!");
-                }
-
+                console.log("📤 ICE candidate:", {
+                    type: event.candidate.type,
+                    protocol: event.candidate.protocol,
+                    address: event.candidate.address?.substring(0, 10) + "...", // Privacy
+                    port: event.candidate.port
+                });
+                
                 try {
                     await axios.post("/call/ice", {
                         call_id: window.callId,
-                        candidate: event.candidate,
+                        candidate: event.candidate
                     });
                 } catch (err) {
                     console.error("❌ Failed to send ICE:", err);
@@ -473,324 +328,388 @@ async function ensurePeerConnection() {
                 console.log("✅ ICE gathering complete");
             }
         };
-
+        
         peerConnection.ontrack = (event) => {
-            console.log("🎧 Remote track received", event.streams);
-
-            if (remoteAudio && event.streams && event.streams[0]) {
+            console.log("🎧 Remote track received");
+            if (remoteAudio && event.streams?.[0]) {
                 remoteAudio.srcObject = event.streams[0];
-
                 remoteAudio.autoplay = true;
-
                 remoteAudio.muted = false;
-
-                remoteAudio.hidden = false;
-
-                console.log("✅ remoteAudio playing");
+                console.log("✅ Remote audio connected");
             }
         };
-
-        peerConnection.oniceconnectionstatechange = () => {
-            console.log(
-                "🌐 ICE connection state:",
-                peerConnection.iceConnectionState
-            );
-
-            if (peerConnection.iceConnectionState === "failed") {
-                console.error(
-                    "❌ ICE connection failed – check TURN connectivity and logs"
-                );
+        
+        // Enhanced connection state monitoring
+        peerConnection.oniceconnectionstatechange = async () => {
+            const state = peerConnection.iceConnectionState;
+            console.log("🌐 ICE connection state:", state);
+            
+            switch (state) {
+                case "connected":
+                case "completed":
+                    console.log("✅ Connection established successfully!");
+                    connectionAttempts = 0; // Reset on success
+                    break;
+                    
+                case "failed":
+                    console.error("❌ ICE connection failed");
+                    if (await handleConnectionFailure()) {
+                        // Retry logic would go here
+                        console.log("🔄 Retrying connection...");
+                    }
+                    break;
+                    
+                case "disconnected":
+                    console.warn("⚠️ Connection lost, attempting to reconnect...");
+                    // Could implement reconnection logic here
+                    break;
             }
+        };
+        
+        // Add signaling state monitoring
+        peerConnection.onsignalingstatechange = () => {
+            console.log("📡 Signaling state:", peerConnection.signalingState);
         };
     }
 }
 
 // ============================
-
-// 📞 Start Call
-
+// 📞 Enhanced Call Start
 // ============================
 
 async function startCall(video = false) {
     try {
-        console.log("📞 Starting call…");
-
+        console.log("📞 Starting call, video:", video);
+        
+        // Test TURN server first
+        const turnTest = await testTurnServer();
+        if (!turnTest.relay && !turnTest.host) {
+            console.warn("⚠️ No ICE candidates found, but continuing...");
+        }
+        
         await ensurePeerConnection();
-
+        
         const constraints = {
             audio: {
                 echoCancellation: true,
-
                 noiseSuppression: true,
-
                 autoGainControl: true,
+                // Add sample rate for better compatibility
+                sampleRate: 48000,
+                channelCount: 1
             },
-
-            video: video,
+            video: video
         };
-
+        
         localStream = await navigator.mediaDevices.getUserMedia(constraints);
-
-        localStream.getTracks().forEach((track) => {
-            console.log("🎵 Adding track:", track.kind, track.enabled);
-
+        
+        // Add tracks to peer connection
+        localStream.getTracks().forEach(track => {
+            console.log("🎵 Adding local track:", track.kind);
             peerConnection.addTrack(track, localStream);
         });
-
-        const offer = await peerConnection.createOffer({
+        
+        // Create offer with specific constraints
+        const offerOptions = {
             offerToReceiveAudio: true,
-
             offerToReceiveVideo: video,
-        });
-
+            voiceActivityDetection: true
+        };
+        
+        const offer = await peerConnection.createOffer(offerOptions);
         await peerConnection.setLocalDescription(offer);
-
-        // Wait for some ICE candidates to be gathered
-
-        console.log("⏳ Waiting for ICE candidates...");
-
-        await new Promise((resolve) => {
-            let gathered = 0;
-
-            const originalHandler = peerConnection.onicecandidate;
-
-            peerConnection.onicecandidate = (event) => {
-                if (originalHandler) originalHandler(event);
-
-                if (event.candidate) {
-                    gathered++;
-
-                    if (gathered >= 3) {
-                        // Wait for at least 3 candidates
-
-                        resolve();
-                    }
-                } else {
-                    resolve(); // ICE gathering completed
-                }
-            };
-
-            // Don't wait more than 5 seconds
-
-            setTimeout(resolve, 5000);
+        
+        // Wait for ICE gathering to collect some candidates
+        console.log("⏳ Gathering ICE candidates...");
+        await waitForIceCandidates(5000); // Wait up to 5 seconds
+        
+        await axios.post("/call/offer", { 
+            call_id: window.callId, 
+            offer: peerConnection.localDescription 
         });
-
-        await axios.post("/call/offer", { call_id: window.callId, offer });
-
+        
         callActive = true;
-
         if (callStatus) callStatus.classList.remove("d-none");
-
-        console.log("✅ Offer sent");
+        
+        console.log("✅ Call initiated successfully");
+        
     } catch (err) {
         console.error("❌ Error starting call:", err);
-
         cleanupCall();
+        throw err;
+    }
+}
+
+// Helper function to wait for ICE candidates
+function waitForIceCandidates(timeout = 5000) {
+    return new Promise((resolve) => {
+        let candidateCount = 0;
+        const originalHandler = peerConnection.onicecandidate;
+        
+        const timer = setTimeout(() => {
+            peerConnection.onicecandidate = originalHandler;
+            resolve();
+        }, timeout);
+        
+        peerConnection.onicecandidate = (event) => {
+            if (originalHandler) originalHandler(event);
+            
+            if (event.candidate) {
+                candidateCount++;
+                if (candidateCount >= 3) { // Got enough candidates
+                    clearTimeout(timer);
+                    peerConnection.onicecandidate = originalHandler;
+                    resolve();
+                }
+            } else {
+                // ICE gathering complete
+                clearTimeout(timer);
+                peerConnection.onicecandidate = originalHandler;
+                resolve();
+            }
+        };
+    });
+}
+
+// ============================
+// 📞 Enhanced Cleanup
+// ============================
+
+function cleanupCall() {
+    console.log("🧹 Cleaning up call...");
+    
+    callActive = false;
+    remoteDescriptionSet = false;
+    isProcessingRemoteDescription = false;
+    pendingCandidates = [];
+    connectionAttempts = 0;
+    
+    if (peerConnection) {
+        try {
+            peerConnection.onicecandidate = null;
+            peerConnection.ontrack = null;
+            peerConnection.oniceconnectionstatechange = null;
+            peerConnection.onsignalingstatechange = null;
+            peerConnection.close();
+        } catch (e) {
+            console.warn("Error closing peerConnection:", e);
+        }
+        peerConnection = null;
+    }
+    
+    if (localStream) {
+        localStream.getTracks().forEach(track => {
+            track.stop();
+            console.log("🛑 Stopped track:", track.kind);
+        });
+        localStream = null;
+    }
+    
+    if (remoteAudio) {
+        remoteAudio.srcObject = null;
+    }
+    
+    if (callStatus) callStatus.classList.add("d-none");
+    
+    console.log("✅ Cleanup complete");
+}
+
+// ============================
+// 🧊 Enhanced ICE Candidate Processing
+// ============================
+
+async function processPendingCandidates() {
+    if (!peerConnection?.remoteDescription || pendingCandidates.length === 0) {
+        return;
+    }
+    
+    console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
+    
+    const candidatesToProcess = [...pendingCandidates];
+    pendingCandidates = [];
+    
+    for (const candidate of candidatesToProcess) {
+        try {
+            await peerConnection.addIceCandidate(candidate);
+            console.log("✅ Processed pending ICE candidate:", candidate.type);
+        } catch (err) {
+            console.error("❌ Error adding pending ICE candidate:", err);
+            // Don't fail the entire call for one bad candidate
+        }
     }
 }
 
 // ============================
-
 // 🛑 End Call
-
 // ============================
 
 async function endCall() {
     try {
-        await axios.post("/call/end", { call_id: window.callId });
+        if (window.callId) {
+            await axios.post("/call/end", { call_id: window.callId });
+        }
     } catch (err) {
         console.error("Error notifying end call:", err);
     }
-
     cleanupCall();
 }
 
 // ============================
-
 // 🔗 UI Events
-
 // ============================
 
 if (startCallLink) {
-    startCallLink.addEventListener("click", (e) => {
+    startCallLink.addEventListener("click", async (e) => {
         e.preventDefault();
-
-        startCall(false);
+        try {
+            await startCall(false);
+        } catch (err) {
+            console.error("Failed to start call:", err);
+            alert("Failed to start call. Please check your connection and try again.");
+        }
     });
 }
 
 if (endCallBtn) {
     endCallBtn.addEventListener("click", (e) => {
         e.preventDefault();
-
         endCall();
     });
 }
 
 // ============================
-
-// 📡 Echo Signaling
-
+// 📡 Enhanced Echo Signaling
 // ============================
 
 if (window.callId) {
     Echo.private(`callroom.${window.callId}`)
-
         .listen(".offer", async (e) => {
             try {
-                console.log("📥 Received offer:", e.offer);
-
+                console.log("📥 Received offer");
+                
                 callActive = true;
-
                 isProcessingRemoteDescription = true;
-
+                
                 await ensurePeerConnection();
-
+                
+                // Get user media for answering
                 if (!localStream) {
-                    try {
-                        const constraints = {
-                            audio: {
-                                echoCancellation: true,
-
-                                noiseSuppression: true,
-
-                                autoGainControl: true,
-                            },
-
-                            video: false,
-                        };
-
-                        localStream = await navigator.mediaDevices.getUserMedia(
-                            constraints
-                        );
-
-                        localStream.getTracks().forEach((t) => {
-                            console.log("🎵 Adding answerer track:", t.kind);
-
-                            peerConnection.addTrack(t, localStream);
-                        });
-                    } catch (err) {
-                        console.error("❌ Error accessing local media:", err);
-                    }
+                    const constraints = {
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true,
+                            sampleRate: 48000,
+                            channelCount: 1
+                        },
+                        video: false
+                    };
+                    
+                    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                    localStream.getTracks().forEach(track => {
+                        console.log("🎵 Adding answerer track:", track.kind);
+                        peerConnection.addTrack(track, localStream);
+                    });
                 }
-
+                
                 await setRemoteDescriptionSafely(peerConnection, e.offer);
-
                 remoteDescriptionSet = true;
-
                 isProcessingRemoteDescription = false;
-
-                console.log("✅ Offer set as remote description");
-
+                
                 await processPendingCandidates();
-
+                
                 const answer = await peerConnection.createAnswer({
                     offerToReceiveAudio: true,
-
-                    offerToReceiveVideo: false,
+                    offerToReceiveVideo: false
                 });
-
+                
                 await peerConnection.setLocalDescription(answer);
-
+                
                 await axios.post("/call/answer", {
                     call_id: window.callId,
-                    answer,
+                    answer: peerConnection.localDescription
                 });
-
+                
                 if (callStatus) callStatus.classList.remove("d-none");
-
-                console.log("✅ Answer sent");
+                console.log("✅ Answer sent successfully");
+                
             } catch (err) {
                 console.error("❌ Error handling offer:", err);
-
                 isProcessingRemoteDescription = false;
-
                 cleanupCall();
             }
         })
-
+        
         .listen(".answer", async (e) => {
             try {
-                console.log("📥 Received answer:", e.answer);
-
-                if (!peerConnection) return;
-
-                if (peerConnection.signalingState === "have-local-offer") {
-                    isProcessingRemoteDescription = true;
-
-                    await setRemoteDescriptionSafely(peerConnection, e.answer);
-
-                    remoteDescriptionSet = true;
-
-                    isProcessingRemoteDescription = false;
-
-                    console.log("✅ Answer set as remote description");
-
-                    await processPendingCandidates();
+                console.log("📥 Received answer");
+                
+                if (!peerConnection || peerConnection.signalingState !== "have-local-offer") {
+                    console.warn("⚠️ Received answer in wrong state:", peerConnection?.signalingState);
+                    return;
                 }
+                
+                isProcessingRemoteDescription = true;
+                await setRemoteDescriptionSafely(peerConnection, e.answer);
+                remoteDescriptionSet = true;
+                isProcessingRemoteDescription = false;
+                
+                await processPendingCandidates();
+                console.log("✅ Answer processed successfully");
+                
             } catch (err) {
                 console.error("❌ Error handling answer:", err);
-
                 isProcessingRemoteDescription = false;
             }
         })
-
+        
         .listen(".candidate", async (e) => {
             if (!peerConnection || !callActive) return;
-
-            if (
-                !e.candidate ||
-                !e.candidate.candidate ||
-                e.candidate.candidate.trim() === ""
-            )
+            
+            if (!e.candidate?.candidate?.trim()) {
+                console.log("📥 Received end-of-candidates signal");
                 return;
-
+            }
+            
             try {
                 const candidate = new RTCIceCandidate(e.candidate);
-
-                console.log("📥 Received remote ICE candidate:", {
-                    type: candidate.type,
-
-                    protocol: candidate.protocol,
-
-                    address: candidate.address,
-
-                    port: candidate.port,
-                });
-
-                const canAddImmediately =
-                    peerConnection.remoteDescription &&
-                    peerConnection.remoteDescription.sdp &&
-                    !isProcessingRemoteDescription;
-
-                if (canAddImmediately) {
-                    try {
-                        await peerConnection.addIceCandidate(candidate);
-
-                        console.log(
-                            "✅ Remote ICE candidate added immediately"
-                        );
-
-                        return;
-                    } catch (err) {
-                        console.warn(
-                            "⚠️ Failed to add remote candidate immediately:",
-                            err.message
-                        );
-                    }
+                console.log("📥 Received ICE candidate:", candidate.type);
+                
+                if (peerConnection.remoteDescription && !isProcessingRemoteDescription) {
+                    await peerConnection.addIceCandidate(candidate);
+                    console.log("✅ ICE candidate added immediately");
+                } else {
+                    pendingCandidates.push(candidate);
+                    console.log("⏳ ICE candidate queued");
                 }
-
-                pendingCandidates.push(candidate);
-
-                console.log("⏳ Remote ICE candidate queued");
+                
             } catch (err) {
-                console.error("❌ Error processing remote ICE candidate:", err);
+                console.error("❌ Error processing ICE candidate:", err);
+                // Don't fail the call for one bad candidate
             }
         })
-
+        
         .listen(".call-ended", () => {
-            console.log("📴 Call ended by other side");
-
+            console.log("📴 Call ended by remote peer");
             cleanupCall();
         });
+}
+
+// ============================
+// 🚀 Initialize
+// ============================
+
+console.log("🚀 WebRTC call handler initialized");
+
+// Test TURN connectivity on page load
+if (window.callId) {
+    testTurnServer().then(result => {
+        if (result.relay) {
+            console.log("✅ TURN server connectivity confirmed");
+        } else if (result.host) {
+            console.log("⚠️ Only host candidates found - TURN may not be working");
+        } else {
+            console.warn("❌ No ICE candidates found - check network connectivity");
+        }
+    });
 }
