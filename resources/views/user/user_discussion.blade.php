@@ -23,9 +23,11 @@
                 <a href="#" id="startCallLink">
                     <img src="{{ asset('assets/images/material-symbols_call.png') }}">
                 </a>
-                <a href="#">
+                <a href="#" id="startVideoCallLink">
                     <img src="{{ asset('assets/images/weui_video-call-filled.png') }}">
                 </a>
+                <video id="localVideo" autoplay muted playsinline></video>   <!-- NEW -->
+                <video id="remoteVideo" autoplay playsinline></video>        <!-- NEW -->
                 <audio id="remoteAudio" autoplay playsinline  hidden></audio>
             </div>
             <div id="callStatus" class="position-fixed bottom-0 end-0 m-3 p-3 bg-dark text-white rounded shadow d-none"
