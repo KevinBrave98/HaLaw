@@ -1,14 +1,14 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/styles/konsultasi.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/riwayat_konsultasi_pengguna.css') }}">
 @endpush
-<x-layout_user :title="'Halaw - Konsultasi Sedang Berlangsung'">
+<x-layout_user :title="'Halaw - Riwayat Konsultasi'">
 <div class="d-flex border-bottom mb-3 w-100" style="height: 80px">
   <a href="{{ route('konsultasi.berlangsung') }}"
      class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected"
      style="font-weight: bold; font-size: 25px;">
     Sedang Berlangsung
   </a>
-  <a href="{{ route('riwayat.konsultasi') }}"
+  <a href=""
      class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none"
      style="font-weight: bold; font-size: 25px; background-color: #3c2a1a;">
     Riwayat Konsultasi

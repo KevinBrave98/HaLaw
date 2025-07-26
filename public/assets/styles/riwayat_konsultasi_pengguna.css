@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.bg-brown {
+    background-color: #654220;
+}
+
+.bg-dark-brown {
+    background-color: #3c2a1e;
+}
+
+.text-bold {
+    font-weight: bold;
+    background: #b99010;
+    border-radius: 10px;
+    color: white !important;
+}
+
+.text-brown {
+    color: #654220;
+}
+
+.icon-disabled {
+    position: relative;
+    display: inline-block;
+    color: #ccc;
+}
+
+.icon-disabled::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: -10%;
+    width: 150%;
+    border-top: 2px solid #654220;
+    transform: rotate(45deg);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    font-weight: bold;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* font-family: ; */
+}
+
+.tab.selected {
+    background-color: #654220; /* bg-brown */
+    color: white;
+}
+
+.tab:not(.selected) {
+    background-color: #3c2a1a; /* bg-dark-brown */
+    color: #888; /* text-muted */
+}

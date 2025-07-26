@@ -20,6 +20,7 @@ use App\Http\Controllers\DetailPengacaraController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -67,6 +68,7 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
+    Route::get('/riwayat_konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
 });
 //  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
@@ -128,3 +130,6 @@ Route::post('/call/offer', [CallController::class, 'sendOffer']);
 Route::post('/call/answer', [CallController::class, 'sendAnswer']);
 Route::post('/call/ice', [CallController::class, 'sendIce']);
 Route::post('/call/end', [CallController::class, 'endCall']);
+
+
+

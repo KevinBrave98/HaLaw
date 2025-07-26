@@ -27,4 +27,15 @@ class KonsultasiController extends Controller
         $riwayats = Riwayat::where('nik_pengacara', $nik_pengacara)->where('status', "Sedang Berlangsung")->orWhere('status', "Menunggu Konfirmasi")->get();
         return view('lawyer.konsultasi_sedang_berlangsung', compact('riwayats'));
     }
+
+    public function riwayatKonsultasi() {
+        $nik_pengguna = Auth::user()->nik_pengguna;
+
+        $riwayats = Riwayat::where('nik_pengguna', $nik_pengguna)
+            ->whereIn('status', ['Selesai', 'Dibatalkan'])
+            ->orderBy('created_at', 'desc') // pakai created_at sebagai pengganti 'tanggal'
+            ->get();
+
+        return view('user.riwayat_konsultasi', compact('riwayats'));
+    }
 }
