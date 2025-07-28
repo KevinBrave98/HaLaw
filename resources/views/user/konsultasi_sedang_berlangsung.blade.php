@@ -22,9 +22,9 @@
                 <img src="{{ asset($riwayat->pengacara->foto_pengacara) }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #ddd;">
                 <div class="ms-3">
                     <h5 class="mb-0">{{ $riwayat->pengacara->nama_pengacara }}</h5>
-                    @if($riwayat->pesans)
+                    {{-- @if($riwayat->pesans)
                         <small class="text-muted">{{ $riwayat->pesans->last()->teks }}</small>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
             <div class="d-flex gap-3">
