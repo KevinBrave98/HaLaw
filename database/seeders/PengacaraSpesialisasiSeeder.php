@@ -15,15 +15,15 @@ class PengacaraSpesialisasiSeeder extends Seeder
     {
         DB::table('pengacara_spesialisasi')->insert([
             [
-                'nik_pengacara' => '1234123412341234',
+                'nik_pengacara' => '1234567812345678',
                 'id_spesialisasi' => 1
             ],
             [
-                'nik_pengacara' => '1234123412341234',
+                'nik_pengacara' => '1234567812345678',
                 'id_spesialisasi' => 2
             ],
             [
-                'nik_pengacara' => '1234123412341234',
+                'nik_pengacara' => '1234567812345678',
                 'id_spesialisasi' => 3
             ],
         ]);
