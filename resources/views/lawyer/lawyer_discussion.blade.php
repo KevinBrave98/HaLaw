@@ -22,20 +22,10 @@
                     {{-- Menggunakan <p> untuk teks dan <span> untuk nilai dinamis agar lebih tepat --}}
                     <p class="h2 mb-0">Sisa Waktu : <span id="countdown-timer" aria-live="polite">01:35:47</span></p>
                 </div>
-                {{-- <a href="#">
-                    <img src="{{ asset('assets/images/material-symbols_call.png') }}">
-                </a>
-                <a href="#">
-                    <img src="{{ asset('assets/images/weui_video-call-filled.png') }}">
-                </a> --}}
-                <audio id="remoteAudio" autoplay playsinline  hidden></audio>
-            </div>
-            <div id="callStatus" class="position-fixed bottom-0 end-0 m-3 p-3 bg-dark text-white rounded shadow d-none"
-                style="z-index:1050; min-width:200px;">
 
-                <p class="mb-2">🔔 Calling…</p>
-                <button id="endCallBtn" class="btn btn-danger btn-sm">
-                    End Call
+                {{-- Mengubah <a> menjadi <button> untuk aksi, TANPA mengubah/menambah class --}}
+                {{-- <button type="button" id="startCallLink" aria-label="Mulai Panggilan Suara">
+                    <img src="{{ asset('assets/images/material-symbols_call.png') }}" alt="">
                 </button>
                 <button type="button" id="startVideoCallLink" aria-label="Mulai Panggilan Video">
                     <img src="{{ asset('assets/images/weui_video-call-filled.png') }}" alt="">
