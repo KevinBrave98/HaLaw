@@ -77,7 +77,7 @@
                                         <a href="{{ route('detail.pengacara', $lawyer_card->nik_pengacara) }}"
                                             class="btn-detail"
                                             aria-label="Lihat Detail untuk {{ $lawyer_card->nama_pengacara }}. 
-                                            Spesialisasi: Hukum perdata, Hukum pidana, Litigasi & Sengketa. 
+                                            Spesialisasi:  {{ Str::limit($lawyer_card->spesialisasis->pluck('nama_spesialisasi')->implode(', '), 50, '...') }}
                                             Tarif jasa: Rp. {{ number_format($lawyer_card->tarif_jasa, 0, ',', '.') }}. 
                                             Layanan tersedia: 
                                             {{ $lawyer_card->chat ? 'Pesan,' : '' }} 
@@ -108,12 +108,12 @@
         </section>
 
         <section class="dasbor-middle" role="region" aria-label="Akses Kamus Hukum">
-            <figure class="middle-img" tabindex="0">
+            <figure class="middle-img">
                 <img src="{{ asset(path: 'assets/images/gambarPalu.png') }}"
                     alt="Gambar palu hukum sebagai simbol keadilan">
             </figure>
             <div class="middle-text">
-                <header class="middle-text-top" tabindex="0">
+                <header class="middle-text-top">
                     <h2 class="middle-judul">Pahami Sebelum Bertindak</h2>
                     <p class="middle-deskripsi">Istilah hukum yang jelas adalah langkah pertama menuju keputusan yang
                         benar.
