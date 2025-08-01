@@ -2,36 +2,493 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif; /* Pastikan font ini ada di proyek Anda atau link Google Fonts terpasang */
+    font-size: 16px; /* Ukuran font dasar, bisa disesuaikan */
+    color: #281805;
+    background-color: #FFF7F0;
 }
 
 .konsultasi_wrapper {
+    display: flex;
+    flex-direction: column;
+    /* PERBAIKAN: Memberi batas tinggi dan lebar, bukan 100vh */
+    max-height: 90vh; /* Tinggi maksimum adalah 90% dari layar */
+    width: 100%; /* Lebar bisa disesuaikan, atau gunakan max-width */
+    
+    margin: auto; /* Membuatnya di tengah halaman */
     background-color: #FFF7F0;
-    /* height: 90vh; */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Tambahan shadow agar terlihat bagus */
+    overflow: hidden; /* Penting agar konten tidak keluar dari border-radius */
 }
 
 .chat_wrapper {
-    min-height: 60vh;
-    max-height: 60vh;
-    overflow-y: scroll;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    
+    /* PERBAIKAN: Memberi batas tinggi yang spesifik */
+    height: 60vh; /* Anda bisa menyesuaikan nilai ini (misal: 50vh, 500px) */
 }
 
-.heading {
-    background-color: #654220;
+/* ========================================= */
+/* ===    AREA CHAT & BUBBLE PESAN       === */
+/* ========================================= */
+ul.chat_wrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    list-style: none;
+    margin-bottom: 0;
 }
 
-.heading h2 {
-    margin: 0 0.2rem;
-    font-weight: bold;
-}
-
-.heading {
-    color: #FFF7F0;
-}
-
-.chat {
-    width: 40%;
+li.chat {
+    display: flex;
+    max-width: 40%;
+    margin-bottom: 1rem;
+    gap: 0.8rem;
 }
 
 .chat_details {
-    width: 80%;
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
+    width: auto !important; /* Menimpa class w-25 */
+    max-width: 100%;
+    position: relative; /* Diperlukan untuk posisi timestamp */
+}
+
+/* --- Bubble Pesan Pengacara (Kiri) --- */
+li.chat.justify-content-start {
+    align-self: flex-start; /* Memaksa bubble menempel di kiri */
+}
+li.chat.justify-content-start .chat_details {
+    background-color: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-top-left-radius: 4px;
+    color: #333;
+}
+
+/* --- Bubble Pesan Pengguna (Kanan) --- */
+li.chat.justify-content-end {
+    align-self: flex-end; /* Memaksa bubble menempel di kanan */
+}
+li.chat.justify-content-end .chat_details {
+    background-color: #EADDCA;
+    border-top-right-radius: 4px;
+}
+
+/* --- Konten di Dalam Bubble --- */
+.chat_details h3 {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    color: #281805;
+}
+
+li.chat.justify-content-end h3 {
+    display: none; /* Sembunyikan nama "Anda" */
+}
+
+.chat_details p.chat-message {
+    margin: 0;
+    line-height: 1.4;
+    /* white-space:; */
+    word-wrap: break-word;
+    text-align: left;
+    width: 90%;
+    font-size: 1rem;
+}
+
+/* KUNCI PERBAIKAN: Posisi Timestamp */
+.chat_time {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: relative; /* Membuatnya "melayang" di dalam bubble */
+    /* bottom: 0.5rem;       Posisi di bawah */
+    /* right: 1rem;      Posisi di kanan */
+    /* padding-left: 2rem; */
+    min-width: 3.5rem !important;
+    text-align: right;
+}
+
+/* .time_adjust {
+    padding-left: 0rem;
+    padding-right: 2rem;
+} */
+
+.chat_time time {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* --- Bubble Pesan Pengacara (Kiri) --- */
+li.chat.justify-content-start {
+    justify-content: flex-start; /* Pastikan rata kiri */
+}
+li.chat.justify-content-start .chat_details {
+    background-color: #EDCFB0;
+    border: 1px solid #281805;
+    border-radius: 15px;
+}
+
+/* --- Bubble Pesan Pengguna (Kanan) --- */
+li.chat.justify-content-end {
+    justify-content: flex-end; /* Pastikan rata kanan */
+}
+li.chat.justify-content-end .chat_details {
+    background-color: #EDCFB0;
+    border-radius: 15px;
+}
+li.chat.justify-content-end h3 {
+    display: none;
+}
+
+/* ========================================= */
+/* ===         HEADER ATAS               === */
+/* (Biarkan bagian header seperti yang sudah kita atur) */
+/* ========================================= */
+.heading {
+    background-color: #654220;
+    color: #FFF7F0;
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.heading h2, .heading p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    /* white-space: nowrap; */
+}
+
+.heading a,
+.heading button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex; /* Untuk centering vertikal ikon */
+    align-items: center;
+}
+.heading img {
+    display: block;
+    width: 3rem;
+    height: auto;
+}
+
+/* ========================================= */
+/* ===        AREA INPUT PESAN           === */
+/* (Biarkan bagian input seperti yang sudah kita atur) */
+/* ========================================= */
+section.discussion-input {
+    background-color: #FFF7F0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+}
+
+form.form_kirim_chat {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+input.input-chat {
+    border: 1px solid #ccc; /* Tambahkan border agar terlihat */
+    border-radius: 20px;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+    background-color: #fff;
+}
+input.input-chat:focus {
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    outline: none;
+}
+input.input-chat::placeholder{
+    color: #aaa;
+}
+form.form_kirim_chat button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: inherit;
+}
+form.form_kirim_chat button img {
+    display: block;
+    width: 24px;
+    height: auto;
+}
+
+/* ========================================= */
+/* ===     CLASS BANTU AKSESIBILITAS     === */
+/* (Biarkan class visually-hidden) */
+/* ========================================= */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================= */
+/* ===         POPUP UI PANGGILAN        === */
+/* ========================================= */
+
+#call-ui-container {
+    /* Mengubah dari fullscreen menjadi popup di tengah */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Ukuran popup yang tidak fullscreen */
+    width: 90%;
+    max-width: 420px; /* Lebar maksimum popup */
+    max-height: 90vh; /* Tinggi maksimum popup */
+
+    background-color: #2d1c0f;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column; /* Konten disusun vertikal */
+    align-items: center;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+
+    border-radius: 16px; /* Sudut yang lebih tumpul */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Penting agar video tidak keluar dari sudut */
+}
+
+/* --- Tampilan Video --- */
+#remoteVideo {
+    width: 100%;
+    height: auto;
+    background-color: #000;
+    /* Video lawan bicara tidak lagi menjadi background, tapi elemen utama */
+    aspect-ratio: 3 / 4; /* Rasio aspek potrait */
+    object-fit: cover;
+}
+
+#localVideo {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 100px; /* Ukuran video preview lebih kecil */
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    z-index: 3;
+}
+
+/* --- Tampilan Saat Memanggil (Ringing) --- */
+.call-info {
+    position: absolute; /* Melayang di atas video (jika ada) */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 2;
+    background-color: #2d1c0f; /* Latar yang sama dengan container */
+}
+.call-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid white;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+}
+.call-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.call-status {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* --- Tampilan Saat Panggilan Berlangsung --- */
+.in-call-view {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.call-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    /* Latar gradien agar tombol tetap terlihat di atas video */
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+.control-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.control-btn.end-call {
+    background-color: #dc3545;
+}
+.control-btn.end-call:hover {
+    background-color: #c82333;
+}
+
+
+
+/* ========================================= */
+/* ===       RESPONSIVE MEDIA QUERIES    === */
+/* ========================================= */
+
+/* Mobile phones (320px - 576px) */
+@media (max-width: 576px) {
+    .konsultasi_wrapper {
+        max-height: 100vh;
+    }
+    
+    .chat_wrapper {
+        padding: 1rem;
+        height: 65vh;
+    }
+    
+    ul.chat_wrapper {
+        padding: 1rem;
+    }
+    
+    li.chat {
+        max-width: 85%;
+    }
+    
+    .chat_details {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .chat_details p.chat-message {
+        font-size: 0.9rem;
+    }
+    
+    .chat_time time {
+        font-size: 0.7rem;
+    }
+    
+    /* Header adjustments */
+    .heading {
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .heading h2, .heading p {
+        font-size: 1.2rem;
+    }
+    
+    .sisa_waktu p {
+        font-size: 1rem !important;
+    }
+    
+    .heading img {
+        width: 1rem;
+    }
+    
+    .first-half {
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .second-half {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+    
+    /* Input area */
+    section.discussion-input {
+        padding: 0.8rem 1rem;
+    }
+    
+    form.form_kirim_chat {
+        gap: 0.8rem;
+    }
+    
+    input.input-chat {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    form.form_kirim_chat button img {
+        width: 20px;
+    }
+}
+
+/* Small tablets (577px - 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+    li.chat {
+        max-width: 70%;
+    }
+    
+    .heading h2, .heading p {
+        font-size: 1.5rem;
+    }
+    
+    .sisa_waktu p {
+        font-size: 1.1rem !important;
+    }
+    
+    .first-half {
+        width: 60% !important;
+    }
+    
+    .second-half {
+        width: 40% !important;
+    }
+}
+
+/* Medium tablets (769px - 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+    li.chat {
+        max-width: 60%;
+    }
+    
+    .first-half {
+        width: 55% !important;
+    }
+    
+    .second-half {
+        width: 45% !important;
+    }
 }

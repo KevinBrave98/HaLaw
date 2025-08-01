@@ -42,10 +42,15 @@ document.querySelectorAll(".form_kirim_chat").forEach((form) => {
 const userNik = document
     .querySelector('meta[name="user-nik"]')
     ?.getAttribute("content");
-
 const chatForm = document.querySelector('.form_kirim_chat');
 const riwayatId = chatForm?.dataset.riwayatId;
 
+// Helper function untuk memformat waktu
+function formatTime(dateString) {
+    const date = new Date(dateString);
+    // Menggunakan toLocaleTimeString untuk format AM/PM yang lebih mudah
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
 
 if (riwayatId) {
     Echo.private(`chatroom.${riwayatId}`).listen("MessageSent", (e) => {
@@ -55,45 +60,35 @@ if (riwayatId) {
         if (!chatWindow) return;
 
         const pesan = e.pesan;
-
-        // Determine alignment: if message sender is the current user (userNik), then it's on the RIGHT
         const isFromCurrentUser = pesan.nik == userNik;
 
-        // Create wrapper div
-        const div = document.createElement("div");
-        div.classList.add("chat", "d-flex", "flex-row", "p-2", "w-100");
+        // 1. Buat elemen <li>
+        const li = document.createElement("li");
+        li.className = `chat d-flex flex-row p-2 w-100 ${isFromCurrentUser ? 'justify-content-end' : 'justify-content-start'}`;
 
-        const senderName =
-            e.pesan.nik === e.pesan.nik_pengacara
-                ? e.pesan.pengacara_name
-                : e.pesan.pengguna_name;
+        // 2. Tentukan nama pengirim (hanya untuk pengacara)
+        const senderName = isFromCurrentUser ? '' : (e.pengacara?.nama_pengacara || 'Pengacara');
+        const senderNameHtml = !isFromCurrentUser ? `<h3>${senderName}</h3>` : '';
 
-        if (isFromCurrentUser) {
-            // Current user sent this message -> align right
-            div.classList.add("justify-content-end");
-            div.innerHTML = `
-                    <div class="chat_details d-flex flex-column w-25">
-                        <p class="chat-message">${pesan.teks}</p>
+        // 3. Buat innerHTML agar sama persis dengan struktur Blade yang Anda berikan
+        li.innerHTML = `
+            <div class="chat_details d-flex flex-column">
+                ${senderNameHtml}
+                <div class="chat_text_time d-flex flex-row">
+                    <p class="chat-message">
+                        ${pesan.teks}
+                    </p>
+                    <div class="chat_time">
+                        <time datetime="${pesan.created_at}">
+                            ${formatTime(pesan.created_at)}
+                        </time>
                     </div>
-                    <div class="d-flex flex-column justify-content-end chat_time">
-                        <p>${pesan.created_at}</p>
-                    </div>
-                `;
-        } else {
-            // Someone else sent this message -> align left
-            div.classList.add("justify-content-start");
-            div.innerHTML = `
-                    <div class="chat_details d-flex flex-column w-25">
-                        <h3>${senderName ?? ""}</h3>
-                        <p class="chat-message">${pesan.teks}</p>
-                    </div>
-                    <div class="d-flex flex-column justify-content-start chat_time me-5 pe-5">
-                        <p>${pesan.created_at}</p>
-                    </div>
-                `;
-        }
+                </div>
+            </div>
+        `;
 
-        chatWindow.appendChild(div);
+        // 4. Tambahkan bubble chat baru dan scroll ke bawah
+        chatWindow.appendChild(li);
         chatWindow.scrollTop = chatWindow.scrollHeight;
     });
 }

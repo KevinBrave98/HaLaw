@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class KonsultasiController extends Controller
 {
+    public function redirectChat() {
+        return redirect()->route('konsultasi.berlangsung');
+    }
     public function konsultasiSedangBerlangsung()
     {
         $nik_pengguna = Auth::user()->nik_pengguna;
