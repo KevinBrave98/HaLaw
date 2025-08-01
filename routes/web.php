@@ -68,7 +68,7 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
-    Route::get('/riwayat_konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
+    Route::get('/konsultasi/riwayat-konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
 });
 //  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
