@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-100">
+<html lang="id" class="h-full bg-gray-100">
 
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@
 </head>
 
 <body class="h-full">
-
+    <a href="#main-content" class="skip-to-content">Lewati ke Konten Utama</a>
     <x-navbar_user :pengguna=$pengguna />
     <main style="min-height: 80vh">
         @foreach (auth()->user()->unreadNotifications as $notif)

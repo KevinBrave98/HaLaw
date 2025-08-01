@@ -42,5 +42,52 @@ class PengacaraSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        DB::table('pengacaras')->insert([
+            'nik_pengacara' => '1234567890123456',
+            'nama_pengacara' => 'Pengacara Contoh',
+            'email' => 'halawpengacara@gmail.com',
+            'password' => Hash::make('pengacara123'),
+            'nomor_telepon' => '081234567890',
+            'jenis_kelamin' => 'Laki-laki',
+            'lokasi' => 'Jakarta',
+            'spesialisasi' => 'Hukum Perdata',
+            'tarif_jasa' => 1000000,
+            'durasi_pengalaman' => 5,
+            'pengalaman_bekerja' => 'Kantor Hukum ABC',
+            'pendidikan' => 'S1 Hukum',
+            'chat' => true,
+            'voice_chat' => true,
+            'video_call' => true,
+            'status_konsultasi' => true,
+            'total_pendapatan' => 0,
+            'foto_pengacara' => null,
+            'tanda_pengenal' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('pengacaras')->insert([
+            'nik_pengacara' => '1234567890123457',
+            'nama_pengacara' => 'Pengacara Contoh 2',
+            'email' => 'halawpengacara2@gmail.com',
+            'password' => Hash::make('pengacara123'),
+            'nomor_telepon' => '081234567800',
+            'jenis_kelamin' => 'Perempuan',
+            'lokasi' => 'Jakarta',
+            'spesialisasi' => 'Hukum Perdata',
+            'tarif_jasa' => 1500000,
+            'durasi_pengalaman' => 5,
+            'pengalaman_bekerja' => 'Kantor Hukum ABC',
+            'pendidikan' => 'S1 Hukum',
+            'chat' => true,
+            'voice_chat' => true,
+            'video_call' => true,
+            'status_konsultasi' => true,
+            'total_pendapatan' => 0,
+            'foto_pengacara' => null,
+            'tanda_pengenal' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

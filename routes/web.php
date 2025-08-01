@@ -20,6 +20,7 @@ use App\Http\Controllers\DetailPengacaraController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -40,19 +41,10 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/hasil_pencarian', [SearchController::class, 'view'])->name('search.pengacara.view');
     Route::post('/hasil_pencarian', [SearchController::class, 'search'])->name('search.pengacara.search');
     Route::get('/pembayaran/{id}', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
-    // Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
-    // Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
-    // Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
-    // Route::get('/pembayaran/bca', function () {return view('user.pembayaran_bca');});
-    // Route::get('/pembayaran/mandiri', function () {return view('user.pembayaran_mandiri');});
-    // Route::get('/pembayaran/blu', function () {return view('user.pembayaran_blu');});
-    // Route::get('/pembayaran/gopay', function () {return view('user.pembayaran_gopay');});
-    // Route::get('/pembayaran/ovo', function () {return view('user.pembayaran_ovo');});
-    // Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
-    // Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
-    // Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
     Route::post('/payment/store-riwayat', [PembayaranController::class, 'storeRiwayat']);
+    Route::get('/konsultasi', [KonsultasiController::class, 'redirectChat']);
     Route::get('/konsultasi/sedang-berlangsung', [KonsultasiController::class, 'konsultasiSedangBerlangsung'])->name('konsultasi.berlangsung');
+    Route::get('/konsultasi/riwayat-konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
     Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
     Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
     Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
@@ -65,6 +57,7 @@ Route::middleware(['user.auth'])->group(function () {
     Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
     Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
+    Route::get('/chatroom', [KonsultasiController::class, 'redirectChat']);
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
 });
@@ -128,3 +121,6 @@ Route::post('/call/offer', [CallController::class, 'sendOffer']);
 Route::post('/call/answer', [CallController::class, 'sendAnswer']);
 Route::post('/call/ice', [CallController::class, 'sendIce']);
 Route::post('/call/end', [CallController::class, 'endCall']);
+
+
+

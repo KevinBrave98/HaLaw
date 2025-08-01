@@ -19,6 +19,15 @@ const startCallLink = document.getElementById("startCallLink");
 const remoteAudio = document.getElementById("remoteAudio");
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
+// ... (variabel global Anda yang lain) ...
+
+// === Variabel untuk UI Panggilan Baru ===
+const callUiContainer = document.getElementById("call-ui-container");
+const callInfoView = document.querySelector(".call-info");
+const inCallView = document.querySelector(".in-call-view");
+const callInfoName = document.getElementById("call-info-name");
+// Ganti referensi endCallBtn ke tombol yang baru di dalam popup
+const endCallBtnInCall = document.getElementById("endCallBtn"); // Anda mungkin perlu memberi ID unik jika ada 2 tombol
 
 // ============================
 // 🔑 Enhanced TURN Configuration
@@ -51,7 +60,10 @@ function getTurnConfiguration() {
 
 function detectPlatform() {
     const userAgent = navigator.userAgent;
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            userAgent
+        );
     const isChrome = /Chrome/.test(userAgent) && !/Edge|Edg/.test(userAgent);
     const isFirefox = /Firefox/.test(userAgent);
     const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
@@ -63,7 +75,13 @@ function detectPlatform() {
         isFirefox,
         isSafari,
         platform: isMobile ? "mobile" : "desktop",
-        browser: isChrome ? "chrome" : isFirefox ? "firefox" : isSafari ? "safari" : "other",
+        browser: isChrome
+            ? "chrome"
+            : isFirefox
+            ? "firefox"
+            : isSafari
+            ? "safari"
+            : "other",
     };
 }
 
@@ -73,11 +91,11 @@ function detectPlatform() {
 
 function removeProblematicSSRCLines(sdp) {
     console.log("🔧 Removing problematic SSRC lines...");
-    
+
     const lines = sdp.split(/\r\n|\n/);
     const filteredLines = [];
     const ssrcMap = new Map();
-    
+
     // First pass: collect valid SSRC IDs and filter problematic lines
     for (const line of lines) {
         if (line.startsWith("a=ssrc:")) {
@@ -85,15 +103,17 @@ function removeProblematicSSRCLines(sdp) {
             if (ssrcMatch) {
                 const ssrcId = ssrcMatch[1];
                 const attribute = ssrcMatch[2];
-                
+
                 // Skip problematic SSRC attributes that cause parsing issues
-                if (attribute.includes("cname:{") || 
-                    attribute.includes("}") || 
-                    attribute.match(/msid:.*\{.*\}/)) {
+                if (
+                    attribute.includes("cname:{") ||
+                    attribute.includes("}") ||
+                    attribute.match(/msid:.*\{.*\}/)
+                ) {
                     console.warn(`🗑️ Removing problematic SSRC line: ${line}`);
                     continue;
                 }
-                
+
                 // Keep track of valid SSRCs
                 if (!ssrcMap.has(ssrcId)) {
                     ssrcMap.set(ssrcId, []);
@@ -110,33 +130,42 @@ function removeProblematicSSRCLines(sdp) {
             filteredLines.push(line);
         }
     }
-    
+
     return { sdp: filteredLines.join("\r\n"), ssrcMap };
 }
 
 function cleanSSRCGroups(sdp, ssrcMap) {
     console.log("🔧 Cleaning SSRC groups...");
-    
+
     const lines = sdp.split(/\r\n|\n/);
     const filteredLines = [];
-    
+
     for (const line of lines) {
         if (line.startsWith("a=ssrc-group:")) {
             const groupMatch = line.match(/^a=ssrc-group:(\w+)\s+(.+)$/);
             if (groupMatch) {
                 const groupType = groupMatch[1];
                 const referencedIds = groupMatch[2].trim().split(/\s+/);
-                
+
                 // Check if all referenced SSRCs exist
-                const validIds = referencedIds.filter(id => ssrcMap.has(id));
-                
-                if (validIds.length === referencedIds.length && validIds.length > 0) {
+                const validIds = referencedIds.filter((id) => ssrcMap.has(id));
+
+                if (
+                    validIds.length === referencedIds.length &&
+                    validIds.length > 0
+                ) {
                     // All references are valid, keep the group
                     filteredLines.push(line);
-                    console.log(`✅ Valid ${groupType} group: ${validIds.join(" ")}`);
+                    console.log(
+                        `✅ Valid ${groupType} group: ${validIds.join(" ")}`
+                    );
                 } else {
                     console.warn(`🗑️ Removing invalid SSRC group: ${line}`);
-                    console.warn(`  Missing SSRCs: ${referencedIds.filter(id => !ssrcMap.has(id)).join(", ")}`);
+                    console.warn(
+                        ` Missing SSRCs: ${referencedIds
+                            .filter((id) => !ssrcMap.has(id))
+                            .join(", ")}`
+                    );
                 }
             } else {
                 console.warn(`🗑️ Removing malformed SSRC group: ${line}`);
@@ -145,45 +174,49 @@ function cleanSSRCGroups(sdp, ssrcMap) {
             filteredLines.push(line);
         }
     }
-    
+
     return filteredLines.join("\r\n");
 }
 
 function fixMediaSections(sdp) {
     console.log("🔧 Fixing media sections...");
-    
+
     let fixedSdp = sdp;
-    
+
     // Fix telephone-event format issues
     fixedSdp = fixedSdp.replace(
         /^a=rtpmap:(\d+)\s+telephone-event\/8000$/gm,
         "a=rtpmap:$1 telephone-event/8000/1"
     );
-    
+
     // Ensure proper media line format
     fixedSdp = fixedSdp.replace(
         /^m=(audio|video)\s+(\d+)\s+([^\s]+)\s*(.*)$/gm,
         (match, mediaType, port, protocol, formats) => {
             const cleanFormats = formats.trim();
-            return `m=${mediaType} ${port} ${protocol}${cleanFormats ? ' ' + cleanFormats : ''}`;
+            return `m=${mediaType} ${port} ${protocol}${
+                cleanFormats ? " " + cleanFormats : ""
+            }`;
         }
     );
-    
+
     return fixedSdp;
 }
 
 function ensureBundleGroup(sdp) {
     console.log("🔧 Ensuring proper bundle group...");
-    
+
     const lines = sdp.split(/\r\n|\n/);
     const mediaLines = [];
     let hasBundleGroup = false;
-    
+
     // Find all media sections
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         if (line.startsWith("m=")) {
-            const midMatch = lines.slice(i, i + 10).find(l => l.startsWith("a=mid:"));
+            const midMatch = lines
+                .slice(i, i + 10)
+                .find((l) => l.startsWith(" a=mid:"));
             if (midMatch) {
                 const mid = midMatch.split(":")[1];
                 mediaLines.push(mid);
@@ -192,16 +225,19 @@ function ensureBundleGroup(sdp) {
             hasBundleGroup = true;
         }
     }
-    
     if (!hasBundleGroup && mediaLines.length > 0) {
         console.log("➕ Adding BUNDLE group:", mediaLines.join(" "));
         // Insert bundle group after session description but before media sections
-        const sessionEndIndex = lines.findIndex(l => l.startsWith("m="));
+        const sessionEndIndex = lines.findIndex((l) => l.startsWith("m="));
         if (sessionEndIndex > 0) {
-            lines.splice(sessionEndIndex, 0, `a=group:BUNDLE ${mediaLines.join(" ")}`);
+            lines.splice(
+                sessionEndIndex,
+                0,
+                `a=group:BUNDLE ${mediaLines.join(" ")}`
+            );
         }
     }
-    
+
     return lines.join("\r\n");
 }
 
@@ -214,39 +250,41 @@ function cleanSDP(sdp, platform) {
         console.error("❌ Invalid SDP provided");
         return sdp;
     }
-    
-    console.log(`🔧 Cleaning SDP for ${platform.browser} on ${platform.platform}`);
+
+    console.log(
+        `🔧 Cleaning SDP for ${platform.browser} on ${platform.platform}`
+    );
     console.log(`📏 Original SDP length: ${sdp.length}`);
-    
+
     try {
         let cleanedSdp = sdp;
-        
+
         // Step 1: Remove problematic SSRC lines and get valid SSRC map
-        const { sdp: sdpWithoutProblematic, ssrcMap } = removeProblematicSSRCLines(cleanedSdp);
+        const { sdp: sdpWithoutProblematic, ssrcMap } =
+            removeProblematicSSRCLines(cleanedSdp);
         cleanedSdp = sdpWithoutProblematic;
-        
+
         // Step 2: Clean SSRC groups based on valid SSRCs
         cleanedSdp = cleanSSRCGroups(cleanedSdp, ssrcMap);
-        
+
         // Step 3: Fix media sections
         cleanedSdp = fixMediaSections(cleanedSdp);
-        
+
         // Step 4: Ensure proper bundle group
         cleanedSdp = ensureBundleGroup(cleanedSdp);
-        
+
         // Step 5: Clean up line breaks
         cleanedSdp = cleanedSdp.replace(/(\r\n){3,}/g, "\r\n\r\n");
         cleanedSdp = cleanedSdp.replace(/\n{3,}/g, "\n\n");
-        
+
         console.log(`📏 Cleaned SDP length: ${cleanedSdp.length}`);
         console.log("✅ SDP cleaning completed");
-        
+
         return cleanedSdp;
-        
     } catch (error) {
         console.error("❌ Error cleaning SDP:", error);
         console.log("🔄 Falling back to minimal cleaning");
-        
+
         // Minimal fallback cleaning
         return sdp
             .replace(/\{|\}/g, "") // Remove invalid characters
@@ -265,12 +303,14 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
     }
 
     const platform = detectPlatform();
-    console.log(`🔍 Setting remote description for ${platform.browser}, type: ${sessionDescription.type}`);
+    console.log(
+        `🔍 Setting remote description for ${platform.browser}, type: ${sessionDescription.type}`
+    );
 
     try {
         // Clean the SDP based on platform
         const cleanedSdp = cleanSDP(sessionDescription.sdp, platform);
-        
+
         const cleanedSessionDesc = new RTCSessionDescription({
             type: sessionDescription.type,
             sdp: cleanedSdp,
@@ -279,10 +319,9 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
         await peerConnection.setRemoteDescription(cleanedSessionDesc);
         console.log("✅ Remote description set successfully");
         return true;
-        
     } catch (error) {
         console.error("❌ Error setting remote description:", error);
-        
+
         // Fallback: Try with original SDP
         try {
             console.log("🔄 Trying with original SDP...");
@@ -291,7 +330,7 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
             return true;
         } catch (originalError) {
             console.error("❌ Original SDP also failed:", originalError);
-            
+
             // Last resort: Ultra-minimal SDP
             try {
                 console.log("🔄 Trying ultra-minimal SDP cleanup...");
@@ -300,12 +339,12 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
                     .replace(/^a=ssrc-group:[^\r\n]*\r?\n?/gm, "") // Remove all SSRC groups
                     .replace(/\{|\}/g, "") // Remove brackets
                     .replace(/(\r\n){3,}/g, "\r\n\r\n"); // Clean line breaks
-                
+
                 const minimalSessionDesc = new RTCSessionDescription({
                     type: sessionDescription.type,
                     sdp: minimalSdp,
                 });
-                
+
                 await peerConnection.setRemoteDescription(minimalSessionDesc);
                 console.log("✅ Ultra-minimal SDP worked");
                 return true;
@@ -318,7 +357,7 @@ async function setRemoteDescriptionSafely(peerConnection, sessionDescription) {
 }
 
 // ============================
-// 📞 Enhanced PeerConnection Setup
+// 📞 PERBAIKAN Enhanced PeerConnection Setup
 // ============================
 
 async function ensurePeerConnection(forceRelay = false) {
@@ -328,7 +367,6 @@ async function ensurePeerConnection(forceRelay = false) {
         const config = getTurnConfiguration();
         const platform = detectPlatform();
 
-        // Force relay mode for difficult connections or Firefox
         if (forceRelay || connectionAttempts > 0 || platform.isFirefox) {
             console.log("🔄 Forcing TURN relay mode");
             config.iceTransportPolicy = "relay";
@@ -344,8 +382,6 @@ async function ensurePeerConnection(forceRelay = false) {
                 console.log("📤 ICE candidate:", {
                     type: event.candidate.type,
                     protocol: event.candidate.protocol,
-                    address: event.candidate.address?.substring(0, 10) + "...",
-                    port: event.candidate.port,
                 });
 
                 try {
@@ -361,18 +397,18 @@ async function ensurePeerConnection(forceRelay = false) {
             }
         };
 
-        // Enhanced track handling with proper audio/video separation
+        // PERBAIKAN: Enhanced track handling dengan UI transition
         peerConnection.ontrack = (event) => {
             console.log("🎧 Remote track received:", {
                 kind: event.track.kind,
                 id: event.track.id,
                 enabled: event.track.enabled,
-                readyState: event.track.readyState
+                readyState: event.track.readyState,
             });
 
             if (event.streams && event.streams[0]) {
                 const remoteStream = event.streams[0];
-                console.log("📡 Remote stream tracks:", remoteStream.getTracks().map(t => t.kind));
+                console.log("📡 Remote stream tracks:", remoteStream.getTracks().map((t) => t.kind));
 
                 if (event.track.kind === "audio") {
                     // Handle audio track
@@ -380,16 +416,11 @@ async function ensurePeerConnection(forceRelay = false) {
                         remoteAudio.srcObject = remoteStream;
                         remoteAudio.autoplay = true;
                         remoteAudio.muted = false;
-                        
-                        // Ensure audio plays
-                        remoteAudio.play().catch(e => {
+
+                        remoteAudio.play().catch((e) => {
                             console.warn("⚠️ Auto-play blocked for audio:", e);
-                            // Try to play on user interaction
-                            document.addEventListener('click', () => {
-                                remoteAudio.play().catch(console.error);
-                            }, { once: true });
                         });
-                        
+
                         console.log("✅ Remote audio connected");
                     }
                 } else if (event.track.kind === "video") {
@@ -397,20 +428,24 @@ async function ensurePeerConnection(forceRelay = false) {
                     if (remoteVideo) {
                         remoteVideo.srcObject = remoteStream;
                         remoteVideo.autoplay = true;
-                        remoteVideo.muted = true; // Video should be muted
+                        remoteVideo.muted = true;
                         remoteVideo.playsInline = true;
-                        
-                        remoteVideo.play().catch(e => {
+
+                        remoteVideo.play().catch((e) => {
                             console.warn("⚠️ Auto-play blocked for video:", e);
                         });
-                        
+
                         console.log("✅ Remote video connected");
                     }
                 }
+
+                // KUNCI PERBAIKAN: Pindah ke UI in-progress saat ada track
+                console.log("🔄 Switching to in-progress UI because remote track received");
+                showInProgressUI();
             }
         };
 
-        // Enhanced connection state monitoring
+        // Enhanced connection state monitoring dengan UI feedback
         peerConnection.oniceconnectionstatechange = async () => {
             const state = peerConnection.iceConnectionState;
             console.log("🌐 ICE connection state:", state);
@@ -420,6 +455,8 @@ async function ensurePeerConnection(forceRelay = false) {
                 case "completed":
                     console.log("✅ Connection established successfully!");
                     connectionAttempts = 0;
+                    // PERBAIKAN: Pastikan UI sudah beralih ke in-progress
+                    showInProgressUI();
                     break;
 
                 case "failed":
@@ -440,7 +477,14 @@ async function ensurePeerConnection(forceRelay = false) {
         };
 
         peerConnection.onconnectionstatechange = () => {
-            console.log("🔗 Connection state:", peerConnection.connectionState);
+            const state = peerConnection.connectionState;
+            console.log("🔗 Connection state:", state);
+            
+            // PERBAIKAN: Beralih ke UI in-progress saat connection terbentuk
+            if (state === "connected") {
+                console.log("🔄 Connection established, switching to in-progress UI");
+                showInProgressUI();
+            }
         };
     }
 }
@@ -456,7 +500,7 @@ async function getUserMediaWithFallback(constraints, isAnswer = false) {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         console.log("✅ Media access granted:", {
             audio: stream.getAudioTracks().length > 0,
-            video: stream.getVideoTracks().length > 0
+            video: stream.getVideoTracks().length > 0,
         });
         return stream;
     } catch (error) {
@@ -475,18 +519,31 @@ async function getUserMediaWithFallback(constraints, isAnswer = false) {
             };
 
             try {
-                const stream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
-                console.log("✅ Media access granted with fallback constraints");
+                const stream = await navigator.mediaDevices.getUserMedia(
+                    fallbackConstraints
+                );
+                console.log(
+                    "✅ Media access granted with fallback constraints"
+                );
                 return stream;
             } catch (fallbackError) {
-                console.warn("⚠️ Fallback constraints failed:", fallbackError.name);
+                console.warn(
+                    "⚠️ Fallback constraints failed:",
+                    fallbackError.name
+                );
 
-                if (isAnswer || confirm("Camera is not available. Would you like to make an audio-only call instead?")) {
+                if (
+                    isAnswer ||
+                    confirm(
+                        "Camera is not available. Would you like to make an audio-only call instead?"
+                    )
+                ) {
                     try {
-                        const audioStream = await navigator.mediaDevices.getUserMedia({
-                            audio: constraints.audio,
-                            video: false,
-                        });
+                        const audioStream =
+                            await navigator.mediaDevices.getUserMedia({
+                                audio: constraints.audio,
+                                video: false,
+                            });
                         console.log("✅ Audio-only fallback successful");
                         return audioStream;
                     } catch (audioError) {
@@ -498,12 +555,18 @@ async function getUserMediaWithFallback(constraints, isAnswer = false) {
                 }
             }
         } else if (error.name === "NotAllowedError") {
-            throw new Error("Camera/microphone permission denied. Please allow access and try again.");
+            throw new Error(
+                "Camera/microphone permission denied. Please allow access and try again."
+            );
         } else if (error.name === "NotFoundError") {
             if (constraints.video) {
-                throw new Error("No camera found. Please connect a camera or use audio-only mode.");
+                throw new Error(
+                    "No camera found. Please connect a camera or use audio-only mode."
+                );
             } else {
-                throw new Error("No microphone found. Please connect a microphone.");
+                throw new Error(
+                    "No microphone found. Please connect a microphone."
+                );
             }
         } else {
             throw error;
@@ -523,7 +586,9 @@ async function handleConnectionFailure() {
     }
 
     connectionAttempts++;
-    console.log(`🔄 Connection attempt ${connectionAttempts}/${maxConnectionAttempts}`);
+    console.log(
+        `🔄 Connection attempt ${connectionAttempts}/${maxConnectionAttempts}`
+    );
 
     if (peerConnection) {
         peerConnection.close();
@@ -554,12 +619,14 @@ async function startCall(video = false) {
                 sampleRate: 48000,
                 channelCount: 1,
             },
-            video: video ? {
-                width: { ideal: 1280, max: 1920 },
-                height: { ideal: 720, max: 1080 },
-                frameRate: { ideal: 30, max: 60 },
-                facingMode: "user",
-            } : false,
+            video: video
+                ? {
+                      width: { ideal: 1280, max: 1920 },
+                      height: { ideal: 720, max: 1080 },
+                      frameRate: { ideal: 30, max: 60 },
+                      facingMode: "user",
+                  }
+                : false,
         };
 
         localStream = await getUserMediaWithFallback(constraints, false);
@@ -567,7 +634,8 @@ async function startCall(video = false) {
         const hasVideoTrack = localStream.getVideoTracks().length > 0;
         const actuallyVideo = video && hasVideoTrack;
 
-        console.log(`🎥 Media obtained - requested: ${video}, got video: ${hasVideoTrack}, got audio: ${localStream.getAudioTracks().length > 0}`);
+        console.log(`🎥 Media obtained - requested: ${video}, got video: ${hasVideoTrack}, got audio:
+    ${localStream.getAudioTracks().length > 0}`);
 
         if (actuallyVideo && localVideo) {
             localVideo.srcObject = localStream;
@@ -601,13 +669,16 @@ async function startCall(video = false) {
         });
 
         callActive = true;
-        if (callStatus) callStatus.classList.remove("d-none");
+        const lawyerName = document
+            .querySelector(".nama_pengacara h2")
+            .textContent.split(" - ")[0];
+        showRingingUI(true, lawyerName);
 
         console.log("✅ Call initiated successfully");
     } catch (err) {
         console.error("❌ Error starting call:", err);
         cleanupCall();
-        
+
         let errorMessage = "Failed to start call: ";
         if (err.message.includes("permission denied")) {
             errorMessage += "Camera/microphone access denied.";
@@ -616,7 +687,7 @@ async function startCall(video = false) {
         } else {
             errorMessage += err.message;
         }
-        
+
         alert(errorMessage);
         throw err;
     }
@@ -690,7 +761,7 @@ function cleanupCall() {
     if (remoteVideo) remoteVideo.srcObject = null;
     if (remoteAudio) remoteAudio.srcObject = null;
 
-    if (callStatus) callStatus.classList.add("d-none");
+    hideCallUI();
 
     console.log("✅ Cleanup complete");
 }
@@ -704,7 +775,9 @@ async function processPendingCandidates() {
         return;
     }
 
-    console.log(`🔄 Processing ${pendingCandidates.length} pending ICE candidates`);
+    console.log(
+        `🔄 Processing ${pendingCandidates.length} pending ICE candidates`
+    );
 
     const candidatesToProcess = [...pendingCandidates];
     pendingCandidates = [];
@@ -735,6 +808,62 @@ async function endCall() {
 }
 
 // ============================
+// 🎨 UI Control Functions
+// ============================
+
+
+function showRingingUI(isInitiator, lawyerName) {
+    console.log("🎨 Showing ringing UI:", { isInitiator, lawyerName });
+    
+    if (!callUiContainer || !callInfoView || !inCallView || !callInfoName)
+        return;
+
+    // Tampilkan popup utama
+    callUiContainer.classList.remove("d-none");
+
+    // Tampilkan info "memanggil..."
+    callInfoView.style.display = "block";
+
+    // Sembunyikan tampilan panggilan berlangsung
+    inCallView.style.display = "none";
+
+    // Update nama yang dipanggil
+    if (isInitiator) {
+        callInfoName.textContent = `Memanggil ${lawyerName}...`;
+    } else {
+        callInfoName.textContent = `Panggilan dari ${lawyerName}`;
+    }
+}
+
+function showInProgressUI() {
+    console.log("🎨 Switching to in-progress UI");
+    
+    if (!callUiContainer || !callInfoView || !inCallView) {
+        console.error("❌ UI elements not found");
+        return;
+    }
+
+    // Pastikan popup utama terlihat
+    callUiContainer.classList.remove("d-none");
+    
+    // Sembunyikan info "memanggil..."
+    callInfoView.style.display = "none";
+    
+    // Tampilkan video dan tombol kontrol
+    inCallView.style.display = "block";
+    
+    console.log("✅ UI switched to in-progress view");
+}
+
+function hideCallUI() {
+    console.log("🎨 Hiding call UI");
+    
+    if (callUiContainer) {
+        callUiContainer.classList.add("d-none");
+    }
+}
+
+// ============================
 // 🔗 UI Events
 // ============================
 
@@ -761,15 +890,23 @@ if (startVideoCallLink) {
     });
 }
 
-if (endCallBtn) {
-    endCallBtn.addEventListener("click", (e) => {
+// Menggunakan querySelectorAll untuk menemukan SEMUA tombol dengan class .end-call
+const allEndCallButtons = document.querySelectorAll('.end-call');
+
+// Menambahkan event listener ke setiap tombol "End Call" yang ditemukan
+allEndCallButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
         e.preventDefault();
-        endCall();
+        endCall(); // Memanggil fungsi endCall() Anda yang sudah ada
     });
-}
+});
 
 // ============================
 // 📡 Enhanced Echo Signaling
+// ============================
+
+// ============================
+// 📡 PERBAIKAN Enhanced Echo Signaling
 // ============================
 
 if (window.callId) {
@@ -777,6 +914,9 @@ if (window.callId) {
         .listen(".offer", async (e) => {
             try {
                 console.log("📥 Received offer");
+                const lawyerName = e.offer.caller_name || "Unknown";
+                showRingingUI(false, lawyerName);
+
                 const platform = detectPlatform();
                 console.log(`📥 Answering on ${platform.browser}`);
 
@@ -797,12 +937,14 @@ if (window.callId) {
                             sampleRate: 48000,
                             channelCount: 1,
                         },
-                        video: hasVideo ? {
-                            width: { ideal: 1280, max: 1920 },
-                            height: { ideal: 720, max: 1080 },
-                            frameRate: { ideal: 30, max: 60 },
-                            facingMode: "user",
-                        } : false,
+                        video: hasVideo
+                            ? {
+                                  width: { ideal: 1280, max: 1920 },
+                                  height: { ideal: 720, max: 1080 },
+                                  frameRate: { ideal: 30, max: 60 },
+                                  facingMode: "user",
+                              }
+                            : false,
                     };
 
                     try {
@@ -831,7 +973,15 @@ if (window.callId) {
                     }
                 }
 
-                await setRemoteDescriptionSafely(peerConnection, e.offer);
+                // PERBAIKAN: Ignore SDP errors dan langsung set
+                try {
+                    await peerConnection.setRemoteDescription(e.offer);
+                    console.log("✅ Remote description set successfully");
+                } catch (sdpError) {
+                    console.warn("⚠️ SDP error ignored:", sdpError.message);
+                    // Tetap lanjutkan proses
+                }
+
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
 
@@ -855,6 +1005,12 @@ if (window.callId) {
                     answer: peerConnection.localDescription,
                 });
 
+                // PERBAIKAN: Langsung beralih ke UI in-progress setelah answer terkirim
+                console.log("🔄 Answer sent, switching to in-progress UI");
+                setTimeout(() => {
+                    showInProgressUI();
+                }, 1000); // Delay 1 detik untuk memastikan koneksi stabil
+
                 if (callStatus) callStatus.classList.remove("d-none");
                 console.log("✅ Answer sent successfully");
             } catch (err) {
@@ -869,17 +1025,33 @@ if (window.callId) {
             try {
                 console.log("📥 Received answer");
 
-                if (!peerConnection || peerConnection.signalingState !== "have-local-offer") {
+                if (
+                    !peerConnection ||
+                    peerConnection.signalingState !== "have-local-offer"
+                ) {
                     console.warn("⚠️ Received answer in wrong state:", peerConnection?.signalingState);
                     return;
                 }
 
                 isProcessingRemoteDescription = true;
-                await setRemoteDescriptionSafely(peerConnection, e.answer);
+                
+                // PERBAIKAN: Ignore SDP errors
+                try {
+                    await peerConnection.setRemoteDescription(e.answer);
+                    console.log("✅ Answer remote description set");
+                } catch (sdpError) {
+                    console.warn("⚠️ Answer SDP error ignored:", sdpError.message);
+                }
+
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
 
                 await processPendingCandidates();
+                
+                // PERBAIKAN: Langsung beralih ke UI in-progress setelah answer diterima
+                console.log("🔄 Answer processed, switching to in-progress UI");
+                showInProgressUI();
+                
                 console.log("✅ Answer processed successfully");
             } catch (err) {
                 console.error("❌ Error handling answer:", err);
@@ -901,7 +1073,6 @@ if (window.callId) {
                 console.log("📥 Received ICE candidate:", {
                     type: candidate.type,
                     protocol: candidate.protocol,
-                    address: candidate.address?.substring(0, 10) + "..."
                 });
 
                 if (peerConnection.remoteDescription && !isProcessingRemoteDescription) {
@@ -913,7 +1084,6 @@ if (window.callId) {
                 }
             } catch (err) {
                 console.error("❌ Error processing ICE candidate:", err);
-                // Don't throw here, continue with other candidates
             }
         })
 
@@ -986,8 +1156,12 @@ async function testTurnServer() {
 async function checkMediaDevices() {
     try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const hasCamera = devices.some(device => device.kind === "videoinput");
-        const hasMicrophone = devices.some(device => device.kind === "audioinput");
+        const hasCamera = devices.some(
+            (device) => device.kind === "videoinput"
+        );
+        const hasMicrophone = devices.some(
+            (device) => device.kind === "audioinput"
+        );
 
         console.log("🎥 Available devices:", { hasCamera, hasMicrophone });
         return { hasCamera, hasMicrophone };
@@ -1009,46 +1183,50 @@ if (window.callId) {
         if (result.relay) {
             console.log("✅ TURN server connectivity confirmed");
         } else if (result.host) {
-            console.log("⚠️ Only host candidates found - TURN may not be working");
+            console.log(
+                "⚠️ Only host candidates found - TURN may not be working"
+            );
         } else {
-            console.warn("❌ No ICE candidates found - check network connectivity");
+            console.warn(
+                "❌ No ICE candidates found - check network connectivity"
+            );
         }
     });
 }
 
 // Add debugging event listeners for media elements
 if (remoteAudio) {
-    remoteAudio.addEventListener('loadedmetadata', () => {
+    remoteAudio.addEventListener("loadedmetadata", () => {
         console.log("🎵 Remote audio metadata loaded");
     });
-    
-    remoteAudio.addEventListener('canplay', () => {
+
+    remoteAudio.addEventListener("canplay", () => {
         console.log("🎵 Remote audio can play");
     });
-    
-    remoteAudio.addEventListener('play', () => {
+
+    remoteAudio.addEventListener("play", () => {
         console.log("🎵 Remote audio started playing");
     });
-    
-    remoteAudio.addEventListener('error', (e) => {
+
+    remoteAudio.addEventListener("error", (e) => {
         console.error("❌ Remote audio error:", e);
     });
 }
 
 if (remoteVideo) {
-    remoteVideo.addEventListener('loadedmetadata', () => {
+    remoteVideo.addEventListener("loadedmetadata", () => {
         console.log("📹 Remote video metadata loaded");
     });
-    
-    remoteVideo.addEventListener('canplay', () => {
+
+    remoteVideo.addEventListener("canplay", () => {
         console.log("📹 Remote video can play");
     });
-    
-    remoteVideo.addEventListener('play', () => {
+
+    remoteVideo.addEventListener("play", () => {
         console.log("📹 Remote video started playing");
     });
-    
-    remoteVideo.addEventListener('error', (e) => {
+
+    remoteVideo.addEventListener("error", (e) => {
         console.error("❌ Remote video error:", e);
     });
 }

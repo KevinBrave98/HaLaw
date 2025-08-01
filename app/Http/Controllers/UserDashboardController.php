@@ -25,7 +25,7 @@ class UserDashboardController extends Controller
             $harga_min -= 1000 + ($harga_min % 1000);
         }
 
-        $pengacara = DB::table('pengacaras')->inRandomOrder()->limit(5)->get();
+        $pengacara = $lawyers->with('spesialisasis')->inRandomOrder()->get();
         $pengguna = Auth::user();
         return view('user.dashboard_user', compact('pengacara', 'pengguna', 'harga_max', 'harga_min'));
     }
