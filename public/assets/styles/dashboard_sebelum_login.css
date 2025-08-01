@@ -1,272 +1,387 @@
+/* === FULLY RESPONSIVE + ACCESSIBLE STYLES FOR HaLaw HOMEPAGE === */
+
+/* --- Global Resets and Font Imports --- */
+/* This assumes you are importing 'Noto Serif KR' and 'Raleway' in your main layout file. */
 * {
     margin: 0;
     padding: 0;
-    position: relative;
+    box-sizing: border-box;
 }
 
-.relative{
+body {
     background-color: #f5f5f5;
+    font-family: 'Raleway', sans-serif;
+    color: #000; /* A default text color for better base contrast */
+}
+/* --- Main Layout Sections --- */
+main {
     width: 100%;
-    height: 2070px;
+    overflow-x: hidden; /* Prevent any accidental horizontal scrolling */
 }
 
-.dasbor-top{
+/* --- Top Section: Contains Banner + Features --- */
+.dasbor-top {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #f5f5f5;
+    padding-bottom: 5rem; /* Add space at the bottom of the white area */
 }
 
-.banner-container{
+/* --- Banner Section --- */
+.banner-container {
+    position: relative;
     width: 100%;
-    height: 794px;
-}
-
-.banner-img{
-    width: 100%;
-    height: 794px;
+    min-height: 56rem;
     display: flex;
-    position: absolute;
+    align-items: center;
+    background-color: #0d0d0d;
+    /*
+      NOTE: The background-image path is taken from your Blade file.
+      You might need to adjust this path depending on your final CSS location.
+    */
+    background-image: url('../images/cewek-timbangan.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 5vw) center; /* Position image to the right with some padding */
+    background-size: contain; /* Ensure the full image is visible without being cut off */
 }
 
-.banner-img img{
-    width: 100%;
-    height: 794px;
+/* Hide the original <img> element, as it's now a background */
+.banner-img {
+    display: none;
 }
 
-.banner-text{
-    width: 559px;
-    height: 402px;
+.banner-text {
+    margin-top: -4rem;
+    position: relative;
+    z-index: 2;
+    color: #f5f5f5;
+    padding-left: 8%;
+    width: 50%; /* Constrain text to the left half */
     display: flex;
     flex-direction: column;
-    position: absolute;
-    margin-top: 140px;
-    margin-left: 103px;
-    justify-content: space-between;
-    /* background-color: aquamarine; */
+    gap: 1.5rem;
 }
 
-.banner-title{
-    /* background-color: aqua; */
-    width: 420px;
-    height: 230px;
-    display: flex;
-    font-size: 96px;
+.banner-title {
     font-family: 'Noto Serif KR', serif;
+    font-size: 6rem;
     font-weight: 300;
-    color: #f5f5f5;
-    line-height: 115px;
+    line-height: 1.2;
 }
 
-.banner-subtitle{
-    width: 100%;
-    height: 69px;
-    display: flex;
-    font-size: 20px;
-    font-family: 'Raleway', sans-serif;
-    color: #f5f5f5;
+.banner-title p {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: 0;
 }
 
-.banner-btn{
-    width: 286px;
-    height: 47px;
+.banner-subtitle {
+    font-size: 1.25rem;
+    /* max-width: 450px; */
+    line-height: 1.6;
+}
+
+.banner-btn {
+    width: fit-content;
+    padding: 0.85rem 2.5rem;
     background-color: #654220;
-    font-size: 18px;
-    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
     color: #f5f5f5;
-
-    border-radius: 10px;
-    border: none;
+    border-radius: 8px;
+    border: 1px solid #B99010; /* Added border from reference */
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.kelebihan{
-    width: 1026px;
-    height: 271px;
+.banner-btn:hover {
+    background-color: #845b34;
+}
+
+.banner-btn:focus-visible {
+    outline: 3px solid #B99010;
+    outline-offset: 3px;
+}
+
+/* --- Features ("Kelebihan") Section --- */
+.kelebihan {
+    width: 80%;
+    max-width: 1100px;
     background-color: #654220;
-    border: #B99010 solid 1px;
+    border: 1px solid #B99010;
     border-radius: 10px;
-
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: -128px;
-
-    
-    font-family: 'Raleway', sans-serif;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: -10rem; /* Pulls the section up to overlap the banner */
+    padding: 2.5rem 2rem;
     color: #f5f5f5;
+    position: relative;
+    z-index: 5; /* Ensures it sits above the banner content */
 }
 
-.kelebihan-1{
-    width: 239px;
-    height: 155px;
+.kelebihan-1,
+.kelebihan-2,
+.kelebihan-3 {
+    flex: 1;
+    min-width: 220px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    /* background-color: aqua; */
-}
-
-.kelebihan-2{
-    width: 239px;
-    height: 168px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-     /* background-color: aqua; */
-}
-
-.kelebihan-3{
-    width: 239px;
-    height: 172px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-     /* background-color: aqua; */
-}
-
-.kelebihan-1 img{
-    width: 32px;
-    height: 32px;
-}
-
-.kelebihan-2 img{
-    width: 50px;
-    height: 50px;
-}
-
-.kelebihan-3 img{
-    width: 50px;
-    height: 50px;
-}
-
-.kelebihan-judul p{
-    font-size: 32px;
-}
-
-.kelebihan-deskripsi p{
-    font-size: 13px;
     text-align: center;
-    /* background-color: black; */
+    gap: 1rem;
 }
 
+.kelebihan-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.kelebihan-judul {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.kelebihan-deskripsi {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 250px;
+}
 
 .vertical-line {
-    border-left: 1px solid #B99010;;
-    height: 270px;
-    margin: 0 54px;
+    display: block;
+    width: 1px;
+    background-color: rgba(185, 144, 16, 0.4);
+    align-self: stretch;
 }
 
-
-.dasbor-middle{
-    width: 100%;
-    height: 641px;
-
-    /* background-color: aqua; */
+/* --- Middle Section ("Pahami Sebelum Bertindak") --- */
+.dasbor-middle {
+    min-width: 100%;
+    /* max-width: 1100px; */
+    margin: 0 auto;
+    padding: 7rem 2rem 0 2rem; /* Adjusted padding */
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
-
-    font-family: 'Raleway', sans-serif;
+    gap: 4rem;
 }
 
+.middle-img img {
+    max-width: 100%;
+    /* width: 320px; */
+    height: auto;
+}
 
-.middle-text{
-    width: 762px;
-    height: 200px;
+.middle-text {
+    /* max-width: 550px; */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.middle-judul {
+    font-size: 2.5rem;
+    color: #000;
+    /* font-family: 'Noto Serif KR', serif; */
+}
+
+.middle-deskripsi {
+    font-size: 1.125rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.btn-kamus {
+    background-color: #654220;
+    color: #f5f5f5;
+    padding: 0.85rem 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #B99010;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-kamus:hover {
+    background-color: #845b34;
+}
+
+.btn-kamus:focus-visible {
+    outline: 3px solid #B99010;
+    outline-offset: 3px;
+}
+
+/* --- Bottom Section (Reviews) --- */
+.dasbor-bottom {
+    width: 100%;
+    padding: 5rem 2rem 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    background-color: #f5f5f5; /* Match the main background */
+}
+
+.dasbor-bottom-judul {
+    font-size: 2.5rem;
+    color: #000;
+    text-align: center;
+    /* font-family: 'Noto Serif KR', serif; */
+}
+
+.review-container {
+    width: 100%;
+    /* max-width: 1200px; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.review-1 {
+    background-color: #654220;
+    color: #f5f5f5;
+    flex: 1;
+    /* min-width: 300px;
+    max-width: 380px; */
+    padding: 2rem;
+    border-radius: 15px; /* Softer corners to match reference */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    font-family: 'Raleway', sans-serif;
-
-    /* background-color: blueviolet; */
+    gap: 1.5rem;
 }
 
-
-.middle-text-top{
-    width: 762px;
-    height: 96px;
-
-    /* background-color: white; */
-}
-
-.middle-judul{
-    font-size: 48px;
-    color: black;
-}
-
-.middle-deskripsi{
-    font-size: 20px;
-    color: black;
-
-}
-
-.btn-kamus{
-    width: 288.6px;
-    height: 47.8px;
-    background-color: #654220;
-
-    font-size: 18px;
-    color: #f5f5f5;
-
-    border-radius: 10px;
-    border-style: none;
-
-    font-family: 'Raleway', sans-serif;
-    font-size: 18px;
-}
-
-.dasbor-bottom{
-    width: 100%;
-    height: 395px;
-    /* background-color: aqua; */
+.review-star {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    font-family: 'Raleway', sans-serif;
+    gap: 1rem;
 }
 
-.dasbor-bottom-judul{
-    height: 56px;
-    color: black;
-    font-size: 48px;
-    margin-top: 47px;
+.review-star img {
+    width: 100px;
+    height: auto;
 }
 
-.review-container{
-    height: 147px;
-    width: 100%;
-    margin-top: 48px;
-    /* background-color: red; */
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.review-star p {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
 }
 
-.review-1{
-    height: 147px;
-    width: 416px;
-    background-color: #654220;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items:self-start;
-    font-size: 13px;
-    color: #f5f5f5;
+.review-bottomstar {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
-.review-star{
-    width: 372px;
-    height: 60px;
-    margin-left: 27px;
-    /* background-color: yellow; */
+/* === RESPONSIVE STYLES === */
+@media (max-width: 1200px) {
+    .banner-container {
+        background-size: cover;
+    }
+    .banner-text {
+        width: 55%;
+    }
 }
 
-.review-bottomstar{
-    margin-left: 27px;
+
+@media (max-width: 1024px) {
+    .banner-container {
+        min-height: 28rem;
+        background-size: contain;;
+    }
+    .banner-title {
+        font-size: 2.5rem;
+    }
+    .kelebihan {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem; /* Space between the new separate cards */
+        margin-top: 2rem; /* Remove overlap and add space */
+        /* Remove the container look from the parent */
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    /* Apply the container look to each individual feature card on mobile */
+    .kelebihan-1,
+    .kelebihan-2,
+    .kelebihan-3 {
+        width: 100%; /* Each card takes full width of the .kelebihan container */
+        background-color: #654220;
+        border: 1px solid #B99010;
+        border-radius: 10px;
+        padding: 2.5rem 2rem;
+    }
+    .vertical-line {
+        display: none;
+    }
+    .dasbor-middle {
+        gap: 2rem;
+        text-align: center;
+    }
+    .middle-text {
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner-container {
+        min-height: 60vh;
+        background-image: none; /* Remove complex background on mobile */
+        justify-content: center;
+        text-align: center;
+        padding: 5rem 0;
+    }
+    .banner-text {
+        width: 100%;
+        padding: 0 1.5rem;
+        align-items: center;
+    }
+    .banner-btn {
+        width: 60%;
+    }
+    .banner-title {
+        font-size: 2.5rem;
+    }
+    .banner-subtitle {
+        font-size: 1rem;
+    }
+    .kelebihan {
+        width: 90%;
+        /* margin-top: -40px; A softer overlap for mobile */
+    }
+    .dasbor-middle {
+        padding: 5rem 1.5rem 0 1.5rem;
+        flex-direction: column;
+    }
+    .middle-judul,
+    .dasbor-bottom-judul {
+        font-size: 2rem;
+    }
+    .dasbor-bottom {
+        padding: 4rem 1.5rem;
+    }
+    .review-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .review-1 {
+        min-width: unset;
+        width: 100%;
+        max-width: 400px;
+    }
+    .banner-btn,
+    .btn-kamus {
+        width: 80%;
+        padding: 1rem;
+        font-size: 1.125rem;
+    }
 }

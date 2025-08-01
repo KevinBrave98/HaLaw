@@ -1,86 +1,108 @@
 @push('css')
+    {{-- Pastikan path CSS ini sesuai dengan struktur proyek Anda --}}
     <link rel="stylesheet" href="{{ asset('assets/styles/detail_pengacara.css') }}">
 @endpush
-<x-layout_user :title="'Detail Pengacara'">
-    <div class="d-flex bagian-atas d-flex-column justify-content-between align-items-start">
-        <a class="button-back" href="{{ route('search.pengacara.view') }}">
-            <img src="{{ asset('assets/images/icon-back.png') }}" alt="tombol kembali">
+
+<x-layout_user :title="'Detail Pengacara - ' . $pengacara->nama_pengacara">
+
+    {{-- Gunakan <main> untuk konten utama halaman --}}
+    <main class="container-detail-pengacara">
+        <a href="{{ route('search.pengacara.view') }}" class="button-back" aria-label="Kembali ke halaman pencarian">
+            <img src="{{ asset('assets/images/icon-back.png') }}" alt="">
         </a>
-        <div class="sapaan-foto d-flex flex-column">
-            <h1 class="fs-3">Halo, {{ $pengacara->nama_pengacara }}</h1>
-            <img id="preview-foto" class="foto-profil-preview"
-                src="{{ $pengacara->foto_pengacara ? asset('storage/' . $pengacara->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
-                alt="foto profil">
-        </div>
-    </div>
+        <header class="profil-header">
+            {{-- <div class="profil-banner"> --}}
+            {{-- </div> --}}
+            <div class="profil-info-utama">
+                <img src="{{ $pengacara->foto_pengacara ? asset('storage/' . $pengacara->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
+                    alt="Foto profil {{ $pengacara->nama_pengacara }}" class="profil-pic">
+                {{-- Gunakan <h1> untuk nama pengacara sebagai judul utama halaman --}}
+                <h1 class="nama-pengacara">{{ $pengacara->nama_pengacara }}</h1>
+                <p class="jenis-kelamin">{{ $pengacara->jenis_kelamin }}</p>
+            </div>
+        </header>
 
-    <div class="form-profil d-flex align-item-center">
-        <div class="form-element nama">
-            <label for="" class="form-label">Nama Lengkap</label>
-            <input readonly type="text" class="form-control input-nama" value="{{ $pengacara->nama_pengacara }}">
-        </div>
-        <div class="form-element nik">
-            <label for="" class="form-label">NIK</label>
-            <input readonly type="text" class="form-control input-nik" value="{{ $pengacara->nik_pengacara }}">
-        </div>
-        <div class="form-element email">
-            <label for="" class="form-label">Email</label>
-            <input readonly type="email" class="form-control input-email" value="{{ $pengacara->email }}">
-        </div>
-        <div class="form-element telepon">
-            <label for="" class="form-label">Nomor Telepon</label>
-            <input readonly type="text" class="form-control input-telepon" value="{{ $pengacara->nomor_telepon }}">
-        </div>
-        <div class="form-element lokasi">
-            <label for="" class="form-label">Lokasi Tempat Kerja</label>
-            <input readonly type="text" class="form-control input-lokasi" value="{{ $pengacara->lokasi }}">
-        </div>
-        <div class="form-element spesialisasi">
-            <label for="" class="form-label">Spesialisasi</label>
-            <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties"
-                value="{{ $pengacara->spesialisasi }}">
-        </div>
+        {{-- Gunakan <article> untuk konten yang mandiri dan lengkap seperti profil --}}
+        <article class="profil-content">
 
-        <div class="form-element pendidikan">
-            <label for="" class="form-label">Informasi Pendidikan</label>
-            <textarea readonly class="form-control input-pendidikan" rows="4">{{ $pengacara->pendidikan }}</textarea>
-        </div>
-        <div class="form-element pengalaman">
-            <label for="" class="form-label">Pengalaman Kerja</label>
-            <textarea readonly class="form-control input-pendidikan" rows="8">{{ $pengacara->pengalaman_bekerja }}</textarea>
-        </div>
-        <div class="form-element durasi_kerja">
-            <label for="" class="form-label">Durasi Pengalaman Kerja</label>
-            <input readonly type="text" class="form-control input-spesialisasi" id="savedSpecialties"
-                oninput="tambahTahun(this)" value="{{ $pengacara->durasi_pengalaman }}">
-        </div>
-        <div class="form-element gender">
-            <label for="" class="form-label">Jenis Kelamin</label>
-            <input readonly type="text" class="form-control input-text" value="{{ $pengacara->jenis_kelamin }}">
-        </div>
-        @php
-            $layanan = [];
-            if ($pengacara->chat) {
-                $layanan[] = 'Pesan';
-            }
-            if ($pengacara->voice_chat) {
-                $layanan[] = 'Panggilan Suara';
-            }
-            if ($pengacara->video_call) {
-                $layanan[] = 'Panggilan Video';
-            }
-        @endphp
+            {{-- Setiap bagian informasi dibungkus dalam <section> dengan heading yang jelas --}}
+            <section class="info-section">
+                <h2 class="section-title">Lokasi Tempat Kerja</h2>
+                <p>{{ $pengacara->lokasi }}</p>
+            </section>
 
-        <div class="form-element jenis_layanan mb-5">
-            <label for="" class="form-label">Jenis Layanan</label>
-            <input readonly type="text" class="form-control input-text" value="{{ implode(', ', $layanan) }}">
-        </div>
-        <div class="d-flex flex-column align-items-center">
-            <h4>Tarif Jasa</h4>
-            <h2>Rp{{ number_format($pengacara->tarif_jasa, 0, ',', '.') }}</h2>
-        </div>
-        <div class="button-exit d-flex justify-content-center" style="margin-top: 0px;">
-            <button onclick="window.location.href='{{ route('pembayaran.pengacara', ['id' => $pengacara->nik_pengacara]) }}'">Konsultasi Sekarang</button>
-        </div>
-    </div>
+
+
+            <section class="info-section">
+                <h2 class="section-title">Spesialisasi</h2>
+                {{-- Menggunakan <p> untuk menampilkan teks, bukan input field --}}
+                <p class="spesialisasi">
+                    @if ($spesialisasi->count() > 0)
+                        {{ $spesialisasi->pluck('nama_spesialisasi')->implode(', ')}}
+                    @else
+                        Tidak Ada Spesialisasi
+                    @endif
+                </p>
+            </section>
+
+
+
+            <section class="info-section">
+                <h2 class="section-title">Informasi Pendidikan</h2>
+                {{-- Jika data pendidikan bisa memiliki beberapa baris, gunakan <p> dengan style CSS `white-space: pre-line`
+                     agar baris baru dari database tetap ditampilkan. Atau, idealnya simpan sebagai JSON dan loop di sini. --}}
+                <p style="white-space: pre-line;">{{ $pengacara->pendidikan }}</p>
+            </section>
+
+
+
+            <section class="info-section">
+                <h2 class="section-title">Pengalaman Kerja</h2>
+                {{-- Pengalaman kerja lebih cocok ditampilkan sebagai daftar.
+                     Tag <p> dengan `white-space: pre-line` digunakan sebagai solusi praktis
+                     jika data di database adalah teks tunggal dengan baris baru. --}}
+                <p style="white-space: pre-line;">{{ $pengacara->pengalaman_bekerja }}</p>
+            </section>
+
+
+
+            <section class="info-section">
+                <h2 class="section-title">Durasi Pengalaman Kerja</h2>
+                <p>{{ $pengacara->durasi_pengalaman }}</p>
+            </section>
+
+
+
+            <section class="info-section">
+                <h2 class="section-title">Ketersediaan Layanan</h2>
+                {{-- Gunakan <ul> untuk daftar layanan agar lebih semantik --}}
+                <ul class="layanan-list">
+                    {{-- class 'tersedia' / 'tidak-tersedia' bisa digunakan untuk styling (misal: warna teks atau ikon) --}}
+                    <li class="{{ $pengacara->chat ? 'tersedia' : 'tidak-tersedia' }}">
+                        {!! $pengacara->chat ? '&#10004;' : '&#10006;' !!} Pesan
+                    </li>
+                    <li class="{{ $pengacara->voice_chat ? 'tersedia' : 'tidak-tersedia' }}">
+                        {!! $pengacara->voice_chat ? '&#10004;' : '&#10006;' !!} Panggilan Suara
+                    </li>
+                    <li class="{{ $pengacara->video_call ? 'tersedia' : 'tidak-tersedia' }}">
+                        {!! $pengacara->video_call ? '&#10004;' : '&#10006;' !!} Panggilan Video
+                    </li>
+                </ul>
+            </section>
+
+        </article>
+
+        <section class="profil-harga">
+            <div class="tarif-section">
+                <h3 class="tarif-title">Tarif Jasa</h3>
+                <p class="tarif-harga">Rp{{ number_format($pengacara->tarif_jasa, 2, ',', '.') }}</p>
+            </div>
+            {{-- Gunakan <a> untuk navigasi/link, bukan <button> dengan JS. Ini lebih baik untuk SEO & aksesibilitas. --}}
+            <a href="{{ route('pembayaran.pengacara', ['id' => $pengacara->nik_pengacara]) }}"
+                class="button-konsultasi">
+                Konsultasi Sekarang
+            </a>
+        </section>
+
+    </main>
 </x-layout_user>

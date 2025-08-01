@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pesan extends Model
 {
-    protected $primaryKey = 'id_pesan';
+    // protected $primaryKey = 'id_pesan';
     protected $fillable = [
         'id_riwayat',
         'nik',
@@ -16,6 +16,6 @@ class Pesan extends Model
 
     public function riwayat(): BelongsTo
     {
-        return $this->belongsTo(Riwayat::class, 'id_riwayat');
+        return $this->belongsTo(Riwayat::class, 'id_riwayat', 'id');
     }
 }

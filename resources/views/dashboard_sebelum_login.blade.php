@@ -1,123 +1,91 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/styles/dashboard_sebelum_login.css') }}">
 @endpush
+
 <x-layout :title="'Home'">
     <x-slot:title>HaLaw</x-slot:title>
-    <div class="relative">
-        <div class="dasbor-top">
-            <div class="banner-container">
+    <main id="main-content">
+        <section class="dasbor-top" role="region" aria-label="Banner">
+            <figure class="banner-container" tabindex="0">
                 <div class="banner-img">
-                    <img src="{{ asset(path: 'assets/images/cewek-timbangan.png') }}" alt="Gambar Banner">
+                    <img src="{{ asset(path: 'assets/images/cewek-timbangan.png') }}" alt="Ilustrasi perempuan dengan timbangan hukum">
                 </div>
-                <div class="banner-text">
-                    <div class="banner-title">
+                <figcaption class="banner-text">
+                    <h1 class="banner-title">
                         <p>We Fight<br>for Right</p>
-                    </div>
-                    <div class="banner-subtitle">
-                        <p class="text-light">Kami hadir untuk mendampingi setiap langkahmu mencari keadilan, karena
-                            setiap orang berhak dimengerti dan dibela di hadapan hukum.</p>
-                    </div>
+                    </h1>
+                    <p class="banner-subtitle text-light">
+                        Kami hadir untuk mendampingi setiap langkahmu mencari keadilan, karena setiap orang berhak dimengerti dan dibela di hadapan hukum.
+                    </p>
                     <button class="banner-btn" onclick="window.location.href = '/daftar'">Konsultasi Sekarang</button>
-                </div>
-            </div>
+                </figcaption>
+            </figure>
 
-            <div class="kelebihan">
-                <div class="kelebihan-1">
-                    <div class="kelebihan-icon">
-                        <img src="{{ asset(path: 'assets/images/el_check.png') }}" alt="Ikon Check">
-                    </div>
-                    <div class="kelebihan-judul">
-                        <p>Praktis</p>
-                    </div>
-                    <div class="kelebihan-deskripsi">
-                        <p>Akses layanan hukum kapan saja dan di mana saja melalui pesan, panggilan suara, atau
-                            panggilan video tanpa harus datang langsung.</p>
-                    </div>
-                </div>
+            <section class="kelebihan" role="region" aria-label="Keunggulan Layanan HaLaw">
+                <article class="kelebihan-1" tabindex="0">
+                    <img class="kelebihan-icon" src="{{ asset(path: 'assets/images/el_check.png') }}" alt="Ikon tanda centang sebagai simbol kepraktisan">
+                    <h2 class="kelebihan-judul">Praktis</h2>
+                    <p class="kelebihan-deskripsi">Akses layanan hukum kapan saja dan di mana saja melalui pesan, panggilan suara, atau panggilan video tanpa harus datang langsung.</p>
+                </article>
 
-                <div class="vertical-line"></div>
+                <div class="vertical-line" aria-hidden="true"></div>
 
-                <div class="kelebihan-2">
-                    <div class="kelebihan-icon">
-                        <img src="{{ asset(path: 'assets/images/material-symbols_price-change.png') }}"
-                            alt="Ikon Shield">
-                    </div>
-                    <div class="kelebihan-judul">
-                        <p>Terjangkau</p>
-                    </div>
-                    <div class="kelebihan-deskripsi">
-                        <p>Biaya konsultasi yang transparan dan bersahabat, sehingga siapa pun dapat mendapatkan bantuan
-                            hukum tanpa khawatir soal biaya.</p>
-                    </div>
-                </div>
+                <article class="kelebihan-2" tabindex="0">
+                    <img class="kelebihan-icon" src="{{ asset(path: 'assets/images/material-symbols_price-change.png') }}" alt="Ikon simbol harga sebagai lambang keterjangkauan">
+                    <h2 class="kelebihan-judul">Terjangkau</h2>
+                    <p class="kelebihan-deskripsi">Biaya konsultasi yang transparan dan bersahabat, sehingga siapa pun dapat mendapatkan bantuan hukum tanpa khawatir soal biaya.</p>
+                </article>
 
-                <div class="vertical-line"> </div>
+                <div class="vertical-line" aria-hidden="true"></div>
 
-                <div class="kelebihan-3">
-                    <div class="kelebihan-icon">
-                        <img src="{{ asset(path: 'assets/images/ri_pass-valid-line.png') }}" alt="Ikon Money">
-                    </div>
-                    <div class="kelebihan-judul">
-                        <p>Terpercaya</p>
-                    </div>
-                    <div class="kelebihan-deskripsi">
-                        <p>Didukung oleh pengacara profesional dan berpengalaman, HaLaw menjamin kualitas serta
-                            kerahasiaan setiap konsultasi hukum.</p>
-                    </div>
-                </div>
-            </div>
+                <article class="kelebihan-3" tabindex="0">
+                    <img class="kelebihan-icon" src="{{ asset(path: 'assets/images/ri_pass-valid-line.png') }}" alt="Ikon dokumen hukum valid sebagai simbol kepercayaan">
+                    <h2 class="kelebihan-judul">Terpercaya</h2>
+                    <p class="kelebihan-deskripsi">Didukung oleh pengacara profesional dan berpengalaman, HaLaw menjamin kualitas serta kerahasiaan setiap konsultasi hukum.</p>
+                </article>
+            </section>
 
-            <div class="dasbor-middle">
-                <div class="middle-img">
-                    <img src="{{ asset(path: 'assets/images/gambarPalu.png') }}" alt="Gambar Palu Hukum">
-                </div>
+            <section class="dasbor-middle" role="region" aria-label="Akses Kamus Hukum">
+                <figure class="middle-img" tabindex="0">
+                    <img src="{{ asset(path: 'assets/images/gambarPalu.png') }}" alt="Gambar palu hukum sebagai simbol keadilan">
+                </figure>
                 <div class="middle-text">
-                    <div class="middle-text-top">
-                        <p class="middle-judul">Pahami Sebelum Bertindak</p>
-                        <p class="middle-deskripsi">Istilah hukum yang jelas adalah langkah pertama menuju keputusan
-                            yang benar.</p>
-                    </div>
+                    <header class="middle-text-top" tabindex="0">
+                        <h2 class="middle-judul">Pahami Sebelum Bertindak</h2>
+                        <p class="middle-deskripsi">Istilah hukum yang jelas adalah langkah pertama menuju keputusan yang benar.</p>
+                    </header>
                     <button class="btn-kamus" onclick="window.location.href = '/kamus'">Telusuri Istilah Hukum</button>
                 </div>
-            </div>
-        </div>
+            </section>
+        </section>
 
-        <div class="dasbor-bottom">
-            <p class="dasbor-bottom-judul">Apa Kata Mereka?</p>
+        <section class="dasbor-bottom" role="region" aria-label="Ulasan Pengguna">
+            <h2 class="dasbor-bottom-judul">Apa Kata Mereka?</h2>
             <div class="review-container">
-                <div class="review-1">
+                <blockquote class="review-1" tabindex="0">
                     <div class="review-star">
-                        <img src="assets/images/Star.png" alt="review bintang 5">
-                        <p>“Layanannya cepat dan pengacaranya responsif banget. Cocok buat yang butuh solusi hukum tanpa
-                            ribet.”</p>
+                        <img src="assets/images/Star.png" alt="Ikon bintang lima">
+                        <p>“Layanannya cepat dan pengacaranya responsif banget. Cocok buat yang butuh solusi hukum tanpa ribet.”</p>
                     </div>
-                    <div class="review-bottomstar">
-                        <p>— Dimas</p>
-                    </div>
-                </div>
+                    <footer class="review-bottomstar">— Dimas</footer>
+                </blockquote>
 
-                <div class="review-1">
+                <blockquote class="review-1" tabindex="0">
                     <div class="review-star">
-                        <img src="assets/images/Star.png" alt="review bintang 5">
-                        <p>“Buat saya yang baru pertama kali konsultasi hukum, ini bantu banget. Prosesnya mudah dan
-                            nggak bikin stres.”</p>
+                        <img src="assets/images/Star.png" alt="Ikon bintang lima">
+                        <p>“Buat saya yang baru pertama kali konsultasi hukum, ini bantu banget. Prosesnya mudah dan nggak bikin stres.”</p>
                     </div>
-                    <div class="review-bottomstar">
-                        <p>— Laras</p>
-                    </div>
-                </div>
+                    <footer class="review-bottomstar">— Laras</footer>
+                </blockquote>
 
-                <div class="review-1">
+                <blockquote class="review-1" tabindex="0">
                     <div class="review-star">
-                        <img src="assets/images/Star.png" alt="review bintang 5">
-                        <p>“Saya kira harus mahal untuk dapat bantuan hukum, ternyata di HaLaw terjangkau dan jelas.”
-                        </p>
+                        <img src="assets/images/Star.png" alt="Ikon bintang lima">
+                        <p>“Saya kira harus mahal untuk dapat bantuan hukum, ternyata di HaLaw terjangkau dan jelas.”</p>
                     </div>
-                    <div class="review-bottomstar">
-                        <p>— Nadya</p>
-                    </div>
-                </div>
+                    <footer class="review-bottomstar">— Nadya</footer>
+                </blockquote>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 </x-layout>

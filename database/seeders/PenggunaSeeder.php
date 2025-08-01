@@ -31,5 +31,17 @@ class PenggunaSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        DB::table('penggunas')->insert([
+            'nik_pengguna' => '1234567812345678',
+            'nama_pengguna' => 'Pengguna Contoh',
+            'email' => 'halawpengguna@gmail.com',
+            'password' => Hash::make('password123'),
+            'nomor_telepon' => '081234567890',
+            'jenis_kelamin' => 'Laki-laki',
+            'foto_pengguna' => null,
+            'alamat' => 'Jakarta',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

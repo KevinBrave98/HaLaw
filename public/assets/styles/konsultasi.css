@@ -1,61 +1,116 @@
-body {
-    margin: 0;
-    padding: 0;
+/* ========================================= */
+/* ===         TAB NAVIGATION            === */
+/* ========================================= */
+.konsultasi-nav {
+    height: 80px;
 }
 
-.bg-brown {
-    background-color: #654220;
-}
-
-.bg-dark-brown {
-    background-color: #3c2a1e;
-}
-
-.text-bold {
+.konsultasi-nav .tab {
     font-weight: bold;
-    background: #b99010;
-    border-radius: 10px;
-    color: white !important;
+    font-size: 25px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-.text-brown {
+.konsultasi-nav .tab.selected {
+    background-color: #654220;
+    color: white;
+}
+
+.konsultasi-nav .tab:not(.selected) {
+    background-color: #3c2a1a;
+    color: #a0978d;
+}
+
+.konsultasi-nav .tab:not(.selected):hover {
+    background-color: #533f2e;
+    color: white;
+}
+
+/* ========================================= */
+/* ===      DAFTAR KONSULTASI (CARD)     === */
+/* ========================================= */
+.konsultasi-list-container {
+    padding: 20px;
+}
+
+.konsultasi-list-container .card {
+    border: 1px solid #B99010 !important;
+    background-color: #fdf5ee !important;
+}
+
+.lawyer-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Sesuai style asli, tidak lingkaran */
+}
+
+.lawyer-name {
+    font-weight: bold;
+    color: #281805;
+}
+
+.last-message {
+    color: #6c757d; /* text-muted */
+}
+
+/* --- Ikon Aksi (Chat, Call, Video) --- */
+.card-action-icons .text-brown {
     color: #654220;
+    transition: color 0.3s ease;
+}
+
+.card-action-icons .text-brown:hover {
+    color: #B99010;
 }
 
 .icon-disabled {
     position: relative;
     display: inline-block;
     color: #ccc;
+    cursor: not-allowed;
 }
 
+/* Garis diagonal pada ikon disabled */
 .icon-disabled::after {
     content: "";
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: -10%;
-    width: 150%;
-    border-top: 2px solid #654220;
-    transform: rotate(45deg);
+    width: 120%;
+    height: 2px;
+    background-color: #999;
+    transform: translateY(-50%) rotate(-45deg);
 }
 
-.tab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1rem;
-    font-weight: bold;
-    font-size: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    /* font-family: ; */
-}
 
-.tab.selected {
-    background-color: #654220; /* bg-brown */
-    color: white;
-}
+/* ========================================= */
+/* ===      PENYESUAIAN RESPONSIVE       === */
+/* ========================================= */
+@media (max-width: 768px) {
+    .konsultasi-nav {
+        height: auto;
+    }
+    .konsultasi-nav .tab {
+        font-size: 1rem;
+        padding: 1rem 0.5rem;
+    }
 
-.tab:not(.selected) {
-    background-color: #3c2a1a; /* bg-dark-brown */
-    color: #888; /* text-muted */
+    .card-body {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+
+    .card-action-icons {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .lawyer-photo {
+        width: 60px;
+        height: 60px;
+    }
 }
