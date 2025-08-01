@@ -10,21 +10,30 @@ class SearchController extends Controller
 {
     public function view()
     {
-        $lawyers = Pengacara::where('status_konsultasi', 1);
-        $harga_max = $lawyers->max('tarif_jasa');
-        $harga_min = $lawyers->min('tarif_jasa');
+        // For min/max calculations, use the query builder without get()
+        $lawyersQuery = Pengacara::where('status_konsultasi', 1);
+        $harga_max = $lawyersQuery->max('tarif_jasa');
+        $harga_min = $lawyersQuery->min('tarif_jasa');
+        
         if($harga_max % 1000 != 0) {
             $harga_max += 1000 - ($harga_max % 1000);
-            // dd($harga_max);
         }
 
         if($harga_min % 1000 != 0) {
-            $harga_min -= 1000 + ($harga_min % 1000);
+            $harga_min -= ($harga_min % 1000);
         }
 
         $request = request();
         $filters = session('filters', []);
         $lawyers_search = session('lawyers_search', []);
+        
+        // If we have lawyers in session, reload them with relationships
+        if (!empty($lawyers_search)) {
+            $lawyerIds = collect($lawyers_search)->pluck('nik_pengacara');
+            $lawyers_search = Pengacara::whereIn('nik_pengacara', $lawyerIds)
+                                      ->with('spesialisasis')
+                                      ->get();
+        }
 
         $layananLabels = [
             'chat' => 'Pesan',
@@ -62,12 +71,13 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $lawyers = Pengacara::where('status_konsultasi', 1);
+        
+        // Calculate min/max before applying other filters
         $harga_max = $lawyers->max('tarif_jasa');
         $harga_min = $lawyers->min('tarif_jasa');
 
         if($harga_max % 1000 != 0) {
             $harga_max += 1000 - ($harga_max % 1000);
-            // dd($harga_max);
         }
 
         if($harga_min % 1000 != 0) {
@@ -75,14 +85,18 @@ class SearchController extends Controller
         }
 
         $query = $request->nama_pengacara;
-        $lawyers = DB::table('pengacaras')->where('status_konsultasi', 1);
+        
         if ($query) {
             $lawyers = $lawyers->where('nama_pengacara', 'LIKE', "$query%");
         }
 
         if ($request->jenis_kelamin) {
-            $lawyers = $lawyers->where('jenis_kelamin', $request->jenis_kelamin)->orWhere('jenis_kelamin', 'Memilih tidak menjawab');
+            $lawyers = $lawyers->where(function($q) use ($request) {
+                $q->where('jenis_kelamin', $request->jenis_kelamin)
+                  ->orWhere('jenis_kelamin', 'Memilih tidak menjawab');
+            });
         }
+        
         if ($request->spesialisasi) {
             $lawyers = $lawyers->where('spesialisasi', 'LIKE', "%$request->spesialisasi%");
         }
@@ -102,15 +116,14 @@ class SearchController extends Controller
         // Harga
         $min = $request->input('min_price');
         $max = $request->input('max_price');
-        // dd($max);
 
         if (!is_null($min) && !is_null($max)) {
             $lawyers = $lawyers->where('tarif_jasa', '>=', $min)
                 ->where('tarif_jasa', '<=', $max);
         }
 
-        // Ambil hasil dan simpan session
-        $lawyers = $lawyers->inRandomOrder()->get();
+        // Ambil hasil dan simpan session - WITH EAGER LOADING
+        $lawyers = $lawyers->with('spesialisasis')->inRandomOrder()->get();
 
         session([
             'lawyers_search' => $lawyers,
@@ -122,6 +135,7 @@ class SearchController extends Controller
                 'max_price' => $max,
             ],
         ]);
+        
         return redirect()->route('search.pengacara.view', compact('harga_max', 'harga_min'));
     }
 }

@@ -42,6 +42,7 @@ Route::middleware(['user.auth'])->group(function () {
     Route::post('/hasil_pencarian', [SearchController::class, 'search'])->name('search.pengacara.search');
     Route::get('/pembayaran/{id}', [PembayaranController::class, 'show'])->name('pembayaran.pengacara');
     Route::post('/payment/store-riwayat', [PembayaranController::class, 'storeRiwayat']);
+    Route::get('/konsultasi', [KonsultasiController::class, 'redirectChat']);
     Route::get('/konsultasi/sedang-berlangsung', [KonsultasiController::class, 'konsultasiSedangBerlangsung'])->name('konsultasi.berlangsung');
     Route::get('/konsultasi/riwayat-konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
     Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');

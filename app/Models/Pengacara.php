@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Pengacara extends Authenticatable
 {
@@ -23,13 +24,10 @@ class Pengacara extends Authenticatable
         'nomor_telepon',
         'jenis_kelamin',
         'lokasi',
-        'spesialisasi',
+        // 'spesialisasi',
         'tarif_jasa',
         'durasi_pengalaman',
         'pengalaman_bekerja',
-        'pendidikan',
-        'chat',
-        'voice_chat',
         'video_call',
         'status_konsultasi',
         'total_pendapatan',
@@ -72,5 +70,10 @@ class Pengacara extends Authenticatable
 
     {
         $query->where('status_konsultasi', 1);
+    }
+
+    public function spesialisasis(): BelongsToMany
+    {
+        return $this->belongsToMany(Spesialisasi::class, 'pengacara_spesialisasi', 'nik_pengacara', 'id_spesialisasi');
     }
 }

@@ -37,7 +37,11 @@
                                         {{-- Judul di dalam kartu menggunakan <h3>, satu level di bawah <h2> "Rekomendasi" --}}
                                         <h3 class="nama">{{ $lawyer_card->nama_pengacara }}</h3>
                                         <p class="spesialisasi">
-                                            Hukum perdata, Hukum pidana, Litigasi & Sengketa...
+                                            @if ($lawyer_card->spesialisasis && $lawyer_card->spesialisasis->count() > 0)
+                                                {{ Str::limit($lawyer_card->spesialisasis->pluck('nama_spesialisasi')->implode(', '), 50, '...') }}
+                                            @else
+                                                Tidak Ada Spesialisasi
+                                            @endif
                                         </p>
 
                                         {{-- Badges juga merupakan daftar, jadi gunakan <ul> --}}

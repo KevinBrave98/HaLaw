@@ -31,13 +31,13 @@
 
         {{-- Kolom Tengah: Tentang Kami --}}
         <div class="footer-column footer-about">
-            <h2>Tentang Kami</h2>
+            <h2 class="white">Tentang Kami</h2>
             <p>HaLaw merupakan platform layanan hukum digital yang menyediakan akses cepat, mudah, dan terpercaya kepada pengacara profesional. Kami hadir untuk menjawab kebutuhan masyarakat akan konsultasi hukum yang efisien dan terjangkau. Dengan HaLaw, urusan hukum menjadi lebih jelas, terarah, dan dapat diakses oleh siapa saja.</p>
         </div>
 
         {{-- Kolom Kanan: Kontak Kami --}}
         <div class="footer-column footer-contact">
-            <h2>Kontak Kami</h2>
+            <h2 class="white">Kontak Kami</h2>
             <ul class="contact-info">
                 <li>
                     <img src="{{ asset('assets/images/icon_call.png') }}" alt="Telepon" class="contact-icon">

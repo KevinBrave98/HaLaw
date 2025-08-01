@@ -14,7 +14,7 @@
                 </a>
                 {{-- Menggabungkan beberapa <h2> menjadi satu blok teks yang logis di dalam div asli --}}
                 <div class="nama_pengacara d-flex flex-row">
-                    <h2 class="h5 mb-0">{{ $riwayat->pengacara->nama_pengacara }}</h2>
+                    <h2 class="h2 mb-0">{{ $riwayat->pengacara->nama_pengacara }}</h2>
                 </div>
             </div>
             <div class="d-flex flex-row align-items-center justify-content-evenly second-half w-50">
@@ -34,19 +34,19 @@
         </header>
 
         {{-- Menggunakan <ul> untuk daftar chat. Class asli tetap dipertahankan. --}}
-        <ul class="d-flex flex-column chat_wrapper my-4">
+        <ul class="d-flex flex-column chat_wrapper">
             @foreach ($pesan as $pesan_item)
                 {{-- Setiap bubble chat adalah sebuah <li>. Class asli tetap dipertahankan. --}}
                 {{-- Ganti seluruh isi <li> Anda dengan ini --}}
                 <li
-                    class="chat d-flex flex-row p-2 w-100 {{ $riwayat->pengguna->nik_pengguna == $pesan_item->nik ? 'justify-content-end' : 'justify-content-start' }}">
+                    class="chat d-flex flex-row p-2 w-100 {{ $riwayat->pengguna->nik_pengguna == $pesan_item->nik ? 'justify-content-end' : 'justify-content-start' }}" tabindex="0"  aria-label="{{$riwayat->pengguna->nik_pengguna == $pesan_item->nik ? 'Anda mengatakan'. $pesan_item->teks : $riwayat->pengacara->nama_pengacara. 'mengatakan'. $pesan_item->teks}}">
 
                     {{-- Profil picture diabaikan untuk sekarang --}}
 
                     {{-- PERBAIKAN UTAMA: .chat_time sekarang ada di dalam .chat_details --}}
                     <div class="chat_details d-flex flex-column">
                         @if ($riwayat->pengguna->nik_pengguna != $pesan_item->nik)
-                            <h3>{{ $pesan_item->teks }}
+                            <h3>{{ $riwayat->pengacara->nama_pengacara }}
                         @endif
                         </h3>
                         <div class="chat_text_time d-flex flex-row">

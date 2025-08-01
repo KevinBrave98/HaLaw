@@ -65,12 +65,12 @@
                     </div>
                     <div class="d-flex align-items-center checkbox-container">
                         <input type="checkbox" name="jenis_layanan[]" id="voice_chat" value="voice_chat">
-                        <label class="search_label" for="voice_chat" aria-label="Telepon Suara">Telepon Suara</label>
+                        <label class="search_label" for="voice_chat" aria-label="Panggilan Suara">Panggilan Suara</label>
                         <span></span>
                     </div>
                     <div class="d-flex align-items-center checkbox-container">
                         <input type="checkbox" name="jenis_layanan[]" id="video_call" value="video_call">
-                        <label class="search_label" for="video_call" aria-label="Telepon Video">Telepon Vidio</label>
+                        <label class="search_label" for="video_call" aria-label="Panggilan Video">Panggilan Vidio</label>
                         <span></span>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="w-25 p-2 submit-filter">Tampilkan</button>
+                <button type="submit" class="w-25 p-2 submit-filter">Cari</button>
             </fieldset>
         </div>
     </form>

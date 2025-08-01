@@ -54,21 +54,24 @@ function formatTime(dateString) {
 
 if (riwayatId) {
     Echo.private(`chatroom.${riwayatId}`).listen("MessageSent", (e) => {
-        console.log("New message received:", e);
+        console.log("Pesan baru diterima:", e);
 
         const chatWindow = document.querySelector(".chat_wrapper");
         if (!chatWindow) return;
 
         const pesan = e.pesan;
         const isFromCurrentUser = pesan.nik == userNik;
-
+        const pesanFrom = 'Anda mengatakan'.concat(pesan.teks);
         // 1. Buat elemen <li>
-        const li = document.createElement("li");
-        li.className = `chat d-flex flex-row p-2 w-100 ${isFromCurrentUser ? 'justify-content-end' : 'justify-content-start'}`;
-
         // 2. Tentukan nama pengirim (hanya untuk pengacara)
-        const senderName = isFromCurrentUser ? '' : (e.pengacara?.nama_pengacara || 'Pengacara');
+        console.log(e.pengacara);
+        const senderName = isFromCurrentUser ? '' : pesan.pengacara_name;
         const senderNameHtml = !isFromCurrentUser ? `<h3>${senderName}</h3>` : '';
+        const pesanDari = senderName.concat('mengatakan').concat(pesan.teks);
+        const li = document.createElement("li");
+        li.tabIndex = '0';
+        li.className = `chat d-flex flex-row p-2 w-100 ${isFromCurrentUser ? 'justify-content-end' : 'justify-content-start'}`;
+        li.ariaLabel = `${isFromCurrentUser ? pesanFrom : pesanDari }`
 
         // 3. Buat innerHTML agar sama persis dengan struktur Blade yang Anda berikan
         li.innerHTML = `
@@ -90,5 +93,6 @@ if (riwayatId) {
         // 4. Tambahkan bubble chat baru dan scroll ke bawah
         chatWindow.appendChild(li);
         chatWindow.scrollTop = chatWindow.scrollHeight;
+        li.focus();
     });
 }
