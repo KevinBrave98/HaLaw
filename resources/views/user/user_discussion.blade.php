@@ -18,7 +18,7 @@
             <div class="d-flex flex-row align-items-center justify-content-evenly second-half w-50">
                 <div class="sisa_waktu d-flex flex-row">
                     {{-- PERUBAHAN: Placeholder dihapus, akan diisi oleh JavaScript --}}
-                    <p class="h2 mb-0">Sisa Waktu : <span id="countdown-timer" aria-live="polite"></span></p>
+                    <p class="h2 mb-0">Sisa Waktu : <span id="countdown-timer"></span></p>
                 </div>
 
                 <button type="button" id="startCallLink" aria-label="Mulai Panggilan Suara">
