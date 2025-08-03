@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark navbar-expand-lg">
+<nav class="navbar navbar-dark navbar-expand-lg" id="main-navigation">
     <div class="container-fluid">
         {{-- Logo/Brand --}}
         <a class="navbar-brand" href="{{ route('lawyer.dashboard') }}">
