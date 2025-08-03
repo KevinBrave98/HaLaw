@@ -30,7 +30,7 @@
                                         alt="Foto {{ $riwayat->pengacara->nama_pengacara }}" class="lawyer-photo">
                                 @else
                                     <img src="{{ asset('assets/images/foto-profil-default.jpg') }}"
-                                        alt="Foto profil default" class="lawyer-photo">
+                                        alt="Foto" class="lawyer-photo">
                                 @endif
                                 <div class="ms-3">
                                     <h3 class="h5 mb-1 lawyer-name">{{ $riwayat->pengacara->nama_pengacara }}</h3>

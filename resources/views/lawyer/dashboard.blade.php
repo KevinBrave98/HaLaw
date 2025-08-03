@@ -2,25 +2,32 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/lawyer_dashboard.css') }}">
 @endpush
 <x-layout_lawyer :title="'Halaw - Dashboard Lawyer'">
-    <div class="lawyer-container">
+    {{-- Gunakan <main> sebagai wrapper utama untuk konten halaman --}}
+    <main class="lawyer-container">
         <div class="greetings">
             <h1>Halo, <strong>{{ $pengacara->nama_pengacara }}</strong>!</h1>
         </div>
-        <div class="consult-container">
-            <h2>Cek Sesi Konsultasi yang Sedang Berjalan</h2>
-            <button type="button" class="btn" onclick="">Lihat Sesi</button>
-        </div>
-        <div class="consult-information">
-            <h2>Informasi Anda</h2>
+
+        {{-- Gunakan <section> untuk mengelompokkan konten yang saling terkait --}}
+        <section class="consult-container" aria-labelledby="sesi-konsultasi-heading">
+            <h2 id="sesi-konsultasi-heading">Cek Sesi Konsultasi yang Sedang Berjalan</h2>
+            {{-- Gunakan <a> untuk navigasi, bukan <button> dengan onclick --}}
+            <a href="{{ route('lawyer.konsultasi.berlangsung')}}" class="btn">Lihat Sesi</a> {{-- TODO: Ganti # dengan route yang benar --}}
+        </section>
+
+        {{-- Ini adalah bagian utama lain dari dasbor --}}
+        <section class="consult-information" aria-labelledby="informasi-anda-heading">
+            <h2 id="informasi-anda-heading">Informasi Anda</h2>
             <div class="isi-consult-info">
                 <div class="status-konsultasi">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Status Konsultasi</h5>
-                                <form action="{{ route('lawyer.status.toggle') }}" method="POST">
-                                    @csrf
-                                    <div class="form-check form-switch">
-                                        <input 
+                    <div class="card">
+                        {{-- Gunakan <fieldset> dan <legend> untuk grup form --}}
+                        <form action="{{ route('lawyer.status.toggle') }}" method="POST">
+                            @csrf
+                            <fieldset class="card-body">
+                                <legend class="card-title h5">Status Konsultasi</legend>
+                                <div class="form-check form-switch">
+                                    <input 
                                         class="form-check-input" 
                                         type="checkbox" 
                                         name="status_konsultasi"
@@ -31,17 +38,18 @@
                                     <label class="form-check-label" for="statusSwitch">
                                         Status: {{ $status_konsultasi == 1 ? 'Online' : 'Offline' }}
                                     </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
                 <form action="{{ route('lawyer.layanan.update') }}" method="POST" id="layananForm">
                     @csrf
                     <div class="layanan-konsultasi">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Layanan Konsultasi</h5>
+                             {{-- <fieldset> dan <legend> juga ideal untuk grup checkbox --}}
+                            <fieldset class="card-body">
+                                <legend class="card-title h5">Layanan Konsultasi</legend>
                                 <div class="checkbox-layanan-konsultasi">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input layanan-checkbox" type="checkbox" id="pesan" name="chat" value="Pesan"
@@ -63,7 +71,8 @@
                                     </div>
                                 </div>
 
-                                <p class="card-text" id="layanan-terpilih">
+                                {{-- aria-live akan membuat screen reader mengumumkan perubahan teks secara otomatis --}}
+                                <p class="card-text" id="layanan-terpilih" aria-live="polite">
                                     Layanan Anda Saat Ini:
                                     @php
                                         $layanan = [];
@@ -73,56 +82,56 @@
                                     @endphp
                                     {{ count($layanan) ? implode(', ', $layanan) : '-' }}
                                 </p>
-                            </div>
+                            </fieldset>
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="revenue">
+        </section>
+
+        <section class="revenue" aria-labelledby="pendapatan-heading">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Total Pendapatan</h5>
+                    <h5 class="card-title" id="pendapatan-heading">Total Pendapatan</h5>
                     <div class="isi-card">
                         <p class="card-text"> Rp.{{ number_format($totalPendapatan, 0, ',', '.') }}</p>
                         <a href="{{ route('lawyer.penarikan.pendapatan') }}" class="btn">Tarik Pendapatan</a>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="review">
+        </section>
+
+        <section class="review" aria-labelledby="penilaian-heading">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Penilaian dan Ulasan dari Pengguna</h5>
+                    <h5 class="card-title" id="penilaian-heading">Penilaian dan Ulasan dari Pengguna</h5>
                     <div class="isi-card">
                         <div class="isi-review">
-                            <span style="font-size:150%;color:#B99010;">★</span><p class="card-text">{{ number_format($penilaian, 1, ',', '.') }}</p>
+                             {{-- Sembunyikan bintang dekoratif dari screen reader dan berikan teks yang lebih deskriptif --}}
+                            <span style="font-size:150%;color:#B99010;" aria-hidden="true">★</span>
+                            <p class="card-text">
+                                <span class="visually-hidden">Rating: </span>{{ number_format($penilaian, 1, ',', '.') }} dari 5
+                            </p>
                         </div>
+                         {{-- TODO: Ganti # dengan route yang benar --}}
                         <a href="#" class="btn">Lihat Detail</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        
+        {{-- Jadikan kotak notifikasi sebagai "live region" agar isinya diumumkan saat muncul --}}
         <div class="container mt-4">
-            <div id="notifikasi-box" style="
-                display: none;
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: #fff7e6;
-                border: 1px solid #f4d03f;
-                padding: 15px 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.2);
-                z-index: 9999;
-                width: 300px;
-            ">
-                <!-- Akan diisi oleh JS -->
-            </div>
+            <div id="notifikasi-box" 
+                 aria-live="assertive" 
+                 aria-atomic="true"
+                 style="display: none; position: fixed; ...">
+                </div>
         </div>
     </div>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
 <script>
+    // ... (Fungsi updateLayanan tidak berubah) ...
     const checkboxes = document.querySelectorAll('.layanan-checkbox');
     const layananTerpilih = document.getElementById('layanan-terpilih');
 
@@ -131,13 +140,20 @@
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-        layananTerpilih.textContent = aktif.length > 0
-            ? 'Layanan Anda Saat Ini : ' + aktif.join(', ')
-            : 'Layanan Anda Saat Ini : -';
+        const newText = `Layanan Anda Saat Ini: ${aktif.length > 0 ? aktif.join(', ') : '-'}`;
+
+        // Cek jika teks berubah sebelum update untuk menghindari pengumuman yang tidak perlu
+        if (layananTerpilih.textContent.trim() !== newText.trim()) {
+            layananTerpilih.textContent = newText;
+        }
     }
 
-    checkboxes.forEach(cb => cb.addEventListener('change', updateLayanan));
+    checkboxes.forEach(cb => cb.addEventListener('change', () => {
+        document.getElementById('layananForm').submit();
+        updateLayanan(); // Panggil setelah submit untuk update tampilan
+    }));
     updateLayanan();
+
 
     Pusher.logToConsole = true;
 
@@ -149,8 +165,14 @@
         });
 
         const channel = pusher.subscribe('pengacara.' + pengacaraId);
+        
+        // HINDARI alert(). Gunakan sistem notifikasi yang sudah ada.
         channel.bind('App\\Events\\KonsultasiBaruEvent', function(data) {
-            alert(data.message);
+            // Asumsikan event mengirim data yang mirip dengan polling
+            // Sesuaikan properti (nama_pengguna, id) berdasarkan data event Anda
+            if(data.data) {
+                 tampilkanNotifikasi(data.data);
+            }
         });
     }
 
