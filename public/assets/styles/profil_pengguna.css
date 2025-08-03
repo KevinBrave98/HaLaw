@@ -14,7 +14,7 @@ body{
     justify-content: flex-end;
     align-items: center;
     padding-left: 27%;
-    margin-top: 25px;
+    /* margin-top: 25px; */
 }
 
 .sapaan-foto h1{
@@ -76,4 +76,42 @@ label{
     margin-bottom: 80px;
 }
 
+.button-edit {
+    text-decoration: none;
+    background-color: #654220;
+    /* margin: 3rem 0; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 1rem 3rem; */
+    color: #f5f5f5;
+    border-radius: 10px;
+}
 
+.button-logout {
+    text-decoration: none;
+    background-color: #654220;
+    margin: 3rem 0;
+    padding: 1rem 3rem;
+    color: #f5f5f5;
+    border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+    .bagian-atas {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sapaan-foto {
+        padding: 0;
+    }
+
+    .button-edit {
+        margin-right: 0;
+        margin-top: 2rem;
+        width: 50vw;
+    }
+}

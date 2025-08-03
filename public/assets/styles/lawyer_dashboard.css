@@ -23,7 +23,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    width: 80%;
+    /* width: 80%; */
+    margin-left: 4rem;
+    margin-right: 4rem;
     height: max-content;
     justify-content: center;
 }
@@ -95,7 +97,7 @@ body {
 
 .status-konsultasi form {
     margin-top: auto;
-    align-self: flex-start; 
+    /* align-self: flex-start;  */
 }
 
 .status-konsultasi .form-check {
@@ -246,4 +248,84 @@ body {
     gap: 0.5rem;
     font-size: 24px;
     align-items: center;
+}
+
+/* --- RESPONSIVE: TABLET --- */
+@media (max-width: 1024px) {
+    .lawyer-container {
+        margin: 0 2rem;
+        gap: 2.5rem;
+    }
+
+    .greetings h1 {
+        font-size: 40px;
+    }
+
+    .consult-container h2,
+    .consult-information h2 {
+        font-size: 32px;
+    }
+
+    .isi-consult-info {
+        flex-direction: column; /* Ubah jadi vertikal di tablet */
+        gap: 2.5rem;
+    }
+
+    .status-konsultasi,
+    .layanan-konsultasi {
+        width: 100%;
+    }
+}
+
+
+/* --- RESPONSIVE: MOBILE --- */
+@media (max-width: 767px) {
+    .lawyer-container {
+        margin: 0;
+        padding: 6vh 1rem; /* Kurangi padding untuk mobile */
+        gap: 2rem;
+    }
+
+    .greetings h1 {
+        font-size: 28px;
+    }
+
+    .consult-container h2,
+    .consult-information h2 {
+        font-size: 24px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .checkbox-layanan-konsultasi {
+        flex-direction: column; /* Tumpuk checkbox secara vertikal */
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .isi-card {
+        flex-direction: column; /* Tumpuk konten card secara vertikal */
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .isi-card .btn,
+    .consult-container .btn {
+        width: 40%; /* Buat tombol memenuhi lebar card */
+    }
+
+    .isi-card .card-text,
+    .isi-review .card-text {
+        font-size: 20px;
+    }
+
+    .form-check-label {
+        font-size: 16px;
+    }
 }

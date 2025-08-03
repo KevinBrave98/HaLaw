@@ -28,7 +28,11 @@
             {{-- Setiap bagian informasi dibungkus dalam <section> dengan heading yang jelas --}}
             <section class="info-section">
                 <h2 class="section-title">Lokasi Tempat Kerja</h2>
-                <p>{{ $pengacara->lokasi }}</p>
+                @if ($pengacara->lokasi)
+                    <p>{{ $pengacara->lokasi }}</p>
+                @else
+                    <p>-</p>
+                @endif
             </section>
 
 
@@ -38,7 +42,7 @@
                 {{-- Menggunakan <p> untuk menampilkan teks, bukan input field --}}
                 <p class="spesialisasi">
                     @if ($spesialisasi->count() > 0)
-                        {{ $spesialisasi->pluck('nama_spesialisasi')->implode(', ')}}
+                        {{ $spesialisasi->pluck('nama_spesialisasi')->implode(', ') }}
                     @else
                         Tidak Ada Spesialisasi
                     @endif
@@ -51,7 +55,11 @@
                 <h2 class="section-title">Informasi Pendidikan</h2>
                 {{-- Jika data pendidikan bisa memiliki beberapa baris, gunakan <p> dengan style CSS `white-space: pre-line`
                      agar baris baru dari database tetap ditampilkan. Atau, idealnya simpan sebagai JSON dan loop di sini. --}}
-                <p style="white-space: pre-line;">{{ $pengacara->pendidikan }}</p>
+                @if ($pengacara->pendidikan)
+                    <p style="white-space: pre-line;">{{ $pengacara->pendidikan }}</p>
+                @else
+                    <p>-</p>
+                @endif
             </section>
 
 
@@ -61,14 +69,24 @@
                 {{-- Pengalaman kerja lebih cocok ditampilkan sebagai daftar.
                      Tag <p> dengan `white-space: pre-line` digunakan sebagai solusi praktis
                      jika data di database adalah teks tunggal dengan baris baru. --}}
-                <p style="white-space: pre-line;">{{ $pengacara->pengalaman_bekerja }}</p>
+                @if ($pengacara->pengalaman_bekerja)
+                    <p style="white-space: pre-line;">{{ $pengacara->pengalaman_bekerja }}</p>
+                @else
+                    <p>-</p>
+                @endif
+                {{-- <p style="white-space: pre-line;">{{ $pengacara->pengalaman_bekerja }}</p> --}}
             </section>
 
 
 
             <section class="info-section">
                 <h2 class="section-title">Durasi Pengalaman Kerja</h2>
-                <p>{{ $pengacara->durasi_pengalaman }}</p>
+                @if ($pengacara->durasi_pengalaman)
+                    <p>{{ $pengacara->durasi_pengalaman }}</p>
+                @else
+                    <p>-</p>
+                @endif
+                {{-- <p>{{ $pengacara->durasi_pengalaman }}</p> --}}
             </section>
 
 
