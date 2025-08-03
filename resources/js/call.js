@@ -194,9 +194,7 @@ function fixMediaSections(sdp) {
         /^m=(audio|video)\s+(\d+)\s+([^\s]+)\s*(.*)$/gm,
         (match, mediaType, port, protocol, formats) => {
             const cleanFormats = formats.trim();
-            return `m=${mediaType} ${port} ${protocol}${
-                cleanFormats ? ' ' + cleanFormats : ''
-            }`;
+            return `m=${mediaType} ${port} ${protocol}${cleanFormats ? ' ' + cleanFormats : ''}`;
         }
     );
 
@@ -214,9 +212,7 @@ function ensureBundleGroup(sdp) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         if (line.startsWith("m=")) {
-            const midMatch = lines
-                .slice(i, i + 10)
-                .find(l => l.startsWith("a=mid:"));
+            const midMatch = lines.slice(i, i + 10).find(l => l.startsWith("a=mid:"));
             if (midMatch) {
                 const mid = midMatch.split(":")[1];
                 mediaLines.push(mid);
@@ -1026,9 +1022,7 @@ if (window.callId) {
             try {
                 console.log("📥 Received answer");
 
-                if (
-                    !peerConnection ||
-                    peerConnection.signalingState !== "have-local-offer"
+                if (!peerConnection || peerConnection.signalingState !== "have-local-offer"
                 ) {
                     console.warn("⚠️ Received answer in wrong state:", peerConnection?.signalingState);
                     return;
