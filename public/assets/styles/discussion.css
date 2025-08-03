@@ -247,29 +247,43 @@ form.form_kirim_chat button img {
 /* ===         POPUP UI PANGGILAN        === */
 /* ========================================= */
 
-#call-ui-container {
-    /* Mengubah dari fullscreen menjadi popup di tengah */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    /* Ukuran popup yang tidak fullscreen */
-    width: 90%;
-    max-width: 420px; /* Lebar maksimum popup */
-    max-height: 90vh; /* Tinggi maksimum popup */
+/* ===   POPUP UI PANGGILAN (MODAL)   === */
 
-    background-color: #2d1c0f;
-    z-index: 1050;
+.call-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    z-index: 9999; /* Ensure it's on top of everything */
     display: flex;
-    flex-direction: column; /* Konten disusun vertikal */
+    justify-content: center;
+    align-items: center;
+}
+
+#call-ui-container {
+    /* REMOVE these properties */
+    /* position: fixed; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    /* z-index: 1050; */
+
+    /* KEEP the rest of your styles */
+    position: relative; /* Add this for internal positioning of controls */
+    width: 90%;
+    max-width: 420px;
+    max-height: 90vh;
+    background-color: #2d1c0f;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     color: white;
     font-family: 'Raleway', sans-serif;
-
-    border-radius: 16px; /* Sudut yang lebih tumpul */
+    border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    overflow: hidden; /* Penting agar video tidak keluar dari sudut */
+    overflow: hidden;
 }
 
 /* --- Tampilan Video --- */
@@ -371,6 +385,65 @@ form.form_kirim_chat button img {
 }
 .control-btn.end-call:hover {
     background-color: #c82333;
+}
+
+/* Tampilan default untuk view dan kontrol saat panggilan berlangsung */
+.video-call-view,
+.audio-call-view,
+.in-call-controls {
+    display: none; /* Sembunyikan semuanya secara default */
+}
+
+/* --- Tampilan Panggilan Audio --- */
+.audio-call-view {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 3rem;
+    height: 100%; /* Memenuhi container */
+    margin-top: -3rem;
+}
+.call-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+}
+#audio-call-timer {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+
+/* --- Logika untuk Menampilkan UI yang Benar --- */
+/* .call-ui-container { */
+
+    /* gap: 1rem; */
+/* } */
+/* Saat #call-ui-container memiliki class .is-video-call */
+.is-video-call .video-call-view,
+.is-video-call .in-call-controls {
+    display: block; /* Tampilkan view video dan kontrolnya */
+}
+
+/* Saat #call-ui-container memiliki class .is-audio-call */
+.is-audio-call .audio-call-view {
+    display: flex; /* Tampilkan view audio */
+}
+.is-audio-call .in-call-controls {
+    display: block; /* Tampilkan juga kontrolnya */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+.is-audio-call #videoBtn {
+    display: none; /* Sembunyikan tombol video saat panggilan audio */
 }
 
 

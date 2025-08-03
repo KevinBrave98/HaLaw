@@ -135,8 +135,10 @@
                         clearInterval(countdownInterval);
                         timerElement.textContent = "00:00:00";
                         // Anda bisa menonaktifkan tombol call/chat di sini jika perlu
-                        document.getElementById('startCallLink').disabled = true;
-                        document.getElementById('startVideoCallLink').disabled = true;
+                        if(document.getElementById('startCallLink')) {
+                            document.getElementById('startVideoCallLink').disabled = true;
+                            document.getElementById('startCallLink').disabled = true;
+                        }
                         document.getElementById('input-chat').disabled = true;
                         return;
                     }
