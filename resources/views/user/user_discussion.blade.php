@@ -117,6 +117,40 @@
                 </button>
             </form>
         </section>
+        <aside id="kamus-panel" class="kamus-panel">
+            {{-- Tombol untuk Buka/Tutup Panel --}}
+            <button id="kamus-toggle-btn" class="kamus-toggle-btn" aria-label="Buka Kamus Hukum">
+                {{-- Ganti src dengan path ke ikon panah Anda --}}
+                <img src="{{ asset('assets/images/weui_arrow-filled.png') }}" alt="toggle kamus">
+            </button>
+
+            {{-- Konten di Dalam Panel --}}
+            <div class="kamus-content">
+                <h3 class="kamus-title">Cari Istilah Hukum</h3>
+
+                {{-- Form Pencarian --}}
+                <form id="kamus-search-form" class="kamus-search-form">
+                    <input type="search" id="kamus-search-input" placeholder="Ketik istilah...">
+                    <button type="submit" class="kamus-search-btn">
+                        <i class="bi bi-search"></i> Cari
+                    </button>
+                </form>
+
+                {{-- Area Hasil Pencarian (Bisa di-scroll) --}}
+                <div id="kamus-results" class="kamus-results">
+                    {{-- Contoh hasil, nantinya akan diisi dinamis oleh JavaScript --}}
+                    <a href="#" class="kamus-item">Administrasi Hukum Umum Online</a>
+                    <a href="#" class="kamus-item">Administrasi Pemerintahan</a>
+                    <a href="#" class="kamus-item">Ab Initio</a>
+                    <a href="#" class="kamus-item">Banding</a>
+                    <a href="#" class="kamus-item">Contempt of Court</a>
+                    <a href="#" class="kamus-item">Delik</a>
+                    <a href="#" class="kamus-item">Eksepsi</a>
+                    <a href="#" class="kamus-item">Fidusia</a>
+                    {{-- Tambahkan item lain untuk mengetes scroll --}}
+                </div>
+            </div>
+        </aside>
     </main>
 
 
@@ -257,6 +291,14 @@
                 endCallBtns.forEach(btn => {
                     btn.addEventListener('click', closeCallModal);
                 });
+                const kamusPanel = document.getElementById('kamus-panel');
+                const kamusToggleBtn = document.getElementById('kamus-toggle-btn');
+
+                if (kamusPanel && kamusToggleBtn) {
+                    kamusToggleBtn.addEventListener('click', () => {
+                        kamusPanel.classList.toggle('is-open');
+                    });
+                }
             });
         </script>
         {{-- Jangan lupa untuk menyertakan file JavaScript WebRTC Anda --}}

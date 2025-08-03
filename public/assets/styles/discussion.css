@@ -9,6 +9,7 @@ body {
 }
 
 .konsultasi_wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     /* PERBAIKAN: Memberi batas tinggi dan lebar, bukan 100vh */
@@ -444,6 +445,122 @@ form.form_kirim_chat button img {
 }
 .is-audio-call #videoBtn {
     display: none; /* Sembunyikan tombol video saat panggilan audio */
+}
+
+/* Panel utama kamus */
+.kamus-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 320px; /* Lebar panel, bisa disesuaikan */
+    max-width: 80%;
+    background-color: #654220; /* Warna coklat tua yang sama dengan header */
+    color: #FFF7F0;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 100;
+    
+    /* KUNCI 2: Sembunyikan panel di luar layar kanan */
+    transform: translateX(100%);
+    transition: transform 0.35s ease-in-out;
+}
+
+/* State saat panel terbuka */
+.kamus-panel.is-open {
+    transform: translateX(0); /* Munculkan panel ke dalam layar */
+}
+
+/* Tombol panah untuk buka/tutup */
+.kamus-toggle-btn {
+    position: absolute;
+    left: -40px; /* Posisi tombol di luar panel */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 80px;
+    background-color: #654220;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.kamus-toggle-btn img {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.35s ease-in-out;
+}
+/* Putar panah saat panel terbuka */
+.kamus-panel.is-open .kamus-toggle-btn img {
+    transform: rotate(180deg);
+}
+
+/* Konten di dalam panel */
+.kamus-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.kamus-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+/* Form pencarian */
+.kamus-search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.kamus-search-form input {
+    flex-grow: 1;
+    border: 1px solid #FFF7F0;
+    background-color: #FFF7F0;
+    color: #281805;
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+}
+.kamus-search-form button {
+    border: 1px solid #FFF7F0;
+    background-color: #FFF7F0;
+    color: #281805;
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* KUNCI 3: Area hasil yang bisa di-scroll */
+.kamus-results {
+    flex-grow: 1; /* Membuat area ini mengisi sisa ruang */
+    overflow-y: auto; /* Tampilkan scrollbar jika kontennya panjang */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Item hasil pencarian */
+.kamus-item {
+    display: block;
+    background-color: rgba(255, 247, 240, 0.1);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #FFF7F0;
+    transition: background-color 0.2s ease;
+}
+.kamus-item:hover {
+    background-color: rgba(255, 247, 240, 0.2);
 }
 
 
