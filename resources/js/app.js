@@ -65,7 +65,10 @@ if (riwayatId) {
         // 1. Buat elemen <li>
         // 2. Tentukan nama pengirim (hanya untuk pengacara)
         console.log(e.pengacara);
-        const senderName = isFromCurrentUser ? '' : pesan.pengacara_name;
+        const senderName =
+            e.pesan.nik === e.pesan.nik_pengacara
+                ? e.pesan.pengacara_name
+                : e.pesan.pengguna_name;
         const senderNameHtml = !isFromCurrentUser ? `<h3>${senderName}</h3>` : '';
         const pesanDari = senderName.concat('mengatakan').concat(pesan.teks);
         const li = document.createElement("li");

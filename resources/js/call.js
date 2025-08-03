@@ -148,7 +148,7 @@ function cleanSSRCGroups(sdp, ssrcMap) {
                 const referencedIds = groupMatch[2].trim().split(/\s+/);
 
                 // Check if all referenced SSRCs exist
-                const validIds = referencedIds.filter((id) => ssrcMap.has(id));
+                const validIds = referencedIds.filter(id => ssrcMap.has(id));
 
                 if (
                     validIds.length === referencedIds.length &&
@@ -195,7 +195,7 @@ function fixMediaSections(sdp) {
         (match, mediaType, port, protocol, formats) => {
             const cleanFormats = formats.trim();
             return `m=${mediaType} ${port} ${protocol}${
-                cleanFormats ? " " + cleanFormats : ""
+                cleanFormats ? ' ' + cleanFormats : ''
             }`;
         }
     );
@@ -216,7 +216,7 @@ function ensureBundleGroup(sdp) {
         if (line.startsWith("m=")) {
             const midMatch = lines
                 .slice(i, i + 10)
-                .find((l) => l.startsWith(" a=mid:"));
+                .find(l => l.startsWith("a=mid:"));
             if (midMatch) {
                 const mid = midMatch.split(":")[1];
                 mediaLines.push(mid);
@@ -228,7 +228,7 @@ function ensureBundleGroup(sdp) {
     if (!hasBundleGroup && mediaLines.length > 0) {
         console.log("➕ Adding BUNDLE group:", mediaLines.join(" "));
         // Insert bundle group after session description but before media sections
-        const sessionEndIndex = lines.findIndex((l) => l.startsWith("m="));
+        const sessionEndIndex = lines.findIndex(l => l.startsWith("m="));
         if (sessionEndIndex > 0) {
             lines.splice(
                 sessionEndIndex,
@@ -382,6 +382,8 @@ async function ensurePeerConnection(forceRelay = false) {
                 console.log("📤 ICE candidate:", {
                     type: event.candidate.type,
                     protocol: event.candidate.protocol,
+                    address: event.candidate.address?.substring(0, 10) + "...",
+                    port: event.candidate.port,
                 });
 
                 try {
@@ -408,7 +410,7 @@ async function ensurePeerConnection(forceRelay = false) {
 
             if (event.streams && event.streams[0]) {
                 const remoteStream = event.streams[0];
-                console.log("📡 Remote stream tracks:", remoteStream.getTracks().map((t) => t.kind));
+                console.log("📡 Remote stream tracks:", remoteStream.getTracks().map(t => t.kind));
 
                 if (event.track.kind === "audio") {
                     // Handle audio track
@@ -431,7 +433,7 @@ async function ensurePeerConnection(forceRelay = false) {
                         remoteVideo.muted = true;
                         remoteVideo.playsInline = true;
 
-                        remoteVideo.play().catch((e) => {
+                        remoteVideo.play().catch(e => {
                             console.warn("⚠️ Auto-play blocked for video:", e);
                         });
 
@@ -672,7 +674,7 @@ async function startCall(video = false) {
         const lawyerName = document
             .querySelector(".nama_pengacara h2")
             .textContent.split(" - ")[0];
-        showRingingUI(true, lawyerName);
+        showRingingUI(true, lawyerName, "");
 
         console.log("✅ Call initiated successfully");
     } catch (err) {
@@ -812,7 +814,7 @@ async function endCall() {
 // ============================
 
 
-function showRingingUI(isInitiator, lawyerName) {
+function showRingingUI(isInitiator, lawyerName, clientName) {
     console.log("🎨 Showing ringing UI:", { isInitiator, lawyerName });
     
     if (!callUiContainer || !callInfoView || !inCallView || !callInfoName)
@@ -831,7 +833,7 @@ function showRingingUI(isInitiator, lawyerName) {
     if (isInitiator) {
         callInfoName.textContent = `Memanggil ${lawyerName}...`;
     } else {
-        callInfoName.textContent = `Panggilan dari ${lawyerName}`;
+        callInfoName.textContent = `Panggilan dari ${clientName}`;
     }
 }
 
@@ -902,10 +904,6 @@ allEndCallButtons.forEach(button => {
 });
 
 // ============================
-// 📡 Enhanced Echo Signaling
-// ============================
-
-// ============================
 // 📡 PERBAIKAN Enhanced Echo Signaling
 // ============================
 
@@ -914,17 +912,19 @@ if (window.callId) {
         .listen(".offer", async (e) => {
             try {
                 console.log("📥 Received offer");
-                const lawyerName = e.offer.caller_name || "Unknown";
-                showRingingUI(false, lawyerName);
+                 const clientName = document
+            .querySelector(".nama_pengguna h2")
+            .textContent.split(" - ")[0];
+                showRingingUI(false, "", clientName);
 
                 const platform = detectPlatform();
                 console.log(`📥 Answering on ${platform.browser}`);
 
                 callActive = true;
                 isProcessingRemoteDescription = true;
-
+                
                 await ensurePeerConnection();
-
+                
                 if (!localStream) {
                     const hasVideo = /m=video/.test(e.offer.sdp);
                     console.log("📥 Offer has video:", hasVideo);
@@ -939,22 +939,22 @@ if (window.callId) {
                         },
                         video: hasVideo
                             ? {
-                                  width: { ideal: 1280, max: 1920 },
+                                width: { ideal: 1280, max: 1920 },
                                   height: { ideal: 720, max: 1080 },
                                   frameRate: { ideal: 30, max: 60 },
                                   facingMode: "user",
-                              }
-                            : false,
+                                }
+                                : false,
                     };
 
                     try {
                         localStream = await getUserMediaWithFallback(constraints, true);
-
+                        
                         const hasVideoTrack = localStream.getVideoTracks().length > 0;
                         const hasAudioTrack = localStream.getAudioTracks().length > 0;
-
+                        
                         console.log(`🎥 Answerer media - video: ${hasVideoTrack}, audio: ${hasAudioTrack}`);
-
+                        
                         if (hasVideoTrack && localVideo) {
                             localVideo.srcObject = localStream;
                             localVideo.autoplay = true;
@@ -972,15 +972,16 @@ if (window.callId) {
                         throw mediaError;
                     }
                 }
-
-                // PERBAIKAN: Ignore SDP errors dan langsung set
-                try {
-                    await peerConnection.setRemoteDescription(e.offer);
-                    console.log("✅ Remote description set successfully");
-                } catch (sdpError) {
-                    console.warn("⚠️ SDP error ignored:", sdpError.message);
-                    // Tetap lanjutkan proses
-                }
+                await setRemoteDescriptionSafely(peerConnection, e.offer);
+                
+                // // PERBAIKAN: Ignore SDP errors dan langsung set
+                // try {
+                //     await peerConnection.setRemoteDescription(e.offer);
+                //     console.log("✅ Remote description set successfully");
+                // } catch (sdpError) {
+                //     console.warn("⚠️ SDP error ignored:", sdpError.message);
+                //     // Tetap lanjutkan proses
+                // }
 
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
@@ -1034,14 +1035,7 @@ if (window.callId) {
                 }
 
                 isProcessingRemoteDescription = true;
-                
-                // PERBAIKAN: Ignore SDP errors
-                try {
-                    await peerConnection.setRemoteDescription(e.answer);
-                    console.log("✅ Answer remote description set");
-                } catch (sdpError) {
-                    console.warn("⚠️ Answer SDP error ignored:", sdpError.message);
-                }
+                await setRemoteDescriptionSafely(peerConnection, e.answer);
 
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
@@ -1073,6 +1067,7 @@ if (window.callId) {
                 console.log("📥 Received ICE candidate:", {
                     type: candidate.type,
                     protocol: candidate.protocol,
+                    address: candidate.address?.substring(0, 10) + "..."
                 });
 
                 if (peerConnection.remoteDescription && !isProcessingRemoteDescription) {
