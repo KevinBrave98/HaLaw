@@ -453,8 +453,8 @@ form.form_kirim_chat button img {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 320px; /* Lebar panel, bisa disesuaikan */
-    max-width: 80%;
+    /* width: 320px; Lebar panel, bisa disesuaikan */
+    /* max-width: 80%; */
     background-color: #654220; /* Warna coklat tua yang sama dengan header */
     color: #FFF7F0;
     box-shadow: -5px 0 15px rgba(0,0,0,0.2);
@@ -504,6 +504,7 @@ form.form_kirim_chat button img {
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* width: 20rem; */
 }
 .kamus-title {
     text-align: center;
@@ -558,11 +559,37 @@ form.form_kirim_chat button img {
     text-decoration: none;
     color: #FFF7F0;
     transition: background-color 0.2s ease;
+    border: none; /* <-- TAMBAHKAN BARIS INI */
 }
 .kamus-item:hover {
     background-color: rgba(255, 247, 240, 0.2);
 }
 
+.modal-content {
+    padding: 2rem;
+    border-radius: 1rem;
+    font-family: 'Raleway', sans-serif;
+}
+
+.modal-header {
+    border-bottom: 1.5px solid #281805;
+}
+
+.modal-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    color: #281805; 
+    width: 100%;
+    text-align: center;
+}
+
+.modal-body p, .modal-body h6 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #281805;
+    text-align: justify;
+}
 
 
 /* ========================================= */
@@ -571,6 +598,12 @@ form.form_kirim_chat button img {
 
 /* Mobile phones (320px - 576px) */
 @media (max-width: 576px) {
+    .kamus-panel {
+        max-width: 70%;
+    }
+    .kamus-search-form {
+        flex-direction: column;
+    }
     .konsultasi_wrapper {
         max-height: 100vh;
     }
@@ -751,3 +784,26 @@ button:focus {
     outline-offset: 2px;
 }
 
+/* ========================================= */
+/* ===  RESPONSIF UNTUK KAMUS & WRAPPER  === */
+/* ========================================= */
+
+@media (max-width: 768px) {
+    /* Pada layar kecil, buat wrapper chat memenuhi layar */
+    .konsultasi_wrapper {
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    /* Sesuaikan lebar panel kamus */
+    .kamus-panel {
+        width: 85%; /* Gunakan persentase, bukan piksel tetap */
+    }
+
+    /* Posisikan tombol toggle agar tidak aneh */
+    .kamus-toggle-btn {
+        left: -35px;
+        width: 35px;
+    }
+}

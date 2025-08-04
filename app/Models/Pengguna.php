@@ -30,7 +30,7 @@ class Pengguna extends Authenticatable
         'remember_token'
     ];
 
-    public function riwayat(): HasMany
+    public function riwayats(): HasMany
     {
         return $this->hasMany(Riwayat::class, 'nik_pengguna', 'nik_pengguna');
     }

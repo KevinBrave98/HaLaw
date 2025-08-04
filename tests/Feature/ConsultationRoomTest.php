@@ -3,49 +3,64 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User; // Assuming your User model is here
+use App\Models\Pengguna; // Or whatever your user model is named
+use App\Models\Pengacara;
+use App\Models\Riwayat;
+use App\Models\Pesan;
 
 class ConsultationRoomTest extends TestCase
 {
-    public function test_client_can_see_the_consultation_room(): void
-    {
-        $response = $this->get(route('consultation.client'));
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
-        $response->assertSee('Nama Pengacara');
-        $response->assertSee('Sisa Waktu');
-        $response->assertSee('Type a Message');
-        $response->assertSeeText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod');
-    }
-    public function test_lawyer_can_see_the_consultation_room(): void
+    /** @test */
+    public function an_authenticated_user_can_view_their_consultation_room(): void
     {
-        $response = $this->get(route('consultation.lawyer'));
+        // 1. ARRANGE
+        // Create a user, a lawyer, and a consultation history record linking them.
+        $user = Pengguna::factory()->create();
+        $lawyer = Pengacara::factory()->create();
 
-        $response->assertStatus(200);
-        $response->assertSee('Nama Klien');
-        $response->assertSee('Sisa Waktu');
-        $response->assertSee('Type a Message');
-        $response->assertSeeText('Lorem ipsum dolor sit amet.');
-    }
-    public function test_client_view_displays_messages_correctly(): void
-    {
-        $response = $this->get(route('consultation.client'));
-
-        $response->assertSeeInOrder([
-            'Lawyer', // Name of the sender
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod', // Received message
-            'Lorem ipsum dolor sit amet.', // Sent message
+        $consultation = Riwayat::factory()->create([
+            'nik_pengguna' => $user->nik_pengguna,
+            'nik_pengacara' => $lawyer->nik_pengacara,
         ]);
-    }
-    public function test_lawyer_view_displays_messages_correctly(): void
-    {
-        $response = $this->get(route('consultation.lawyer'));
 
-        $response->assertSeeInOrder([
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod', // Sent message
-            'Klien', // Name of the sender
-            'Lorem ipsum dolor sit amet.', // Received message
+        // Create a sample message for this consultation
+        $message = Pesan::factory()->create([
+            'id_riwayat' => $consultation->id,
+            'nik' => $user->nik_pengguna,
+            'teks' => 'Halo, ini pesan pertama saya.',
         ]);
+
+        // 2. ACT
+        // Log in as the user and visit the consultation room page.
+        // Replace 'consultation.room' with your actual route name if it's different.
+        $response = $this->actingAs($user, 'web')->get(route('consultation.client', ['id' => $consultation->id]));
+
+        // 3. ASSERT
+        // Check that the response is successful (status 200 OK)
+        $response->assertStatus(200);
+
+        // Check that we can see the main title and the lawyer's name
+        $response->assertSee('Ruang Konsultasi');
+        $response->assertSee($lawyer->nama_pengacara);
+
+        // Check that we can see the chat message
+        $response->assertSee($message->teks);
+    }
+
+    /** @test */
+    public function a_guest_cannot_view_a_consultation_room(): void
+    {
+        // ARRANGE: Create a consultation room, but don't log anyone in.
+        $consultation = Riwayat::factory()->create();
+
+        // ACT: Try to visit the page as a guest.
+        $response = $this->get(route('consultation.client', ['id' => $consultation->id]));
+
+        // ASSERT: The user should be redirected to the login page.
+        $response->assertRedirect('/masuk/pengguna'); // Or your login route
     }
 }

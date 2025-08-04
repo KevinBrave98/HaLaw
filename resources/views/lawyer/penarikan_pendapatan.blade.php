@@ -1,29 +1,40 @@
 @push('css')
+    {{-- It's good practice to keep all stylesheet links together --}}
     <link rel="stylesheet" href="{{ asset('assets/styles/tarik_pendapatan.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 @endpush
+
 <x-layout_lawyer>
     <x-slot:title>Penarikan Pendapatan</x-slot:title>
-    <div class="container mt-5">
-        <h5 class="mb-4" style="color: #2F1D0E;">Penarikan Pendapatan</h5>
-        <div class="p-4 rounded" style="background-color: #F1CEAA;">
+
+    {{-- Use <main> as the primary content container for the page --}}
+    <main class="container mt-5">
+        <h1 class="mb-4" style="color: #2F1D0E;">Penarikan Pendapatan</h1>
+
+        {{-- Use <section> to group related content --}}
+        <section class="p-4 rounded" style="background-color: #F1CEAA;" aria-labelledby="pendapatan-heading">
             <div class="row border border-dark mb-4">
                 <div class="col-md-6 p-3 border-end border-dark">
-                    <div class="fw-bold mb-1">Informasi Pendapatan</div>
-                    <small class="text-muted">Saldo</small>
+                    {{-- Use proper heading levels for structure --}}
+                    <h2 class="fw-bold mb-1" id="pendapatan-heading" style="font-size: 1rem;">Informasi Pendapatan</h2>
+                    <p class="text-muted mb-0">Saldo</p>
                     <div class="fs-5">Rp. {{ number_format($saldo, 0, ',', '.') }}</div>
                 </div>
                 <div class="col-md-6 p-3 position-relative">
-                    <div class="text-muted">Rekening Bank Saya</div>
+                    <h2 class="text-muted" style="font-size: 1rem;">Rekening Bank Saya</h2>
                     <div class="d-flex align-items-center mt-2">
-                        <i class="bi bi-bank me-2"></i>
+                        {{-- Add aria-hidden to decorative icons to hide them from screen readers --}}
+                        <i class="bi bi-bank me-2" aria-hidden="true"></i>
                         <div>
                             <div>{{ $bank }}</div>
                             <div>{{ $nomor_rekening }}</div>
                         </div>
                     </div>
+                    {{-- Add aria-label to give context to ambiguous links --}}
                     <a href="{{ route('lawyer.ubah.rekening') }}"
                         class="position-absolute end-0 bottom-0 me-3 mb-2 fw-bold"
-                        style="font-size: 14px; color: #B99010;">Ubah ></a>
+                        style="font-size: 14px; color: #B99010;"
+                        aria-label="Ubah rekening bank">Ubah ></a>
                 </div>
             </div>
 
@@ -33,50 +44,54 @@
                     Tarik Pendapatan
                 </a>
             </div>
-        </div>
+        </section>
 
-        <h5 class="mt-5 mb-3" style="color: #2F1D0E;">Riwayat Dana</h5>
-        <div class="rounded p-0 mb-5" style="background-color: #F1CEAA; overflow: scroll; height:40vw;">
+        {{-- A new section for the fund history --}}
+        <section class="mt-5 mb-5">
+            <h2 class="mb-3" style="color: #2F1D0E;">Riwayat Dana</h2>
 
-            @forelse ($riwayat_tarik as $riwayat)
-                @if ($riwayat->tipe_riwayat_dana == 'Tarik Dana')
-                    <div class="p-3 border-bottom border-dark">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
-                                <div class="text-muted">Ke Rekening {{ $nomor_rekening }}</div>
+            {{-- Use an ordered list (<ol>) for chronological history --}}
+            <ol class="rounded p-0 m-0" style="background-color: #F1CEAA; overflow-y: auto; height:40vw; list-style: none;">
+                @forelse ($riwayat_tarik as $riwayat)
+                    {{-- Each history item is a list item (<li>) --}}
+                    <li class="p-3 border-bottom border-dark">
+                        @if ($riwayat->tipe_riwayat_dana == 'Tarik Dana')
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
+                                    <div class="text-muted">Ke Rekening {{ $nomor_rekening }}</div>
+                                </div>
+                                {{-- Add a descriptive aria-label for monetary values --}}
+                                <div class="text-dark fw-semibold" aria-label="Penarikan sebesar {{ number_format($riwayat->nominal, 0, ',', '.') }} rupiah">
+                                    -Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
+                                </div>
                             </div>
-                            <div class="text-dark fw-semibold">-Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">{{ $riwayat->created_at->format('d F Y, H:i') }}</small>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <small class="text-muted">{{ $riwayat->created_at }}</small>
-                            <span></span>
-                        </div>
-                    </div>
-                @else
-                    <div class="p-3 border-bottom border-dark">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
-                                <div class="text-muted">Dari {{ $riwayat->detail_riwayat_dana }}</div>
+                        @else
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="fw-bold">{{ $riwayat->tipe_riwayat_dana }}</div>
+                                    <div class="text-muted">Dari {{ $riwayat->detail_riwayat_dana }}</div>
+                                </div>
+                                <div class="text-dark fw-semibold" aria-label="Penambahan sebesar {{ number_format($riwayat->nominal, 0, ',', '.') }} rupiah">
+                                    +Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
+                                </div>
                             </div>
-                            <div class="text-dark fw-semibold">+Rp. {{ number_format($riwayat->nominal, 2, ',', '.') }}
+                            <div class="d-flex justify-content-between">
+                                {{-- It's good practice to format the date for consistency --}}
+                                <small class="text-muted">{{ $riwayat->created_at->format('d F Y, H:i') }}</small>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <small class="text-muted">{{ $riwayat->created_at }}</small>
-                            <span></span>
-                        </div>
-                    </div>
-                @endif
+                        @endif
+                    </li>
                 @empty
-                    <div class="p-5 text-center text-muted" style="justify-content: center; align-items: center; margin-top: 15vw; font-size: 1.5vw;">
+                    {{-- The empty state should also be a list item for valid HTML --}}
+                    <li class="p-5 text-center text-muted" style="justify-content: center; align-items: center; font-size: 1.5rem; height: 100%; display:flex;">
                         Belum ada transaksi
-                    </div>
+                    </li>
                 @endforelse
-            </div>
-        </div>
-        {{-- ini link untuk ikon bootstrap --}}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    </x-layout_lawyer>
+            </ol>
+        </section>
+    </main>
+</x-layout_lawyer>

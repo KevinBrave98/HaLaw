@@ -31,7 +31,8 @@ class PenarikanController extends Controller
 
     public function viewUpdate()
     {
-        return view('lawyer.ubah_rekening');
+        $pengacara = Auth::guard('lawyer')->user();
+        return view('lawyer.ubah_rekening', compact('pengacara'));
     }
     public function updateRekening(Request $request)
     {
