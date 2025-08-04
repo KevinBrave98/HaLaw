@@ -15,6 +15,9 @@ class ConsultationController extends Controller
     {
         $riwayat = Riwayat::where('id', $id)->first();
         if ($riwayat) {
+            if ($riwayat->status !== 'sedang berlangsung') {
+                return redirect()->back()->with('error', 'Konsultasi ini sudah tidak aktif.');
+            }
             $pesan = $riwayat->pesans;
         } else {
             if (Auth::guard('web')->check()) {
@@ -46,6 +49,14 @@ class ConsultationController extends Controller
         }
         $pesan->teks = $request->teks;
         $pesan->id_riwayat = $id;
+
+        $riwayat = Riwayat::find($id);
+        if (!$riwayat || $riwayat->status !== 'sedang berlangsung') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Konsultasi sudah tidak aktif. Pesan tidak dikirim.'
+            ], 403);
+        }
 
         $pesan->save();
         broadcast(new MessageSent($pesan))->toOthers();

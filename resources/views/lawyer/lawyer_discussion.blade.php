@@ -3,6 +3,11 @@
 @endpush
 <x-layout_lawyer :title="'Ruang Konsultasi'">
     <main class="d-flex flex-column konsultasi_wrapper">
+        @if ($riwayat->status !== 'sedang berlangsung')
+            <div class="alert alert-danger text-center p-3 mx-4 my-2 rounded" style="background-color: #f8d7da; color: #842029;">
+                ❗ Konsultasi ini telah <strong>dibatalkan secara otomatis</strong> karena pengacara tidak merespons selama 15 menit.
+            </div>
+        @endif
         <section class="d-flex flex-row align-items-center justify-content-between py-4 heading">
             <div class="d-flex flex-row align-items-center gap-4 first-half w-50">
                 <a href="#" class="mx-5">
