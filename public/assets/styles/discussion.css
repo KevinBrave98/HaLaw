@@ -275,7 +275,7 @@ form.form_kirim_chat button img {
     position: relative; /* Add this for internal positioning of controls */
     width: 90%;
     max-width: 420px;
-    height: 60vh;
+    min-height: 60vh;
     max-height: 90vh;
     background-color: #2d1c0f;
     display: flex;
@@ -416,6 +416,11 @@ form.form_kirim_chat button img {
 #audio-call-timer {
     font-size: 1.2rem;
     color: #ccc;
+}
+
+.in-call-controls {
+    padding-bottom: 0.5rem !important;
+    gap: 2rem !important;
 }
 
 
@@ -592,6 +597,69 @@ form.form_kirim_chat button img {
     text-align: justify;
 }
 
+/* ================================================== */
+/* ===  CSS UNTUK UI PANGGILAN MASUK (ACCEPT/REJECT) === */
+/* ================================================== */
+
+/* Container utama untuk prompt panggilan masuk */
+/* Pastikan ini disembunyikan secara default, JS akan menampilkannya */
+#incoming-call-prompt {
+    display: none; /* Sembunyikan secara default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: #2d1c0f; /* Warna latar gelap yang sama */
+    z-index: 10; /* Pastikan muncul di atas elemen lain */
+}
+
+/* Tombol Aksi (wadah untuk tombol Tolak dan Terima) */
+.incoming-call-actions {
+    display: flex;
+    justify-content: center;
+    gap: 4rem; /* Jarak antara dua tombol */
+    margin-top: 2.5rem; /* Jarak dari nama/status */
+}
+
+/* Styling umum untuk tombol di dalam .incoming-call-actions */
+.incoming-call-actions .control-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.incoming-call-actions .control-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Tombol Terima Panggilan (Hijau) */
+.incoming-call-actions .accept-call {
+    background-color: #4CAF50;
+}
+.incoming-call-actions .accept-call:hover {
+    background-color: #5cb85c;
+}
+#rejectCallBtn .bi-telephone-fill {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg); /* Untuk kompatibilitas browser lama */
+    -ms-transform: rotate(135deg);     /* Untuk kompatibilitas browser lama */
+}
+
+/* Tombol tolak sudah merah dari class .end-call */
+
 
 /* ========================================= */
 /* ===       RESPONSIVE MEDIA QUERIES    === */
@@ -599,6 +667,25 @@ form.form_kirim_chat button img {
 
 /* Mobile phones (320px - 576px) */
 @media (max-width: 576px) {
+    #incoming-call-prompt .call-name {
+        font-size: 1.3rem; /* Perkecil font nama */
+    }
+
+    #incoming-call-prompt .call-avatar {
+        width: 90px;   /* Perkecil ukuran avatar */
+        height: 90px;
+    }
+
+    .incoming-call-actions {
+        gap: 3rem; /* Kurangi jarak antar tombol */
+        margin-top: 2rem;
+    }
+
+    .incoming-call-actions .control-btn {
+        width: 60px;   /* Perkecil ukuran tombol */
+        height: 60px;
+        font-size: 1.8rem;
+    }
     .kamus-panel {
         max-width: 70%;
     }

@@ -123,6 +123,7 @@ Route::post('/call/offer', [CallController::class, 'sendOffer']);
 Route::post('/call/answer', [CallController::class, 'sendAnswer']);
 Route::post('/call/ice', [CallController::class, 'sendIce']);
 Route::post('/call/end', [CallController::class, 'endCall']);
-
+// ADD THIS NEW ROUTE
+Route::post('/call/reject', [CallController::class, 'rejectCall'])->name('call.reject');
 
 

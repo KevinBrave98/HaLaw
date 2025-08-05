@@ -36,6 +36,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\CallOffer;
+use App\Events\CallRejected;
+
 use App\Events\CallAnswer;
 use Illuminate\Http\Request;
 use App\Events\CallIceCandidate;
@@ -70,5 +72,17 @@ class CallController extends Controller
         // The person who ended the call already knows and will cleanup immediately
         broadcast(new CallEnded($request->call_id))->toOthers();
         return response()->json(['status' => 'ok']);
+    }
+
+    public function reject(Request $request)
+    {
+        $validated = $request->validate([
+            'call_id' => 'required',
+        ]);
+
+        // Broadcast the rejection event to the original caller (client)
+        broadcast(new CallRejected($validated['call_id']))->toOthers();
+
+        return response()->json(['status' => 'rejected']);
     }
 }

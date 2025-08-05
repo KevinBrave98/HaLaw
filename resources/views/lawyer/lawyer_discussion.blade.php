@@ -35,12 +35,38 @@
             aria-labelledby="call-heading">
             <div id="call-ui-container" class="d-none">
                 <div class="call-info">
-                    <img src="{{-- path-to-your-default-avatar --}}" alt="Foto Profil" class="call-avatar">
+                    @if ($riwayat->pengguna->foto_pengguna)
+                        <img src="{{ asset('storage/' . $riwayat->pengguna->foto_pengguna) }}" alt="foto_pengacara"
+                            class="call-avatar">
+                    @else
+                        <img src="{{ asset('assets/images/foto-profil-default.jpg') }}" alt="foto_pengacara"
+                            class="call-avatar">
+                    @endif
                     <h3 id="call-info-name" class="call-name">Memanggil...</h3>
                     <p id="call-info-status" class="call-status">Berdering</p>
                     <button class="control-btn end-call mt-4" aria-label="Batalkan Panggilan">
                         <i class="bi bi-telephone-fill"></i>
                     </button>
+                </div>
+
+                <div id="incoming-call-prompt" class="d-none"> {{-- Hidden by default --}}
+                    @if ($riwayat->pengguna->foto_pengguna)
+                        <img src="{{ asset('storage/' . $riwayat->pengguna->foto_pengguna) }}" alt="foto pengguna"
+                            class="call-avatar">
+                    @else
+                        <img src="{{ asset('assets/images/foto-profil-default.jpg') }}" alt="foto pengguna"
+                            class="call-avatar">
+                    @endif
+                    <h3 id="incoming-caller-name" class="call-name"></h3>
+                    <p class="call-status">Panggilan Masuk...</p>
+                    <div class="incoming-call-actions mt-4">
+                        <button id="rejectCallBtn" class="control-btn end-call" aria-label="Tolak Panggilan">
+                            <i class="bi bi-telephone-fill"></i>
+                        </button>
+                        <button id="acceptCallBtn" class="control-btn accept-call" aria-label="Terima Panggilan">
+                            <i class="bi bi-telephone-fill"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="video-call-view">
@@ -156,8 +182,8 @@
                         clearInterval(countdownInterval);
                         timerElement.textContent = "00:00:00";
                         // Anda bisa menonaktifkan tombol call/chat di sini jika perlu
-                        document.getElementById('startCallLink').disabled = true;
-                        document.getElementById('startVideoCallLink').disabled = true;
+                        // document.getElementById('startCallLink').disabled = true;
+                        // document.getElementById('startVideoCallLink').disabled = true;
                         document.getElementById('input-chat').disabled = true;
                         return;
                     }
