@@ -13,12 +13,9 @@ return new class extends Migration
     {
          Schema::create('riwayat_danas', function (Blueprint $table) {
             $table->id();
-            // $table->string('id_riwayat_dana')->primary();
             $table->string('nik_pengacara', 16);
             $table->string('tipe_riwayat_dana');
             $table->string('detail_riwayat_dana');
-            // $table->date('tanggal_riwayat_dana');
-            // $table->time('waktu_riwayat_dana');
             $table->integer('nominal');
             $table->timestamps();
             

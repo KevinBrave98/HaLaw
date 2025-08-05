@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;  
 use Illuminate\Support\Facades\Hash;
 
 class PengacaraSeeder extends Seeder
@@ -26,7 +26,7 @@ class PengacaraSeeder extends Seeder
                 'nomor_telepon' => $faker->unique()->e164phoneNumber,
                 'jenis_kelamin' => $faker->randomElement(['Laki-laki', 'Perempuan', 'Memilih tidak menjawab']),
                 'lokasi' => $faker->city,
-                'spesialisasi' => $faker->randomElement(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Tata Negara']),
+                // 'spesialisasi' => $faker->randomElement(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Tata Negara']),
                 'tarif_jasa' => $faker->numberBetween(500000, 2000000),
                 'durasi_pengalaman' => $faker->numberBetween(1, 20),
                 'pengalaman_bekerja' => $faker->company,

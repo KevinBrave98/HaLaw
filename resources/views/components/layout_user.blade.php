@@ -28,7 +28,7 @@
     <a href="#main-content" class="skip-to-content">Lewati ke Konten Utama</a>
     <x-navbar_user :pengguna=$pengguna />
     <main style="min-height: 80vh">
-        <a href="#main-navigation" class="skip-to-content">Lompat ke Navigasi</a>
+        {{-- <a href="#main-navigation" class="skip-to-content">Lompat ke Navigasi</a> --}}
         @foreach (auth()->user()->unreadNotifications as $notif)
             <div class="alert alert-info mb-2 notification-item" data-id="{{ $notif->id }}">
                 {{ $notif->data['message'] }}

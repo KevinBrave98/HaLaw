@@ -76,7 +76,7 @@
                 <audio id="remoteAudio" autoplay playsinline hidden></audio>
             </div>
         </div>
-        </div>
+        {{-- </div> --}}
 
         {{-- Chat Wrapper: No changes needed here --}}
         <ul class="d-flex flex-column chat_wrapper">
@@ -130,7 +130,7 @@
 
                 {{-- Form Pencarian --}}
                 <form id="kamus-search-form" class="kamus-search-form">
-                    <input type="search" id="kamus-search-input" placeholder="Ketik istilah...">
+                    <input name="q" type="search" id="kamus-search-input" placeholder="Ketik istilah...">
                     <button type="submit" class="kamus-search-btn">
                         <i class="bi bi-search"></i> Cari
                     </button>
@@ -139,19 +139,32 @@
                 {{-- Area Hasil Pencarian (Bisa di-scroll) --}}
                 <div id="kamus-results" class="kamus-results">
                     {{-- Contoh hasil, nantinya akan diisi dinamis oleh JavaScript --}}
-                    <a href="#" class="kamus-item">Administrasi Hukum Umum Online</a>
+                    {{-- <a href="#" class="kamus-item">Administrasi Hukum Umum Online</a>
                     <a href="#" class="kamus-item">Administrasi Pemerintahan</a>
                     <a href="#" class="kamus-item">Ab Initio</a>
                     <a href="#" class="kamus-item">Banding</a>
                     <a href="#" class="kamus-item">Contempt of Court</a>
                     <a href="#" class="kamus-item">Delik</a>
                     <a href="#" class="kamus-item">Eksepsi</a>
-                    <a href="#" class="kamus-item">Fidusia</a>
+                    <a href="#" class="kamus-item">Fidusia</a> --}}
                     {{-- Tambahkan item lain untuk mengetes scroll --}}
                 </div>
             </div>
         </aside>
     </main>
+    <div class="modal fade" id="kamusModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Judul Awal Modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalArti">Isi arti istilah muncul di sini</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     {{-- ========================================================================= --}}
@@ -293,10 +306,105 @@
                 });
                 const kamusPanel = document.getElementById('kamus-panel');
                 const kamusToggleBtn = document.getElementById('kamus-toggle-btn');
+                const searchForm = document.getElementById('kamus-search-form');
+                const searchInput = document.getElementById('kamus-search-input');
+                const resultsContainer = document.getElementById('kamus-results');
 
+                // --- Logika Buka/Tutup Panel ---
                 if (kamusPanel && kamusToggleBtn) {
                     kamusToggleBtn.addEventListener('click', () => {
                         kamusPanel.classList.toggle('is-open');
+                    });
+                }
+
+                // --- Logika Pencarian AJAX ---
+                if (searchForm) {
+                    searchForm.addEventListener('submit', function(event) {
+                        event.preventDefault(); // 1. Mencegah form refresh halaman
+                        performSearch();
+                    });
+
+                    // Opsional: Lakukan pencarian saat pengguna mengetik
+                    let debounceTimer;
+                    searchInput.addEventListener('keyup', function() {
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(performSearch,
+                            500); // Tunggu 500ms setelah user berhenti ngetik
+                    });
+                }
+
+                async function performSearch() {
+                    const query = searchInput.value.trim();
+
+                    // Tampilkan pesan loading
+                    resultsContainer.innerHTML = '<p class="kamus-item-info">Mencari...</p>';
+
+                    if (query.length === 0) {
+                        resultsContainer.innerHTML = ''; // Kosongkan jika input kosong
+                        return;
+                    }
+
+                    try {
+                        // 2. Kirim request ke server Laravel
+                        const response = await fetch(
+                            `{{ route('consultation.search') }}?q=${encodeURIComponent(query)}`);
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        const results = await response.json(); // 3. Ambil data JSON
+
+                        // 4. Tampilkan hasil ke dalam div
+                        displayResults(results);
+
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        resultsContainer.innerHTML =
+                            '<p class="kamus-item-info">Terjadi kesalahan saat mencari.</p>';
+                    }
+                }
+
+                function displayResults(results) {
+                    resultsContainer.innerHTML = ''; // Kosongkan container
+
+                    if (results.length === 0) {
+                        resultsContainer.innerHTML = '<p class="kamus-item-info">Istilah tidak ditemukan.</p>';
+                    } else {
+                        results.forEach(item => {
+                            const link = document.createElement('a');
+                            link.href = '#';
+                            link.className = 'kamus-item';
+                            link.textContent = item.istilah;
+
+                            // KUNCI: Tambahkan atribut data untuk Bootstrap dan untuk data kita
+                            link.setAttribute('data-bs-toggle', 'modal');
+                            link.setAttribute('data-bs-target', '#kamusModal');
+                            link.setAttribute('data-istilah', item.istilah);
+                            link.setAttribute('data-definisi', item
+                                .arti_istilah); // Pastikan controller mengirim 'definisi'
+
+                            resultsContainer.appendChild(link);
+                        });
+                    }
+                }
+                const kamusModal = document.getElementById('kamusModal');
+                if (kamusModal) {
+                    kamusModal.addEventListener('show.bs.modal', function(event) {
+                        // Dapatkan tombol/link yang memicu modal
+                        const triggerButton = event.relatedTarget;
+
+                        // Ekstrak data dari atribut data-*
+                        const istilah = triggerButton.getAttribute('data-istilah');
+                        const definisi = triggerButton.getAttribute('data-definisi');
+
+                        // Dapatkan elemen di dalam modal
+                        const modalTitle = kamusModal.querySelector('.modal-title');
+                        const modalBody = kamusModal.querySelector('#modalArti');
+
+                        // Perbarui konten modal
+                        modalTitle.textContent = istilah;
+                        modalBody.textContent = definisi;
                     });
                 }
             });

@@ -10,6 +10,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('lawyer:status-off')->dailyAt('22:00');
+        $schedule->command('consultations:update-expired')->everyMinute();
+        $schedule->command('consultations:unresponsive')->everyMinute();
     }
 
     protected function commands()

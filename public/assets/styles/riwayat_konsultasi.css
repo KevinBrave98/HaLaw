@@ -3,6 +3,35 @@ body {
     padding: 0;
 }
 
+/* ========================================= */
+/* ===         TAB NAVIGATION            === */
+/* ========================================= */
+.konsultasi-nav {
+    height: 80px;
+}
+
+.konsultasi-nav .tab {
+    font-weight: bold;
+    font-size: 25px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.konsultasi-nav .tab.selected {
+    background-color: #654220;
+    color: white;
+}
+
+.konsultasi-nav .tab:not(.selected) {
+    background-color: #3c2a1a;
+    color: #a0978d;
+}
+
+.konsultasi-nav .tab:not(.selected):hover {
+    background-color: #533f2e;
+    color: white;
+}
+
 .tab {
     display: flex;
     align-items: center;
@@ -85,6 +114,13 @@ body {
     border: 1px solid red;
 }
 
+.date-filter-group {
+    background-color: #281805;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
 /* FILTER & BUTTON STYLING */
 .filter-buttons {
     display: flex;
@@ -116,4 +152,24 @@ body {
 
 .bg-dark .form-label {
     font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .konsultasi-nav {
+        height: auto;
+    }
+    .konsultasi-nav .tab {
+        font-size: 1rem;
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+    .card-riwayat {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .card-riwayat img {
+        width: 5rem;
+        height: 5rem;
+    }
 }
