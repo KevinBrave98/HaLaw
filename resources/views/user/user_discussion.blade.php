@@ -35,7 +35,13 @@
             aria-labelledby="call-heading">
             <div id="call-ui-container" class="d-none">
                 <div class="call-info">
-                    <img src="{{-- path-to-your-default-avatar --}}" alt="Foto Profil" class="call-avatar">
+                    @if ($riwayat->pengacara->foto_pengacara)
+                        <img src="{{ asset('storage/' . $riwayat->pengacara->foto_pengacara) }}" alt="foto_pengacara"
+                            class="call-avatar">
+                    @else
+                        <img src="{{ asset('assets/images/foto-profil-default.jpg') }}" alt="foto_pengacara"
+                            class="call-avatar">
+                    @endif
                     <h3 id="call-info-name" class="call-name">Memanggil...</h3>
                     <p id="call-info-status" class="call-status">Berdering</p>
                     <button class="control-btn end-call mt-4" aria-label="Batalkan Panggilan">

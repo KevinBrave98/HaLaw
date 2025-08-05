@@ -969,8 +969,8 @@ async function endCall() {
 function showRingingUI(isInitiator, lawyerName, clientName) {
     console.log("🎨 Showing ringing UI:", { isInitiator, lawyerName });
 
-    if (!callUiContainer || !callInfoView || !callInfoName) return;
-
+    // if (!callUiContainer || !callInfoView || !callInfoName) return;
+    // console.log("test")
     // Tampilkan popup utama
     callUiContainer.classList.remove("d-none");
 
@@ -978,7 +978,7 @@ function showRingingUI(isInitiator, lawyerName, clientName) {
     callInfoView.style.display = "block";
 
     // Sembunyikan tampilan panggilan berlangsung
-    // inCallView.style.display = "none";
+    inCallControls.style.display = "none";
 
     // Update nama yang dipanggil
     if (isInitiator) {
