@@ -8,7 +8,7 @@ class LawyerAuthMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // If regular user is logged in, redirect to user dashboard
+
         if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard.user');
         } else if (!Auth::guard('lawyer')->check()) {
