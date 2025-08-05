@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Auth;
 
 class KonsultasiController extends Controller
 {
-    public function redirectChat() {
+    public function redirectChat()
+    {
         return redirect()->route('konsultasi.berlangsung');
     }
     public function konsultasiSedangBerlangsung()
     {
         $nik_pengguna = Auth::user()->nik_pengguna;
 
+        $riwayats_sedang = Auth::user()->riwayats()
+            ->where('status', 'Sedang Berlangsung');
+        // ->where('status', 'Sedang Berlangsung', 'Menunggu Konfirmasi')
+        // ->get();
+
         $riwayats = Auth::user()->riwayats()
-            ->where('status', 'Sedang Berlangsung')
-            ->orWhere('status', 'Menunggu Konfirmasi')
+            ->where('status', 'Menunggu Konfirmasi')
+            ->union($riwayats_sedang)
             ->get();
+
         // $riwayats =  $riwayat->where('status', 'Sedang Berlangsung')->orWhere('status', 'Menunggu Konfirmasi')->get();
         return response()->view('user.konsultasi_sedang_berlangsung', compact('riwayats'));
         // ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -48,7 +55,7 @@ class KonsultasiController extends Controller
         $tanggal_akhir = $request->input('tanggal_akhir');
 
         // Query dasar
-        $query = \App\Models\Riwayat::with('pengacara') // pastikan relasi dipanggil
+        $query = Riwayat::with('pengacara') // pastikan relasi dipanggil
             ->where('nik_pengguna', $nik_pengguna)
             ->whereIn('status', ['Selesai', 'Dibatalkan']);
 
