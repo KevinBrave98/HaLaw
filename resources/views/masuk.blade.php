@@ -48,7 +48,7 @@
                     {{-- Email --}}
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email') }}" required>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email') }}" required placeholder="Masukkan Email Anda">
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -57,7 +57,7 @@
                     {{-- Kata Sandi --}}
                     <div class="mb-3">
                         <label for="password" class="form-label">Kata Sandi</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" required>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" required placeholder="Masukkan Password Anda">
                          @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
