@@ -42,6 +42,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="name"
+                                placeholder="Masukkan Nama Lengkap Anda"
                                 @error('nama_pengguna') aria-describedby="nama_pengguna-error" aria-invalid="true" @enderror
                             >
                             @error('nama_pengguna')
@@ -62,6 +63,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="off"
+                                placeholder="Masukkan NIK Anda (16 Digit)"
                                 @error('nik_pengguna') aria-describedby="nik_pengguna-error" aria-invalid="true" @enderror
                             >
                             @error('nik_pengguna')
@@ -82,6 +84,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="tel"
+                                placeholder="Masukkan Nomor Telepon Anda (11 atau 12 Digit)"
                                 @error('nomor_telepon') aria-describedby="nomor_telepon-error" aria-invalid="true" @enderror
                             >
                             @error('nomor_telepon')
@@ -102,6 +105,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="email"
+                                placeholder="Masukkan Email Anda"
                                 @error('email') aria-describedby="email-error" aria-invalid="true" @enderror
                             >
                             @error('email')
@@ -121,6 +125,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="new-password"
+                                placeholder="Masukkan Password Anda"
                                 @error('password') aria-describedby="password-error" aria-invalid="true" @enderror
                             >
                              @error('password')
@@ -140,6 +145,7 @@
                                 required
                                 aria-required="true"
                                 autocomplete="new-password"
+                                placeholder="Masukkan Lagi Password Anda"
                             >
                         </div>
 

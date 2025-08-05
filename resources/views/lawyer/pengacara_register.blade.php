@@ -40,7 +40,7 @@
                             <label for="nama_pengacara" class="form-label">Nama Lengkap</label>
                             <input type="text" name="nama_pengacara"
                                 class="form-control @error('nama_pengacara') is-invalid @enderror" id="nama_pengacara"
-                                value="{{ old('nama_pengacara') }}" required autocomplete="name">
+                                value="{{ old('nama_pengacara') }}" required autocomplete="name" placeholder="Masukkan Nama Lengkap Anda">
                             @error('nama_pengacara')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -51,7 +51,7 @@
                             <label for="nik_pengacara" class="form-label">NIK</label>
                             <input type="text" name="nik_pengacara"
                                 class="form-control @error('nik_pengacara') is-invalid @enderror" id="nik_pengacara"
-                                value="{{ old('nik_pengacara') }}" required autocomplete="off">
+                                value="{{ old('nik_pengacara') }}" required autocomplete="off" placeholder="Masukkan NIK Anda (16 Digit)">
                             @error('nik_pengacara')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -62,7 +62,7 @@
                             <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
                             <input type="tel" name="nomor_telepon"
                                 class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon"
-                                value="{{ old('nomor_telepon') }}" required autocomplete="tel">
+                                value="{{ old('nomor_telepon') }}" required autocomplete="tel" placeholder="Masukkan Nomor Telepon Anda (11 atau 12 Digit)">
                             @error('nomor_telepon')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -72,7 +72,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" value="{{ old('email') }}" required autocomplete="email">
+                                id="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Masukkan Email Anda">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -82,7 +82,7 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi</label>
                             <input type="password" name="password"
-                                class="form-control @error('password') is-invalid @enderror" id="password" required
+                                class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Masukkan Password Anda" required
                                 autocomplete="new-password">
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -93,7 +93,7 @@
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
                             <input type="password" name="password_confirmation" class="form-control"
-                                id="password_confirmation" required autocomplete="new-password">
+                                id="password_confirmation" required autocomplete="new-password" placeholder="Masukkan Lagia Password Anda">
                         </div>
                         
                         {{-- Unggah KTPA / PKPA --}}
@@ -107,7 +107,7 @@
 
                     </div>
 
-                    <div class="btn_wrapper mt-4">
+                    <div class="btn_wrapper mt-4"> 
                         <button type="submit" class="btn btn-warning btn-lg w-100">Daftar</button>
                     </div>
 
