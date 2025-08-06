@@ -105,7 +105,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    align-items: flex-start; 
+    align-items: flex-start;
     padding-left: 0;
     margin-left: 0;
 }
@@ -122,7 +122,7 @@ body {
 }
 
 .form-switch .form-check-input:checked {
-    background-color: #B99010;
+    background-color: #87680D;
     border: none;
 }
 
@@ -200,14 +200,14 @@ body {
     background-color: #FFFFFF;
     border: none;
     font-size: 18px;
-    color: #B99010;
+    color: #87680D;
     width: 218px;
     height: 47px;
 }
 
 .isi-card .btn:active {
-    background-color: #654220; 
-    color: #F5F5F5;   
+    background-color: #654220;
+    color: #F5F5F5;
 }
 
 .greetings {

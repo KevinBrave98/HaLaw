@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;  
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PengacaraSeeder extends Seeder
@@ -50,7 +50,7 @@ class PengacaraSeeder extends Seeder
             'nomor_telepon' => '081234567890',
             'jenis_kelamin' => 'Laki-laki',
             'lokasi' => 'Jakarta',
-            'spesialisasi' => 'Hukum Perdata',
+            // 'spesialisasi' => 'Hukum Perdata',
             'tarif_jasa' => 1000000,
             'durasi_pengalaman' => 5,
             'pengalaman_bekerja' => 'Kantor Hukum ABC',
@@ -74,7 +74,7 @@ class PengacaraSeeder extends Seeder
             'nomor_telepon' => '081234567800',
             'jenis_kelamin' => 'Perempuan',
             'lokasi' => 'Jakarta',
-            'spesialisasi' => 'Hukum Perdata',
+            // 'spesialisasi' => 'Hukum Perdata',
             'tarif_jasa' => 1500000,
             'durasi_pengalaman' => 5,
             'pengalaman_bekerja' => 'Kantor Hukum ABC',

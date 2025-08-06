@@ -50,7 +50,7 @@ body {
 
 .welcome {
     /* ✅ Ukuran font diperbesar secara signifikan */
-    font-size: 4.5rem; 
+    font-size: 4.5rem;
     font-weight: 600;
     text-align: center; /* Memastikan teks di tengah jika melebihi satu baris */
 }
