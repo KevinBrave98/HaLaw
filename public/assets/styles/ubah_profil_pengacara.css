@@ -175,7 +175,7 @@ label{
 }
 
 @media (max-width: 600px) {
-    
+
     .gender-opsi {
         flex-direction: column;
         gap: 0.5rem;

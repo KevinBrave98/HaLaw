@@ -22,7 +22,7 @@ h2 {
     min-height: 70vh;
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     flex-direction: column;
     background-color: #f0e1d2;
     margin: 0 auto;
@@ -68,7 +68,7 @@ h2 {
 .dot {
     height: 10px;
     width: 10px;
-    background-color: #d3a524;
+    background-color: #87680D;
     border-radius: 50%;
     display: inline-block;
     margin-right: 10px;
