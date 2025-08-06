@@ -24,7 +24,7 @@
 <body class="h-full">
     <div class="min-h-full">
         <x-navbar_lawyer :pengacara=$pengacara />
-        <main style="min-height: 80vh">
+        <div style="min-height: 80vh">
             @foreach (auth('lawyer')->user()->unreadNotifications as $notif)
                 <div class="alert alert-info mb-2 notification-item-pengacara" data-id="{{ $notif->id }}">
                     {{ $notif->data['message'] }}
@@ -32,7 +32,7 @@
             @endforeach
 
             {{ $slot }}
-        </main>
+        </div>
     </div>
     <x-footer />
     <script>

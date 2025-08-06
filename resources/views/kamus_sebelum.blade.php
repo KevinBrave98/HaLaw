@@ -6,7 +6,7 @@
     <x-slot:title>Kamus Hukum</x-slot:title>
 
     {{-- Menggunakan <main> untuk konten utama halaman agar lebih semantik --}}
-    <main class="container py-5" id="main-content">
+    <main class="container py-5">
 
         <h1 class="text-center tulisan-cari-istilah">CARI ISTILAH HUKUM</h1>
 
@@ -88,7 +88,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalTitle">Judul Awal Modal</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
                         <p id="modalArti">Isi arti istilah muncul di sini</p>

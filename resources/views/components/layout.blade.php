@@ -21,9 +21,9 @@
     <div class="min-h-full">
         <a href="#main-content" class="skip-to-content">Lewati ke Konten Utama</a>
         <x-navbar_sebelum_login />
-        <main>
+        {{-- <main> --}}
             {{ $slot }}
-        </main>
+        {{-- </main> --}}
     </div>
     <x-footer />
     @vite(['resources/js/app.js'])
