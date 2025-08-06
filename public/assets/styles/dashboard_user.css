@@ -1,5 +1,5 @@
 .content {
-    padding: 3rem 4rem; 
+    padding: 3rem 4rem;
 }
 
 .username {
@@ -27,7 +27,7 @@
     display: flex;
     gap: 2.5rem;
     flex-wrap: nowrap;
-    
+
     /* Perbaikan untuk menghilangkan titik hitam */
     list-style: none;
     padding: 0;
@@ -47,9 +47,9 @@
     background-color: #654220;
     color: white;
     border-radius: 16px;
-    
+
     /* KUNCI #1: Menggunakan lebar dan tinggi yang tetap untuk menyeragamkan ukuran */
-    width: 40rem; 
+    width: 40rem;
     height: 12rem;
 
     flex-shrink: 0;
