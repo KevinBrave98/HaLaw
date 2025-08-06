@@ -15,7 +15,7 @@
     width: auto;
     height: auto;
     padding: 0.5rem 1rem;
-    background-color: #87680D;
+    background-color: #E6B114;
     color: white;
     border-radius: 5px;
     z-index: 9999;
@@ -48,7 +48,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #87680D;
+    border: 1px solid #E6B114;
     padding: 0.75rem 1.5rem !important; /* Padding untuk ukuran tombol */
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -56,11 +56,11 @@
 
 .nav-link.masuk {
     background-color: #f5f5f5;
-    color: #87680D;
+    color: #E6B114;
 }
 
 .nav-link.daftar:hover, .nav-link.masuk:hover {
-    background-color: #87680D;
+    background-color: #E6B114;
     color: #ffffff !important;
 }
 
@@ -90,12 +90,12 @@
 
 .navbar-nav .nav-link.active {
     color: #ffffff; /* Pastikan warna tetap putih cerah */
-    border-bottom: 3px solid #87680D; /* Garis bawah putih */
+    border-bottom: 3px solid #E6B114; /* Garis bawah putih */
     padding-bottom: 5px; /* Sedikit jarak antara teks dan garis */
 }
 
 .nav-link:hover {
-    color: #87680D !important;
+    color: #E6B114 !important;
 }
 
 
