@@ -14,11 +14,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .riwayat-card.highlighted {
-            border-color: #4a90e2;
-            background-color: #f0f8ff;
-        }
-
         .riwayat-card img {
             width: 100px;
             height: 100px;
@@ -162,60 +157,16 @@
             <div class="riwayats-summary">
                 <div class="summary-title">Penilaian dan Ulasan</div>
                 <div class="summary-stats">
-                    Rata-rata Penilaian: {{ number_format($averageRating, 1) }} dari {{ $totalriwayats }} Ulasan
+                    Rata-rata Penilaian: {{ number_format($averageRating, 1) }} dari {{ $sudahReview->count() }} Ulasan
                 </div>
             </div>
-        </section>
-
-        {{-- Filter Section --}}
-        <section class="container mt-3" aria-labelledby="filter-heading">
-            <h2 id="filter-heading" class="visually-hidden">Filter Ulasan</h2>
-            <form method="GET" action="{{ route('lawyer.ulasan') }}"
-                class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-
-                {{-- Filter Rating --}}
-                <div class="filter-buttons">
-                    <button type="submit" name="rating" value=""
-                        class="btn-filter {{ is_null($rating) ? 'active' : '' }}">Semua</button>
-                    <button type="submit" name="rating" value="5"
-                        class="btn-filter {{ $rating === '5' ? 'active' : '' }}">5 ⭐</button>
-                    <button type="submit" name="rating" value="4"
-                        class="btn-filter {{ $rating === '4' ? 'active' : '' }}">4 ⭐</button>
-                    <button type="submit" name="rating" value="3"
-                        class="btn-filter {{ $rating === '3' ? 'active' : '' }}">3 ⭐</button>
-                    <button type="submit" name="rating" value="2"
-                        class="btn-filter {{ $rating === '2' ? 'active' : '' }}">2 ⭐</button>
-                    <button type="submit" name="rating" value="1"
-                        class="btn-filter {{ $rating === '1' ? 'active' : '' }}">1 ⭐</button>
-                </div>
-
-                {{-- Filter Tanggal --}}
-                <fieldset class="date-filter-group">
-                    <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
-                        <div class="date-input-wrapper">
-                            <label for="from" class="form-label">Dari</label>
-                            <input type="date" name="tanggal_awal" id="from"
-                                value="{{ request('tanggal_awal') }}" class="form-control form-control-sm">
-                        </div>
-                        <span aria-hidden="true" class="mx-1">-</span>
-                        <div class="date-input-wrapper">
-                            <label for="to" class="form-label">Sampai</label>
-                            <input type="date" name="tanggal_akhir" id="to"
-                                value="{{ request('tanggal_akhir') }}" class="form-control form-control-sm">
-                        </div>
-                        <div class="d-flex align-items-end">
-                            <button type="submit" class="btn btn-light btn-sm ms-md-2 mt-2 mt-md-0">Filter</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
         </section>
 
         {{-- Daftar riwayat --}}
         <section class="container mt-4 consultation-list" aria-labelledby="riwayats-heading">
             <h2 id="riwayats-heading" class="visually-hidden">Daftar Penilaian dan Ulasan</h2>
 
-            @forelse ($riwayats as $riwayat)
+            @forelse ($sudahReview as $riwayat)
                 <article class="riwayat-card {{ $loop->first ? 'highlighted' : '' }}"
                          role="article"
                          aria-labelledby="riwayat-{{ $riwayat->id }}">

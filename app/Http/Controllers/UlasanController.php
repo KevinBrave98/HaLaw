@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UlasanController extends Controller
 {
@@ -42,10 +43,10 @@ class UlasanController extends Controller
 
         try {
             // Menggunakan Eloquent untuk menyimpan data
-            $riwayat = Riwayat::where('id', $id)->first();
-            $riwayat->penilaian = $validated['rating']; // Rating bintang (1-5)
-            $riwayat->ulasan = $validated['ulasan'];
-            $riwayat->save();
+            $riwayats = Riwayat::where('id', $id)->first();
+            $riwayats->penilaian = $validated['rating']; // Rating bintang (1-5)
+            $riwayats->ulasan = $validated['ulasan'];
+            $riwayats->save();
 
             // Redirect dengan pesan sukses
             return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda telah berhasil dikirim.');
@@ -63,8 +64,9 @@ class UlasanController extends Controller
     }
 
     public function lawyerIndex() {
-        $riwayat = Auth::guard('lawyer')->riwayats;
-        $sudahReview = !is_null($riwayat->penilaian);
-        return view('lawyer.ulasan', compact('sudahReview'));
+        $riwayats = Auth::guard('lawyer')->user()->riwayats;
+        $sudahReview = $riwayats->whereNotNull('penilaian');
+        $averageRating = $sudahReview->avg('penilaian');
+        return view('lawyer.ulasan', compact('sudahReview', 'averageRating'));
     }
 }
