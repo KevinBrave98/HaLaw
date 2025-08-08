@@ -197,6 +197,7 @@
 
                 // Ambil waktu mulai dari variabel Blade ($riwayat->updated_at).
                 // toIso8601String() memastikan formatnya kompatibel dengan JavaScript.
+                const riwayatStatus = '{{ $riwayat->status }}'
                 const startTimeFromServer = '{{ $riwayat->updated_at->toIso8601String() }}';
 
                 const startTime = new Date(startTimeFromServer);
@@ -205,7 +206,10 @@
 
                 const countdownInterval = setInterval(() => {
                     const now = new Date();
-                    const remainingTime = endTime - now;
+                    const remainingTime = 0;
+                    if(riwayatStatus == 'Menunggu Konfirmasi' || riwayatStatus == 'Sedang Berlangsung') {
+                        const remainingTime = endTime - now;
+                    }
 
                     // Jika waktu habis
                     if (remainingTime <= 0) {

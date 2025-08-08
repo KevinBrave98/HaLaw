@@ -7,12 +7,12 @@
 
     <nav class="konsultasi-nav d-flex border-bottom w-100" aria-label="Navigasi Konsultasi">
         <a href="{{ route('konsultasi.berlangsung') }}"
-            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected"
+            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none"
             aria-current="page">
             Sedang Berlangsung
         </a>
         <a href="{{ route('riwayat.konsultasi') }}"
-            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none">
+            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected">
             Riwayat Konsultasi
         </a>
     </nav>
@@ -90,10 +90,21 @@
                         </div>
                     </dl>
 
-                    <div class="card-actions">
-                        <a href="{{ route('consultation.client', ['id' => $riwayat->id]) }}" class="btn btn-dark">Lihat
-                            Detail</a>
-                    </div>
+                    {{-- <section class="ombol d-flex flex-column"> --}}
+
+                        <div class="card-actions">
+                            <a href="{{ route('consultation.client', ['id' => $riwayat->id]) }}"
+                                class="btn btn-dark">Lihat
+                                Detail</a>
+                        </div>
+                        @if ($riwayat->status == 'Selesai')
+                            <div class="card-actions">
+                                <a href="{{ route('user.ulasan', ['id' => $riwayat->id]) }}"
+                                    class="btn btn-dark">Berikan
+                                    Ulasan</a>
+                            </div>
+                        @endif
+                    {{-- </section> --}}
                 </article>
             @empty
                 <div class="text-center mt-5">
