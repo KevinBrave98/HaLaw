@@ -1,38 +1,4 @@
 <?php
-
-// namespace App\Http\Controllers;
-
-// use App\Events\CallOffer;
-// use App\Events\CallAnswer;
-// use Illuminate\Http\Request;
-// use App\Events\CallIceCandidate;
-// use App\Events\CallEnded;
-
-// class CallController extends Controller
-// {
-//     public function sendOffer(Request $request)
-//     {
-//         event(new CallOffer($request->call_id, $request->offer));
-//         return response()->json(['status' => 'ok']);
-//     }
-
-//     public function sendAnswer(Request $request)
-//     {
-//         event(new CallAnswer($request->call_id, $request->answer));
-//         return response()->json(['status' => 'ok']);
-//     }
-
-//     public function sendIce(Request $request)
-//     {
-//         event(new CallIceCandidate($request->call_id, $request->candidate));
-//         return response()->json(['status' => 'ok']);
-//     }
-//     public function endCall(Request $request)
-//     {
-//         event(new CallEnded($request->call_id));
-//         return response()->json(['status' => 'ok']);
-//     }
-// }
 namespace App\Http\Controllers;
 
 use App\Events\CallOffer;

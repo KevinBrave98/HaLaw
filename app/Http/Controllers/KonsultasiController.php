@@ -38,9 +38,11 @@ class KonsultasiController extends Controller
     {
         $nik_pengacara = Auth::guard('lawyer')->user()->nik_pengacara;
         // $riwayats = Riwayat::where('nik_pengacara', $nik_pengacara)->where('status', 'Sedang Berlangsung')->orWhere('status', 'Menunggu Konfirmasi')->get();
+        $riwayats_sedang = Auth::guard('lawyer')->user()->riwayats()
+            ->where('status', 'Sedang Berlangsung');
         $riwayats = Auth::guard('lawyer')->user()->riwayats()
-            ->where('status', 'Sedang Berlangsung')
-            ->orWhere('status', 'Menunggu Konfirmasi')
+            ->where('status', 'Menunggu Konfirmasi')
+            ->union($riwayats_sedang)
             ->get();
         return view('lawyer.konsultasi_sedang_berlangsung', compact('riwayats'));
     }

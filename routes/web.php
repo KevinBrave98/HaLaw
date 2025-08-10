@@ -45,15 +45,6 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/konsultasi', [KonsultasiController::class, 'redirectChat']);
     Route::get('/konsultasi/sedang-berlangsung', [KonsultasiController::class, 'konsultasiSedangBerlangsung'])->name('konsultasi.berlangsung');
     Route::get('/konsultasi/riwayat-konsultasi', [KonsultasiController::class, 'riwayatKonsultasi'])->name('riwayat.konsultasi');
-    // Route::get('/pilih_pembayaran', [PembayaranController::class, 'pilih_payment'])->name('pilih_pembayaran.pengacara');
-    // Route::get('/pembayaran/credit-card', function () {return view('user.pembayaran_card');});
-    // Route::get('/pembayaran/qris', function () {return view('user.pembayaran_qris');});
-    // Route::get('/pembayaran/bca', function () {return view('user.pembayaran_bca');});
-    // Route::get('/pembayaran/mandiri', function () {return view('user.pembayaran_mandiri');});
-    // Route::get('/pembayaran/blu', function () {return view('user.pembayaran_blu');});
-    // Route::get('/pembayaran/gopay', function () {return view('user.pembayaran_gopay');});
-    // Route::get('/pembayaran/ovo', function () {return view('user.pembayaran_ovo');});
-    // Route::get('/pembayaran/spay', function () {return view('user.pembayaran_shopeepay');});
     Route::post('/payment/confirm', [PembayaranController::class, 'confirm'])->name('payment.confirm');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'showConfirmation'])->name('payment.show_confirmation');
     Route::get('/detail_pengacara/{nik}', [DetailPengacaraController::class, 'show'])->name('detail.pengacara');
@@ -64,7 +55,6 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/ulasan/{id}', [UlasanController::Class, 'index'])->name('user.ulasan');
     Route::post('/ulasan/{id}', [UlasanController::Class, 'submit'])->name('user.ulasan.submit');
 });
-//  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
 Route::get('/keluar_pengacara', [LawyerProfileController::class, 'exit'])->name('profile_pengacara.exit');
 
@@ -120,12 +110,9 @@ Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
 Route::post('/delete-notification/{id}', [NotifikasiController::class, 'hapus'])->name('notifikasi.hapus');
 Route::post('/delete-notification-pengacara/{id}', [NotifikasiController::class, 'hapusnotifpengacara']);
 
-//  Route::post('/lawyer/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
-// routes/web.php
 Route::post('/call/offer', [CallController::class, 'sendOffer']);
 Route::post('/call/answer', [CallController::class, 'sendAnswer']);
 Route::post('/call/ice', [CallController::class, 'sendIce']);
 Route::post('/call/end', [CallController::class, 'endCall']);
-// ADD THIS NEW ROUTE
 Route::post('/call/reject', [CallController::class, 'rejectCall'])->name('call.reject');
 

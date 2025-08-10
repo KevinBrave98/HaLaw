@@ -21,7 +21,7 @@ class RiwayatFactory extends Factory
         return [
             'nik_pengguna' => Pengguna::factory(),
             'nik_pengacara' => Pengacara::factory(),
-            'status' => 'Menunggu Konfirmasi',
+            'status' => $this->faker->randomElement(['Menunggu Konfirmasi', 'Sedang Berlangsung', 'Selesai', 'Dibatalkan']),
             'created_at' => Carbon::now()->subDays(3),
             'updated_at' => Carbon::now()->subDays(2),
         ];

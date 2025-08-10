@@ -20,6 +20,9 @@ class RiwayatSeeder extends Seeder
                 'nik_pengguna' => $pengguna->nik_pengguna, // sesuaikan dengan nik pengguna yang ada
                 'nik_pengacara' => $pengacara1->nik_pengacara,
                 'status' => 'Selesai',
+                'chat' => $pengacara1->chat,
+                'voice_chat' => $pengacara1->voice_chat,
+                'video_call' => $pengacara1->video_call,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(2),
             ],
@@ -27,6 +30,9 @@ class RiwayatSeeder extends Seeder
                 'nik_pengguna' => $pengguna->nik_pengguna, // sesuaikan dengan nik pengguna yang ada
                 'nik_pengacara' => $pengacara2->nik_pengacara,
                 'status' => 'Dibatalkan',
+                'chat' => $pengacara2->chat,
+                'voice_chat' => $pengacara2->voice_chat,
+                'video_call' => $pengacara2->video_call,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(2),
             ],
@@ -34,6 +40,9 @@ class RiwayatSeeder extends Seeder
                 'nik_pengguna' => $pengguna->nik_pengguna, // sesuaikan dengan nik pengguna yang ada
                 'nik_pengacara' => $pengacara2->nik_pengacara,
                 'status' => 'Menunggu Konfirmasi',
+                'chat' => $pengacara2->chat,
+                'voice_chat' => $pengacara2->voice_chat,
+                'video_call' => $pengacara2->video_call,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(2),
             ],

@@ -74,10 +74,14 @@ class PembayaranController extends Controller
         ])->first();
 
         if (!$cek) {
+            $pengacara = Pengacara::where('nik_pengacara', $request->nik_pengacara)->get();
             $riwayat = new Riwayat();
             $riwayat->nik_pengacara = $request->nik_pengacara;
             $riwayat->nik_pengguna = $user->nik_pengguna;
             $riwayat->status = 'Menunggu Konfirmasi';
+            $riwayat->chat = $pengacara->chat;
+            $riwayat->voice_chat = $pengacara->voice_chat;
+            $riwayat->video_call = $pengacara->video_call;
 
             $riwayat->save();
 
