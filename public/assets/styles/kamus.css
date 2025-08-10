@@ -16,14 +16,14 @@ body{
 }
 
 .input-group input{
-    border: solid 1px #B99010;
+    border: solid 1px #87680D;
     border-radius: 10px;
 }
 
 .container-search{
     /* width: 7vw; */
     height: 5vh;
-    background-color: #B99010;
+    background-color: #87680D;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@ body{
     /* width: 2.6vw; */
     color: #281805;
     font-size: 20px;
-    border-color: #B99010;
+    border-color: #87680D;
 }
 
 .huruf-all{
@@ -65,8 +65,8 @@ body{
 
 .huruf:hover {
     background-color: #f9f2dc;
-    color: #B99010;
-    border-color: #B99010;
+    color: #87680D;
+    border-color: #87680D;
 }
 
 .judul-kamus {
@@ -81,7 +81,7 @@ body{
     color: #654220;
     font-size: 1.8rem;
     width: 100%;
-    border-bottom: 3px solid #B99010;
+    border-bottom: 3px solid #87680D;
     display: inline-block;
     padding-bottom: 0.3rem;
     margin-bottom: 1rem;
@@ -103,7 +103,7 @@ button.istilah-item {
 }
 
 button.istilah-item:hover {
-    color: #B99010;
+    color: #87680D;
     background-color: #f8f9fa;
 }
 
@@ -121,7 +121,7 @@ button.istilah-item:hover {
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
     font-size: 25px;
-    color: #281805; 
+    color: #281805;
     width: 100%;
     text-align: center;
 }
@@ -134,32 +134,32 @@ button.istilah-item:hover {
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #B99010;
-    border-color: #B99010;
+    background-color: #87680D;
+    border-color: #87680D;
     color: #fff;
 }
 
 .pagination .page-link {
     color: #281805;
-    border: 1px solid #B99010;
+    border: 1px solid #87680D;
 }
 
 .pagination .page-link:hover {
-    color: #B99010;
-    border-color: #B99010;
+    color: #87680D;
+    border-color: #87680D;
     background-color: #f9f2dc;
 }
 
 .active-letter {
-    background-color: #B99010;
+    background-color: #87680D;
     color: #fff !important;
-    border-color: #B99010;
+    border-color: #87680D;
 }
 
 .active-letter:hover {
-    background-color: #B99010;
+    background-color: #87680D;
     color: #fff !important;
-    border-color: #B99010;
+    border-color: #87680D;
 }
 
 /* --- ✅ PENYESUAIAN RESPONSIVE ✅ --- */
@@ -190,7 +190,7 @@ button.istilah-item:hover {
         padding: 0.5rem 0.8rem; /* Gunakan padding untuk ukuran */
         font-size: 16px;
     }
-    
+
     .huruf-all {
         padding: 0.5rem 1rem;
     }

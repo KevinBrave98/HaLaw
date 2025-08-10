@@ -66,12 +66,6 @@ class Pengacara extends Authenticatable
         $this->notify(new resetPassword($url));
     }
 
-    public function scopeActive(Builder $query): void
-
-    {
-        $query->where('status_konsultasi', 1);
-    }
-
     public function spesialisasis(): BelongsToMany
     {
         return $this->belongsToMany(Spesialisasi::class, 'pengacara_spesialisasi', 'nik_pengacara', 'id_spesialisasi');

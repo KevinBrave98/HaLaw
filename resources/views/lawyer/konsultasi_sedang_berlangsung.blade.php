@@ -11,7 +11,7 @@
             aria-current="page">
             Sedang Berlangsung
         </a>
-        <a href="#"
+        <a href="{{ route('lawyer.riwayat.konsultasi') }}"
             class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none">
             Riwayat Konsultasi
         </a>

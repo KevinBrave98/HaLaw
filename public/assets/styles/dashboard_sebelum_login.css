@@ -90,7 +90,7 @@ main {
     font-size: 1rem;
     color: #f5f5f5;
     border-radius: 8px;
-    border: 1px solid #B99010; /* Added border from reference */
+    border: 1px solid #87680D; /* Added border from reference */
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -100,7 +100,7 @@ main {
 }
 
 .banner-btn:focus-visible {
-    outline: 3px solid #B99010;
+    outline: 3px solid #87680D;
     outline-offset: 3px;
 }
 
@@ -109,7 +109,7 @@ main {
     width: 80%;
     max-width: 1100px;
     background-color: #654220;
-    border: 1px solid #B99010;
+    border: 1px solid #87680D;
     border-radius: 10px;
     display: flex;
     justify-content: space-around;
@@ -202,7 +202,7 @@ main {
     color: #f5f5f5;
     padding: 0.85rem 2.5rem;
     border-radius: 8px;
-    border: 1px solid #B99010;
+    border: 1px solid #87680D;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -213,7 +213,7 @@ main {
 }
 
 .btn-kamus:focus-visible {
-    outline: 3px solid #B99010;
+    outline: 3px solid #87680D;
     outline-offset: 3px;
 }
 
@@ -316,7 +316,7 @@ main {
     .kelebihan-3 {
         width: 100%; /* Each card takes full width of the .kelebihan container */
         background-color: #654220;
-        border: 1px solid #B99010;
+        border: 1px solid #87680D;
         border-radius: 10px;
         padding: 2.5rem 2rem;
     }

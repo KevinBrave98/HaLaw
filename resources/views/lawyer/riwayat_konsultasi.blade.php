@@ -3,15 +3,15 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/riwayat_konsultasi.css') }}">
 @endpush
 
-<x-layout_user :title="'Halaw - Riwayat Konsultasi'">
+<x-layout_lawyer :title="'Halaw - Riwayat Konsultasi'">
 
     <nav class="konsultasi-nav d-flex border-bottom w-100" aria-label="Navigasi Konsultasi">
-        <a href="{{ route('konsultasi.berlangsung') }}"
+        <a href="{{ route('lawyer.konsultasi.berlangsung') }}"
             class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected"
             aria-current="page">
             Sedang Berlangsung
         </a>
-        <a href="{{ route('riwayat.konsultasi') }}"
+        <a href="{{ route('lawyer.riwayat.konsultasi') }}"
             class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none">
             Riwayat Konsultasi
         </a>
@@ -63,8 +63,8 @@
             <h2 id="list-heading" class="visually-hidden">Daftar Hasil Riwayat Konsultasi</h2>
             @forelse ($riwayats as $riwayat)
                 <article class="card-riwayat">
-                    <img src="{{ $riwayat->pengacara->foto_pengacara ? asset('storage/' . $riwayat->pengacara->foto_pengacara) : asset('assets/images/foto-profil-default.jpg') }}"
-                        alt="Foto {{ $riwayat->pengacara->nama_pengacara ?? 'Pengacara' }}">
+                    <img src="{{ $riwayat->pengguna->foto_pengguna ? asset('storage/' . $riwayat->pengguna->foto_pengguna) : asset('assets/images/foto-profil-default.jpg') }}"
+                        alt="Foto {{ $riwayat->pengguna->foto_pengguna ?? 'pengguna' }}">
 
                     <dl class="info">
                         <div>
@@ -76,8 +76,8 @@
                             <dd>{{ \Carbon\Carbon::parse($riwayat->created_at)->format('H:i') }}</dd>
                         </div>
                         <div>
-                            <dt>Pengacara</dt>
-                            <dd>{{ $riwayat->pengacara->nama_pengacara ?? '-' }}</dd>
+                            <dt>Pengguna</dt>
+                            <dd>{{ $riwayat->pengguna->nama_pengguna ?? '-' }}</dd>
                         </div>
                         <div>
                             <dt>Status</dt>
@@ -102,4 +102,4 @@
             @endforelse
         </section>
     </main>
-</x-layout_user>
+</x-layout_lawyer>

@@ -15,7 +15,7 @@ body {
     /* PERBAIKAN: Memberi batas tinggi dan lebar, bukan 100vh */
     max-height: 90vh; /* Tinggi maksimum adalah 90% dari layar */
     width: 100%; /* Lebar bisa disesuaikan, atau gunakan max-width */
-    
+
     margin: auto; /* Membuatnya di tengah halaman */
     background-color: #FFF7F0;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Tambahan shadow agar terlihat bagus */
@@ -26,7 +26,7 @@ body {
     flex-grow: 1;
     overflow-y: auto;
     padding: 1.5rem;
-    
+
     /* PERBAIKAN: Memberi batas tinggi yang spesifik */
     height: 60vh; /* Anda bisa menyesuaikan nilai ini (misal: 50vh, 500px) */
 }
@@ -275,7 +275,8 @@ form.form_kirim_chat button img {
     position: relative; /* Add this for internal positioning of controls */
     width: 90%;
     max-width: 420px;
-    max-height: 90vh;
+    min-height: 60vh;
+    /* max-height: 90vh; */
     background-color: #2d1c0f;
     display: flex;
     flex-direction: column;
@@ -417,6 +418,11 @@ form.form_kirim_chat button img {
     color: #ccc;
 }
 
+.in-call-controls {
+    padding-bottom: 0.5rem !important;
+    gap: 2rem !important;
+}
+
 
 /* --- Logika untuk Menampilkan UI yang Benar --- */
 /* .call-ui-container { */
@@ -453,13 +459,13 @@ form.form_kirim_chat button img {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 320px; /* Lebar panel, bisa disesuaikan */
-    max-width: 80%;
+    /* width: 320px; Lebar panel, bisa disesuaikan */
+    /* max-width: 80%; */
     background-color: #654220; /* Warna coklat tua yang sama dengan header */
     color: #FFF7F0;
     box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     z-index: 100;
-    
+
     /* KUNCI 2: Sembunyikan panel di luar layar kanan */
     transform: translateX(100%);
     transition: transform 0.35s ease-in-out;
@@ -504,6 +510,7 @@ form.form_kirim_chat button img {
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* width: 20rem; */
 }
 .kamus-title {
     text-align: center;
@@ -558,11 +565,100 @@ form.form_kirim_chat button img {
     text-decoration: none;
     color: #FFF7F0;
     transition: background-color 0.2s ease;
+    border: none; /* <-- TAMBAHKAN BARIS INI */
 }
 .kamus-item:hover {
     background-color: rgba(255, 247, 240, 0.2);
 }
 
+.modal-content {
+    padding: 2rem;
+    border-radius: 1rem;
+    font-family: 'Raleway', sans-serif;
+}
+
+.modal-header {
+    border-bottom: 1.5px solid #281805;
+}
+
+.modal-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    color: #281805;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-body p, .modal-body h6 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #281805;
+    text-align: justify;
+}
+
+/* ================================================== */
+/* ===  CSS UNTUK UI PANGGILAN MASUK (ACCEPT/REJECT) === */
+/* ================================================== */
+
+/* Container utama untuk prompt panggilan masuk */
+/* Pastikan ini disembunyikan secara default, JS akan menampilkannya */
+#incoming-call-prompt {
+    display: none; /* Sembunyikan secara default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: #2d1c0f; /* Warna latar gelap yang sama */
+    z-index: 10; /* Pastikan muncul di atas elemen lain */
+}
+
+/* Tombol Aksi (wadah untuk tombol Tolak dan Terima) */
+.incoming-call-actions {
+    display: flex;
+    justify-content: center;
+    gap: 4rem; /* Jarak antara dua tombol */
+    margin-top: 2.5rem; /* Jarak dari nama/status */
+}
+
+/* Styling umum untuk tombol di dalam .incoming-call-actions */
+.incoming-call-actions .control-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.incoming-call-actions .control-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Tombol Terima Panggilan (Hijau) */
+.incoming-call-actions .accept-call {
+    background-color: #4CAF50;
+}
+.incoming-call-actions .accept-call:hover {
+    background-color: #5cb85c;
+}
+#rejectCallBtn .bi-telephone-fill {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg); /* Untuk kompatibilitas browser lama */
+    -ms-transform: rotate(135deg);     /* Untuk kompatibilitas browser lama */
+}
+
+/* Tombol tolak sudah merah dari class .end-call */
 
 
 /* ========================================= */
@@ -571,78 +667,103 @@ form.form_kirim_chat button img {
 
 /* Mobile phones (320px - 576px) */
 @media (max-width: 576px) {
+    #incoming-call-prompt .call-name {
+        font-size: 1.3rem; /* Perkecil font nama */
+    }
+
+    #incoming-call-prompt .call-avatar {
+        width: 90px;   /* Perkecil ukuran avatar */
+        height: 90px;
+    }
+
+    .incoming-call-actions {
+        gap: 3rem; /* Kurangi jarak antar tombol */
+        margin-top: 2rem;
+    }
+
+    .incoming-call-actions .control-btn {
+        width: 60px;   /* Perkecil ukuran tombol */
+        height: 60px;
+        font-size: 1.8rem;
+    }
+    .kamus-panel {
+        max-width: 70%;
+    }
+    .kamus-search-form {
+        flex-direction: column;
+    }
     .konsultasi_wrapper {
         max-height: 100vh;
     }
-    
+
     .chat_wrapper {
         padding: 1rem;
         height: 65vh;
     }
-    
+
     ul.chat_wrapper {
         padding: 1rem;
     }
-    
+
     li.chat {
         max-width: 85%;
     }
-    
+
     .chat_details {
         padding: 0.6rem 0.8rem;
         font-size: 0.9rem;
     }
-    
+
     .chat_details p.chat-message {
         font-size: 0.9rem;
     }
-    
+
     .chat_time time {
         font-size: 0.7rem;
     }
-    
+
     /* Header adjustments */
     .heading {
         padding: 0.8rem 1rem;
         flex-wrap: wrap;
     }
-    
+
     .heading h2, .heading p {
         font-size: 1.2rem;
     }
-    
+
     .sisa_waktu p {
         font-size: 1rem !important;
     }
-    
+
     .heading img {
         width: 1rem;
     }
-    
+
     .first-half {
         width: 100% !important;
         margin-bottom: 0.5rem;
     }
-    
+
     .second-half {
         width: 100% !important;
         justify-content: space-between !important;
     }
-    
+
     /* Input area */
     section.discussion-input {
         padding: 0.8rem 1rem;
     }
-    
+
     form.form_kirim_chat {
         gap: 0.8rem;
     }
-    
+
     input.input-chat {
         padding: 0.6rem 0.8rem;
         font-size: 0.9rem;
     }
-    
+
     form.form_kirim_chat button img {
         width: 20px;
     }
@@ -653,19 +774,19 @@ form.form_kirim_chat button img {
     li.chat {
         max-width: 70%;
     }
-    
+
     .heading h2, .heading p {
         font-size: 1.5rem;
     }
-    
+
     .sisa_waktu p {
         font-size: 1.1rem !important;
     }
-    
+
     .first-half {
         width: 60% !important;
     }
-    
+
     .second-half {
         width: 40% !important;
     }
@@ -676,11 +797,11 @@ form.form_kirim_chat button img {
     li.chat {
         max-width: 60%;
     }
-    
+
     .first-half {
         width: 55% !important;
     }
-    
+
     .second-half {
         width: 45% !important;
     }
@@ -751,3 +872,26 @@ button:focus {
     outline-offset: 2px;
 }
 
+/* ========================================= */
+/* ===  RESPONSIF UNTUK KAMUS & WRAPPER  === */
+/* ========================================= */
+
+@media (max-width: 768px) {
+    /* Pada layar kecil, buat wrapper chat memenuhi layar */
+    .konsultasi_wrapper {
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    /* Sesuaikan lebar panel kamus */
+    .kamus-panel {
+        width: 85%; /* Gunakan persentase, bukan piksel tetap */
+    }
+
+    /* Posisikan tombol toggle agar tidak aneh */
+    .kamus-toggle-btn {
+        left: -35px;
+        width: 35px;
+    }
+}

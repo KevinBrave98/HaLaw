@@ -35,7 +35,7 @@
 }
 
 .konsultasi-list-container .card {
-    border: 1px solid #B99010 !important;
+    border: 1px solid #87680D !important;
     background-color: #fdf5ee !important;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .card-action-icons .text-brown:hover {
-    color: #B99010;
+    color: #87680D;
 }
 
 .icon-disabled {
@@ -96,6 +96,7 @@
     .konsultasi-nav .tab {
         font-size: 1rem;
         padding: 1rem 0.5rem;
+        text-align: center;
     }
 
     .card-body {

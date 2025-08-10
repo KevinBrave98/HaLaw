@@ -12,6 +12,7 @@ let callActive = false;
 let isProcessingRemoteDescription = false;
 let connectionAttempts = 0;
 let maxConnectionAttempts = 3;
+let pendingOffer = null;
 
 const callStatus = document.getElementById("callStatus");
 const endCallBtn = document.getElementById("endCallBtn");
@@ -22,6 +23,7 @@ const remoteVideo = document.getElementById("remoteVideo");
 // ... (variabel global Anda yang lain) ...
 
 // === Variabel untuk UI Panggilan Baru ===
+const callUIOverlay = document.getElementById("call-modal-overlay")
 const callUiContainer = document.getElementById("call-ui-container");
 const callInfoView = document.querySelector(".call-info");
 const inCallControls = document.querySelector(".in-call-controls");
@@ -30,6 +32,12 @@ const callInfoName = document.getElementById("call-info-name");
 // Ganti referensi endCallBtn ke tombol yang baru di dalam popup
 const endCallBtnInCall = document.getElementById("endCallBtn"); // Anda mungkin perlu memberi ID unik jika ada 2 tombol
 // ... variabel global Anda yang lain
+
+const incomingCallPrompt = document.getElementById("incoming-call-prompt");
+const incomingCallerName = document.getElementById("incoming-caller-name");
+const acceptCallBtn = document.getElementById("acceptCallBtn");
+const rejectCallBtn = document.getElementById("rejectCallBtn");
+
 let callTimerInterval = null;
 let callStartTime = null;
 
@@ -872,12 +880,113 @@ function waitForIceCandidates(timeout = 5000) {
         };
     });
 }
+// ============================
+// 📞 Handle Call Acceptance (New Function)
+// ============================
+async function handleAcceptCall() {
+        // callUIOverlay.classList.add("d-none");
+    if (!pendingOffer) {
+        console.error("❌ No pending offer to accept.");
+        return;
+    }
+    console.log("✅ Call accepted. Proceeding to answer.");
+
+    // Hide the prompt and show the connecting UI
+    if (incomingCallPrompt) incomingCallPrompt.classList.add("d-none");
+    showInProgressUI(currentCallIsVideo); // Show the in-progress view immediately
+
+    try {
+        await ensurePeerConnection();
+
+        if (!localStream) {
+            const hasVideo = /m=video/.test(pendingOffer.sdp);
+            currentCallIsVideo = hasVideo;
+            console.log("📥 Offer has video:", hasVideo);
+
+            const constraints = {
+                audio: {
+                    /* ... audio constraints ... */
+                },
+                video: hasVideo
+                    ? {
+                          /* ... video constraints ... */
+                      }
+                    : false,
+            };
+
+            localStream = await getUserMediaWithFallback(constraints, true);
+
+            // Add tracks to peer connection
+            localStream.getTracks().forEach((track) => {
+                console.log("🎵 Adding answerer track:", track.kind);
+                if (
+                    peerConnection
+                        .getSenders()
+                        .find((s) => s.track && s.track.kind === track.kind)
+                ) {
+                    console.warn(`Track of kind ${track.kind} already exists.`);
+                    return;
+                }
+                peerConnection.addTrack(track, localStream);
+            });
+
+            // Display local video if applicable
+            if (localStream.getVideoTracks().length > 0 && localVideo) {
+                localVideo.srcObject = localStream;
+                localVideo.play();
+            }
+        }
+
+        isProcessingRemoteDescription = true;
+        await setRemoteDescriptionSafely(peerConnection, pendingOffer);
+        remoteDescriptionSet = true;
+        isProcessingRemoteDescription = false;
+
+        await processPendingCandidates();
+
+        const answer = await createAnswerWithRetry(peerConnection);
+        await peerConnection.setLocalDescription(answer);
+
+        await waitForIceCandidates(3000);
+
+        await axios.post("/call/answer", {
+            call_id: window.callId,
+            answer: peerConnection.localDescription,
+        });
+
+        console.log("✅ Answer sent successfully");
+        pendingOffer = null; // Clear the pending offer
+    } catch (err) {
+        console.error("❌ Error handling offer acceptance:", err);
+        isProcessingRemoteDescription = false;
+        cleanupCall();
+        alert("Failed to answer call: " + err.message);
+    }
+}
+
+// ============================
+// 📞 Handle Call Rejection (New Function)
+// ============================
+async function handleRejectCall() {
+    console.log("❌ Call rejected by user.");
+    if (incomingCallPrompt) incomingCallPrompt.classList.add("d-none");
+
+    try {
+        await axios.post("/call/reject", { call_id: window.callId });
+    } catch (err) {
+        console.error("Error notifying server of rejection:", err);
+    }
+
+    pendingOffer = null; // Clear the pending offer
+    cleanupCall(); // Clean up local state
+}
 
 // ============================
 // 📞 Enhanced Cleanup
 // ============================
 
 function cleanupCall() {
+    callUIOverlay.classList.add("d-none");
     console.log("🧹 Cleaning up call...");
 
     callActive = false;
@@ -969,16 +1078,17 @@ async function endCall() {
 function showRingingUI(isInitiator, lawyerName, clientName) {
     console.log("🎨 Showing ringing UI:", { isInitiator, lawyerName });
 
-    if (!callUiContainer || !callInfoView || !callInfoName) return;
-
+    // if (!callUiContainer || !callInfoView || !callInfoName) return;
+    // console.log("test")
     // Tampilkan popup utama
+    // callUIOverlay.classList.remove("d-none");
     callUiContainer.classList.remove("d-none");
 
     // Tampilkan info "memanggil..."
     callInfoView.style.display = "block";
 
     // Sembunyikan tampilan panggilan berlangsung
-    // inCallView.style.display = "none";
+    inCallControls.style.display = "none";
 
     // Update nama yang dipanggil
     if (isInitiator) {
@@ -1093,140 +1203,73 @@ allEndCallButtons.forEach((button) => {
     });
 });
 
+if (acceptCallBtn) {
+    acceptCallBtn.addEventListener("click", handleAcceptCall);
+}
+if (rejectCallBtn) {
+    rejectCallBtn.addEventListener("click", handleRejectCall);
+}
+
 // ============================
 // 📡 PERBAIKAN Enhanced Echo Signaling
+// ============================
+
+// ============================
+// 📡 ENHANCED ECHO SIGNALING
 // ============================
 
 if (window.callId) {
     Echo.private(`callroom.${window.callId}`)
         .listen(".offer", async (e) => {
+            // Logika baru: Tampilkan prompt, jangan langsung jawab
             try {
-                console.log("📥 Received offer");
+                console.log("📥 Received offer, showing prompt to user.");
+
+                // Jika sudah dalam panggilan, abaikan tawaran baru
+                if (callActive || peerConnection) {
+                    console.warn(
+                        "⚠️ Received offer while another call is active. Ignoring."
+                    );
+                    return;
+                }
+
+                // Simpan tawaran untuk digunakan saat diterima
+                pendingOffer = e.offer;
+                callActive = true; // Tandai panggilan sebagai "aktif" untuk mencegah panggilan masuk lainnya
+
+                // Tampilkan UI prompt panggilan masuk
                 const clientName = document
                     .querySelector(".nama_pengguna h2")
-                    .textContent.split(" - ")[0];
-                showRingingUI(false, "", clientName);
+                    .textContent.trim();
 
-                const platform = detectPlatform();
-                console.log(`📥 Answering on ${platform.browser}`);
-
-                callActive = true;
-                isProcessingRemoteDescription = true;
-
-                await ensurePeerConnection();
-
-                if (!localStream) {
-                    const hasVideo = /m=video/.test(e.offer.sdp);
-                    currentCallIsVideo = hasVideo;
-                    console.log("📥 Offer has video:", hasVideo);
-
-                    const constraints = {
-                        audio: {
-                            echoCancellation: true,
-                            noiseSuppression: true,
-                            autoGainControl: true,
-                            sampleRate: 48000,
-                            channelCount: 1,
-                        },
-                        video: hasVideo
-                            ? {
-                                  width: { ideal: 1280, max: 1920 },
-                                  height: { ideal: 720, max: 1080 },
-                                  frameRate: { ideal: 30, max: 60 },
-                                  facingMode: "user",
-                              }
-                            : false,
-                    };
-
-                    try {
-                        localStream = await getUserMediaWithFallback(
-                            constraints,
-                            true
-                        );
-
-                        const hasVideoTrack =
-                            localStream.getVideoTracks().length > 0;
-                        const hasAudioTrack =
-                            localStream.getAudioTracks().length > 0;
-
-                        console.log(
-                            `🎥 Answerer media - video: ${hasVideoTrack}, audio: ${hasAudioTrack}`
-                        );
-
-                        if (hasVideoTrack && localVideo) {
-                            localVideo.srcObject = localStream;
-                            localVideo.autoplay = true;
-                            localVideo.muted = true;
-                            localVideo.playsInline = true;
-                            console.log("✅ Local video displayed (answerer)");
-                        }
-
-                        localStream.getTracks().forEach((track) => {
-                            console.log(
-                                "🎵 Adding answerer track:",
-                                track.kind,
-                                track.id
-                            );
-                            peerConnection.addTrack(track, localStream);
-                        });
-                    } catch (mediaError) {
-                        console.error(
-                            "❌ Failed to get user media for answering:",
-                            mediaError
-                        );
-                        throw mediaError;
-                    }
-                }
-                await setRemoteDescriptionSafely(peerConnection, e.offer);
-
-                // // PERBAIKAN: Ignore SDP errors dan langsung set
-                // try {
-                //     await peerConnection.setRemoteDescription(e.offer);
-                //     console.log("✅ Remote description set successfully");
-                // } catch (sdpError) {
-                //     console.warn("⚠️ SDP error ignored:", sdpError.message);
-                //     // Tetap lanjutkan proses
+                // Pastikan elemen UI ada sebelum dimanipulasi
+                if (incomingCallerName)
+                    incomingCallerName.textContent = clientName;
+                // if (callUiContainer) callUiContainer.classList.remove("d-none");
+                
+                // if (incomingCallPrompt) {
+                    //      // Gunakan 'flex' karena itu display yang benar untuk prompt ini
+                //     incomingCallPrompt.style.display = 'flex';
                 // }
+                if(callUIOverlay) {
+                    callUIOverlay.classList.remove("d-none");
+                }
+                if (callUiContainer) {
+                    callUiContainer.classList.remove("d-none");
+                }
+                if (incomingCallPrompt) {
+                    incomingCallPrompt.classList.remove("d-none");
+                    incomingCallPrompt.classList.add("d-flex");
+                }
+                // if (callInfoView) callInfoView.style.display = "none"; // Sembunyikan UI dering keluar
 
-                remoteDescriptionSet = true;
-                isProcessingRemoteDescription = false;
-
-                await processPendingCandidates();
-
-                const hasRemoteVideo = /m=video/.test(e.offer.sdp);
-                const hasLocalVideo = localStream.getVideoTracks().length > 0;
-
-                const answer = await peerConnection.createAnswer({
-                    offerToReceiveAudio: true,
-                    offerToReceiveVideo: hasRemoteVideo && hasLocalVideo,
-                });
-
-                await peerConnection.setLocalDescription(answer);
-
-                console.log("⏳ Waiting for ICE gathering (answerer)...");
-                await waitForIceCandidates(3000);
-
-                await axios.post("/call/answer", {
-                    call_id: window.callId,
-                    answer: peerConnection.localDescription,
-                });
-
-                // PERBAIKAN: Langsung beralih ke UI in-progress setelah answer terkirim
-                console.log("🔄 Answer sent, switching to in-progress UI");
-                setTimeout(() => {
-                    showInProgressUI(currentCallIsVideo);
-                }, 1000); // Delay 1 detik untuk memastikan koneksi stabil
-
-                if (callStatus) callStatus.classList.remove("d-none");
-                console.log("✅ Answer sent successfully");
+                // Sembunyikan view lain untuk memastikan hanya prompt yang muncul
+                if (callInfoView) callInfoView.style.display = "none";
             } catch (err) {
-                console.error("❌ Error handling offer:", err);
-                isProcessingRemoteDescription = false;
+                console.error("❌ Error showing incoming call prompt:", err);
                 cleanupCall();
-                alert("Failed to answer call: " + err.message);
             }
         })
-
         .listen(".answer", async (e) => {
             try {
                 console.log("📥 Received answer");
@@ -1244,15 +1287,14 @@ if (window.callId) {
 
                 isProcessingRemoteDescription = true;
                 await setRemoteDescriptionSafely(peerConnection, e.answer);
-
                 remoteDescriptionSet = true;
                 isProcessingRemoteDescription = false;
 
                 await processPendingCandidates();
 
-                // PERBAIKAN: Langsung beralih ke UI in-progress setelah answer diterima
+                // Beralih ke UI panggilan berlangsung setelah jawaban diterima
                 console.log("🔄 Answer processed, switching to in-progress UI");
-                showInProgressUI();
+                showInProgressUI(currentCallIsVideo);
 
                 console.log("✅ Answer processed successfully");
             } catch (err) {
@@ -1261,29 +1303,24 @@ if (window.callId) {
                 cleanupCall();
             }
         })
-
         .listen(".candidate", async (e) => {
-            if (!peerConnection || !callActive) return;
-
-            if (!e.candidate?.candidate?.trim()) {
-                console.log("📥 Received end-of-candidates signal");
-                return;
+            if (
+                !peerConnection ||
+                !callActive ||
+                !e.candidate?.candidate?.trim()
+            ) {
+                return; // Abaikan jika tidak ada koneksi, panggilan tidak aktif, atau kandidat kosong
             }
 
             try {
                 const candidate = new RTCIceCandidate(e.candidate);
-                console.log("📥 Received ICE candidate:", {
-                    type: candidate.type,
-                    protocol: candidate.protocol,
-                    address: candidate.address?.substring(0, 10) + "...",
-                });
+                console.log("📥 Received ICE candidate");
 
                 if (
                     peerConnection.remoteDescription &&
                     !isProcessingRemoteDescription
                 ) {
                     await peerConnection.addIceCandidate(candidate);
-                    console.log("✅ ICE candidate added immediately");
                 } else {
                     pendingCandidates.push(candidate);
                     console.log("⏳ ICE candidate queued");
@@ -1292,9 +1329,15 @@ if (window.callId) {
                 console.error("❌ Error processing ICE candidate:", err);
             }
         })
-
+        .listen(".call-rejected", () => {
+            // Ini untuk sisi PENGGUNA/CLIENT saat panggilannya ditolak pengacara
+            console.log("❌ Call was rejected by the remote peer.");
+            alert("Panggilan ditolak.");
+            cleanupCall();
+        })
         .listen(".call-ended", () => {
             console.log("📴 Call ended by remote peer");
+            // alert("Panggilan telah berakhir.");
             cleanupCall();
         });
 }
