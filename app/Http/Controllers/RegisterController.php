@@ -30,6 +30,7 @@ class RegisterController extends Controller
             'nomor_telepon' => 'required|unique:pengacaras|min:11|max:12',
             'email' => 'required|email|unique:pengacaras',
             'password' => 'required|min:8|confirmed',
+            'tanda_pengenal' => 'required|image|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
 
         $pengacara = Pengacara::create($validated);
@@ -38,7 +39,7 @@ class RegisterController extends Controller
         $pengacara->tanda_pengenal = $path;
         $pengacara->save();
 
-        Auth::guard('lawyer')->login($pengacara);
+        // Auth::guard('lawyer')->login($pengacara);
 
 
         return redirect()->route('lawyerLogin.show');
@@ -55,7 +56,7 @@ class RegisterController extends Controller
 
         $pengguna = Pengguna::create($validated);
 
-        Auth::login($pengguna);
+        // Auth::login($pengguna);
 
         return redirect()->route('userLogin.show');
     }

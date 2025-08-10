@@ -13,7 +13,7 @@
         {{-- Menggunakan <section> untuk blok pencarian --}}
         <section class="search-bar p-4 rounded-4 d-flex align-items-center" aria-labelledby="search-heading">
             <h2 id="search-heading" class="visually-hidden">Formulir Pencarian Pengacara</h2>
-            <x-search_pengacara :hargaMin="$harga_min" :hargaMax="$harga_max"></x-search_pengacara>
+            <x-search_pengacara :hargaMin="$harga_min" :hargaMax="$harga_max" :spesialisasi="$spesialisasi"></x-search_pengacara>
         </section>
 
         {{-- Filter Tags --}}
@@ -182,12 +182,12 @@
                                             {{ number_format($lawyer_card->tarif_jasa, 0, ',', '.') }}</div>
                                         <a href="{{ route('detail.pengacara', $lawyer_card->nik_pengacara) }}"
                                             class="btn-detail"
-                                            aria-label="Lihat Detail untuk {{ $lawyer_card->nama_pengacara }}. 
+                                            aria-label="Lihat Detail untuk {{ $lawyer_card->nama_pengacara }}.
                                             Spesialisasi: {{ Str::limit($lawyer_card->spesialisasis->pluck('nama_spesialisasi')->implode(', '), 50, '...') }}
-                                            Tarif jasa: Rp. {{ number_format($lawyer_card->tarif_jasa, 0, ',', '.') }}. 
-                                            Layanan tersedia: 
-                                            {{ $lawyer_card->chat ? 'Pesan,' : '' }} 
-                                            {{ $lawyer_card->voice_chat ? 'Panggilan suara,' : '' }} 
+                                            Tarif jasa: Rp. {{ number_format($lawyer_card->tarif_jasa, 0, ',', '.') }}.
+                                            Layanan tersedia:
+                                            {{ $lawyer_card->chat ? 'Pesan,' : '' }}
+                                            {{ $lawyer_card->voice_chat ? 'Panggilan suara,' : '' }}
                                             {{ $lawyer_card->video_call ? 'Panggilan Video.' : '' }}">
                                             Lihat Detail
                                         </a>

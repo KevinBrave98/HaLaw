@@ -29,7 +29,8 @@
 
 .navbar-brand img {
     height: 70px;
-    width: auto;
+    width: 70px;
+    object-fit: cover;
 }
 
 .navbar-nav {

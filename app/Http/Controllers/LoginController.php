@@ -50,6 +50,7 @@ class LoginController extends Controller
 
          if(Auth::guard('lawyer')->attempt($validated)){
             $request->session()->regenerate();
+            // dd('test');
             return redirect()->route('lawyer.dashboard');
         };
 

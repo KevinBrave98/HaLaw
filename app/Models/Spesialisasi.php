@@ -9,7 +9,7 @@ class Spesialisasi extends Model
 {
     // protected $primaryKey = 'id_pesan';
     protected $fillable = [
-        'name',
+        'nama_spesialisasi',
     ];
 
     public function pengacara_spesialisasi(): BelongsToMany

@@ -24,7 +24,7 @@ class PengacaraFactory extends Factory
             'jenis_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan', 'Memilih tidak menjawab']),
             'lokasi' => $this->faker->city,
             // 'spesialisasi' => $this->faker->randomElement(['Hukum Perdata', 'Hukum Pidana', 'Hukum Keluarga', 'Hukum Tata Negara']),
-            'tarif_jasa' => $this->faker->numberBetween(500000, 2000000),
+            'tarif_jasa' => $this->faker->numberBetween(150000, 2500000),
             'durasi_pengalaman' => $this->faker->numberBetween(1, 20),
             'pengalaman_bekerja' => $this->faker->company,
             'pendidikan' => $this->faker->randomElement(['S1 Hukum', 'S2 Hukum', 'S3 Hukum']),

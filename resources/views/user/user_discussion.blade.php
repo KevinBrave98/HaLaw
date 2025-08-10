@@ -206,9 +206,9 @@
 
                 const countdownInterval = setInterval(() => {
                     const now = new Date();
-                    const remainingTime = 0;
+                    let remainingTime = 0;
                     if(riwayatStatus == 'Menunggu Konfirmasi' || riwayatStatus == 'Sedang Berlangsung') {
-                        const remainingTime = endTime - now;
+                        remainingTime = endTime - now;
                     }
 
                     // Jika waktu habis
