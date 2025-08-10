@@ -45,7 +45,9 @@
                     <label for="spesialisasi" class="visually-hidden">Pilih Spesialisasi</label>
                     <select name="spesialisasi" id="spesialisasi">
                         <option value=""></option>
-                        <option value="Hukum Perdata">Hukum Perdata</option>
+                        @foreach ($spesialisasi as $item)
+                            <option value="{{ $item->nama_spesialisasi }}">{{ $item->nama_spesialisasi }}</option>
+                        @endforeach
                         {{-- Opsi lainnya di sini --}}
                     </select>
                     {{-- Ikon hanya dekoratif, disembunyikan dari screen reader dengan alt="" dan aria-hidden="true" --}}
@@ -65,12 +67,14 @@
                     </div>
                     <div class="d-flex align-items-center checkbox-container">
                         <input type="checkbox" name="jenis_layanan[]" id="voice_chat" value="voice_chat">
-                        <label class="search_label" for="voice_chat" aria-label="Panggilan Suara">Panggilan Suara</label>
+                        <label class="search_label" for="voice_chat" aria-label="Panggilan Suara">Panggilan
+                            Suara</label>
                         <span></span>
                     </div>
                     <div class="d-flex align-items-center checkbox-container">
                         <input type="checkbox" name="jenis_layanan[]" id="video_call" value="video_call">
-                        <label class="search_label" for="video_call" aria-label="Panggilan Video">Panggilan Vidio</label>
+                        <label class="search_label" for="video_call" aria-label="Panggilan Video">Panggilan
+                            Vidio</label>
                         <span></span>
                     </div>
                 </div>

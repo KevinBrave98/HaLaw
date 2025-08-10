@@ -7,12 +7,12 @@
 
     <nav class="konsultasi-nav d-flex border-bottom w-100" aria-label="Navigasi Konsultasi">
         <a href="{{ route('lawyer.konsultasi.berlangsung') }}"
-            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected"
+            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none"
             aria-current="page">
             Sedang Berlangsung
         </a>
         <a href="{{ route('lawyer.riwayat.konsultasi') }}"
-            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none">
+            class="tab d-flex align-items-center justify-content-center flex-fill text-white text-decoration-none selected">
             Riwayat Konsultasi
         </a>
     </nav>
@@ -91,7 +91,7 @@
                     </dl>
 
                     <div class="card-actions">
-                        <a href="{{ route('consultation.client', ['id' => $riwayat->id]) }}" class="btn btn-dark">Lihat
+                        <a href="{{ route('consultation.lawyer', ['id' => $riwayat->id]) }}" class="btn btn-dark">Lihat
                             Detail</a>
                     </div>
                 </article>

@@ -111,7 +111,7 @@ label{
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  border: 1px solid #B99010;
+  border: 1px solid #87680D;
   border-radius: 50%;
   background-color: white;
   box-sizing: border-box;
@@ -126,7 +126,7 @@ label{
   transform: translateY(-50%);
   width: 8px;
   height: 8px;
-  background-color: #B99010;  /* warna custom */
+  background-color: #87680D;  /* warna custom */
   border-radius: 50%;
 }
 

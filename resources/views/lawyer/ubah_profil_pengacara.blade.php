@@ -1,5 +1,5 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/styles/ubah_profil_pengguna.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/ubah_profil_pengacara.css') }}">
 @endpush
 
 <x-layout_lawyer :title="'Ubah Profil'">

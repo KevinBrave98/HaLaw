@@ -95,9 +95,7 @@
 
         {{-- 5. Tombol keluar yang aman menggunakan form POST --}}
         <div class="button-exit d-flex justify-content-center">
-            <form action="{{ route('lawyer.profile.exit') }}" method="POST"
-                onsubmit="return confirm('Apakah Anda yakin ingin keluar?');">
-                @csrf
+            <form action="{{ route('lawyer.profile.exit') }}" method="GET">
                 <button type="submit">Keluar Akun</button>
             </form>
         </div>

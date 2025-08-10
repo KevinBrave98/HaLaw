@@ -6,6 +6,7 @@ use App\Http\Controllers\CallController;
 use App\Http\Controllers\KamusController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenarikanController;
@@ -20,7 +21,6 @@ use App\Http\Controllers\DetailPengacaraController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use Illuminate\Routing\Route as RoutingRoute;
 
 Route::get('/daftar/pengguna', [RegisterController::class, 'showUser'])->name('userregis.show');
 Route::post('/daftar/pengguna', [RegisterController::class, 'registerUser'])->name('userregis');
@@ -61,6 +61,8 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/chatroom', [KonsultasiController::class, 'redirectChat']);
     Route::get('/chatroom/{id}', [ConsultationController::class, 'index'])->name('consultation.client');
     Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.client.send');
+    Route::get('/ulasan/{id}', [UlasanController::Class, 'index'])->name('user.ulasan');
+    Route::post('/ulasan/{id}', [UlasanController::Class, 'submit'])->name('user.ulasan.submit');
 });
 //  Route::post('/chatroom/{id}/send', [ConsultationController::class, 'send'])->name('consultation.send');
 
@@ -113,6 +115,7 @@ Route::prefix('lawyer')->middleware(['lawyer.auth'])->group(function () {
     Route::get('/notifikasi-konsultasi', [NotifikasiController::class, 'cekNotifikasi']);
     Route::post('/konsultasi/{id}/konfirmasi', [NotifikasiController::class, 'konfirmasi']);
     Route::post('/konsultasi/{id}/batalkan', [NotifikasiController::class, 'batalkan']);
+    Route::get('/ulasan', [UlasanController::class, 'lawyerIndex'])->name('lawyer.ulasan');
 });
 Route::post('/delete-notification/{id}', [NotifikasiController::class, 'hapus'])->name('notifikasi.hapus');
 Route::post('/delete-notification-pengacara/{id}', [NotifikasiController::class, 'hapusnotifpengacara']);
@@ -125,5 +128,4 @@ Route::post('/call/ice', [CallController::class, 'sendIce']);
 Route::post('/call/end', [CallController::class, 'endCall']);
 // ADD THIS NEW ROUTE
 Route::post('/call/reject', [CallController::class, 'rejectCall'])->name('call.reject');
-
 

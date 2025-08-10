@@ -23,7 +23,7 @@ class ConsultationController extends Controller
             if (Auth::guard('web')->check()) {
                 return redirect()->route('konsultasi.berlangsung');
             } else if (Auth::guard('lawyer')->check()) {
-                return redirect()->route('lawyer.dashboard');
+                return redirect()->route('lawyer.konsultasi.berlangsung');
             } else {
                 return redirect()->route('dashboard.view');
             }

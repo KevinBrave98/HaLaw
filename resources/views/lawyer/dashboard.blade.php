@@ -27,9 +27,9 @@
                             <fieldset class="card-body">
                                 <legend class="card-title h5">Status Konsultasi</legend>
                                 <div class="form-check form-switch">
-                                    <input 
-                                        class="form-check-input" 
-                                        type="checkbox" 
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
                                         name="status_konsultasi"
                                         id="statusSwitch"
                                         onchange="this.form.submit()"
@@ -114,16 +114,16 @@
                             </p>
                         </div>
                          {{-- TODO: Ganti # dengan route yang benar --}}
-                        <a href="#" class="btn">Lihat Detail</a>
+                        <a href="{{ route('lawyer.ulasan') }}" class="btn">Lihat Detail</a>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         {{-- Jadikan kotak notifikasi sebagai "live region" agar isinya diumumkan saat muncul --}}
         <div class="container mt-4">
-            <div id="notifikasi-box" 
-                 aria-live="assertive" 
+            <div id="notifikasi-box"
+                 aria-live="assertive"
                  aria-atomic="true"
                  style="display: none; position: fixed; ...">
                 </div>
@@ -165,7 +165,7 @@
         });
 
         const channel = pusher.subscribe('pengacara.' + pengacaraId);
-        
+
         // HINDARI alert(). Gunakan sistem notifikasi yang sudah ada.
         channel.bind('App\\Events\\KonsultasiBaruEvent', function(data) {
             // Asumsikan event mengirim data yang mirip dengan polling
