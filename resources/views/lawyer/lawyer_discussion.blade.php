@@ -167,6 +167,7 @@
 
                 // Ambil waktu mulai dari variabel Blade ($riwayat->updated_at).
                 // toIso8601String() memastikan formatnya kompatibel dengan JavaScript.
+                const riwayatStatus = '{{ $riwayat->status }}'
                 const startTimeFromServer = '{{ $riwayat->updated_at->toIso8601String() }}';
 
                 const startTime = new Date(startTimeFromServer);
@@ -206,9 +207,8 @@
                     timerElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
                 }, 1000);
                 const callModalOverlay = document.getElementById('call-modal-overlay');
-                const startCallBtn = document.getElementById('startCallLink');
-                const startVideoCallBtn = document.getElementById('startVideoCallLink');
                 const endCallBtns = document.querySelectorAll('.end-call');
+
                 let lastFocusedElement; // Variabel untuk menyimpan fokus terakhir
 
                 function openCallModal() {
@@ -276,8 +276,8 @@
                 }
 
                 // Event listeners untuk membuka modal
-                startCallBtn.addEventListener('click', openCallModal);
-                startVideoCallBtn.addEventListener('click', openCallModal);
+                // startCallBtn.addEventListener('click', openCallModal);
+                // startVideoCallBtn.addEventListener('click', openCallModal);
 
                 // Event listener untuk semua tombol "end call" untuk menutup modal
                 endCallBtns.forEach(btn => {
