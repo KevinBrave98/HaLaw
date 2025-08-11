@@ -22,11 +22,11 @@
                     </li>
                     <div class="container-profil">
                         <a class="navbar-brand" href="#">
-                             {{-- @if ($pengacara->foto_pengacara)
+                             @if ($pengacara->foto_pengacara)
                                 <img src="{{ asset('storage/'. $pengacara->foto_pengacara) }}" alt="foto_pengacara" class="rounded-circle" width="45" height="45">
-                            @else --}}
+                            @else
                                 <img src="{{ asset('assets/images/lawyer1.jpeg') }}" alt="foto_pengacara_default" class="rounded-circle" width="45" height="45">
-                            {{-- @endif --}}
+                            @endif
                         </a>
                     </div>
                 </div>

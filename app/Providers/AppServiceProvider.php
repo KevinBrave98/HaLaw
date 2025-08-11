@@ -2,13 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Pengguna;
-use App\Models\Pengacara;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
-use App\View\Composers\NavbarComposer;
+use App\Models\Pengguna;
+use App\Models\Pengacara;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('components.layout_user', NavbarComposer::class);
-        View::composer('components.layout_lawyer', NavbarComposer::class);
+        // ResetPassword::createUrlUsing(function ($user, string $token) {
+        //     return match (true) {
+        //         $user instanceof Pengguna => '/reset-   password/pengguna' . '?token=' . $token . '&email=' . urlencode($user->email),
+        //         $user instanceof Pengacara => '/reset-password/pengacara' . '?token=' . $token . '&email=' . urlencode($user->email),
+        //         // other user types
+        //         default => throw new \Exception("Invalid user type"),
+        //     };
+        // });
     }
 }

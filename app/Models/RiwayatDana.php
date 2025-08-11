@@ -40,10 +40,10 @@ class RiwayatDana extends Model
 
     public function updateTotalPendapatan()
     {
-        $pengacara = \App\Models\Pengacara::where('nik_pengacara', $this->nik_pengacara)->first();
+        $pengacara = \App\Models\Pengacara::where('nik_pengacara', $this->nik_pengacara);
 
         if ($pengacara) {
-            $total = $pengacara->riwayat_danas()->sum('nominal');
+            $total = $pengacara->riwayat_dana()->sum('nominal');
             $pengacara->update(['total_pendapatan' => $total]);
             $pengacara->save();
         }

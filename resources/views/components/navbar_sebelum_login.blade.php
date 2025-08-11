@@ -2,16 +2,16 @@
     <div class="container-fluid">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('assets/images/logo_putih.png') }}" alt="Bootstrap" width="auto" height="77">
+                <img src="assets/images/logo_putih.png" alt="Bootstrap" width="auto" height="77">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-navbox me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.sebelum_login') }}">Dasbor</a>
+                    <a class="nav-link" href="#">Dasbor</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login.show') }}">Konsultasi</a>
+                    <a class="nav-link" href="#">Konsultasi</a>
                 </li>
                 <li class="nav-item kamus">
                     <a class="nav-link " href="#">Kamus Hukum</a>
@@ -27,6 +27,3 @@
             </div>
         </div>
 </nav>
-
-
-

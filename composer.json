@@ -7,10 +7,8 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0",
-        "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
-        "midtrans/midtrans-php": "^2.6",
         "tightenco/ziggy": "^2.5"
     },
     "require-dev": {

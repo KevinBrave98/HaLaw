@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pesans', function (Blueprint $table) {
-            $table->id();
-            $table->string('id_riwayat');
+            $table->string('id_pesan')->primary();
+            $table->string('id_riwayat')->unique();
             $table->string('nik', 16);
-            // $table->dateTime('waktu_pesan');
-            $table->text('teks');
+            $table->dateTime('waktu_pesan');
+            $table->string('teks');
             $table->timestamps();
 
-            $table->foreign('id_riwayat')->references('id')->on('riwayats')->cascadeOnDelete();
+            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayats')->cascadeOnDelete();
         });
     }
 

@@ -9,12 +9,14 @@ class Pesan extends Model
 {
     protected $primaryKey = 'id_pesan';
     protected $fillable = [
+        'id_pesan',
         'id_riwayat',
         'nik',
+        'waktu_pesan',
         'teks'
     ];
 
-    public function riwayat(): BelongsTo
+    public function pengacara(): BelongsTo
     {
         return $this->belongsTo(Riwayat::class, 'id_riwayat', 'id_riwayat');
     }

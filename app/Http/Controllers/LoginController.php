@@ -9,15 +9,14 @@ class LoginController extends Controller
 {
 
     public function showLogin(){
-        // $dynamic_login = [
-        //     'form_action' => "",
-        //     'selected_option' => "<option selected disabled hidden></option>
-        //     <option value='userLogin.show'>Sebagai Pengguna</option>
-        //     <option value='lawyerLogin.show'>Sebagai Pengacara</option>",
-        //     "forgot_password" => route('userPassword.request')
-        // ];
-        // return view('masuk', ['dynamic_login' => $dynamic_login]);
-        return redirect()->route('userLogin.show');
+        $dynamic_login = [
+            'form_action' => "",
+            'selected_option' => "<option selected disabled hidden></option>
+            <option value='userLogin.show'>Sebagai Pengguna</option>
+            <option value='lawyerLogin.show'>Sebagai Pengacara</option>",
+            "forgot_password" => route('userPassword.request')
+        ];
+        return view('masuk', ['dynamic_login' => $dynamic_login]);
     }
 
     public function showLoginLawyer(){
