@@ -1,12 +1,11 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/styles/tarik_pendapatan.css') }}">
     {{-- It's best practice to load all CSS in the head --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 @endpush
 
 <x-layout_lawyer>
     <x-slot:title>Detail Penarikan</x-slot:title>
-    
+
     <main class="container mt-5">
         <h1 class="fw-bold mb-4" style="color: #4A2E19;">Tarik Pendapatan</h1>
         <form action="{{ route('pengacara.tarikDana') }}" method="POST">

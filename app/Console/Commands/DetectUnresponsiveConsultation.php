@@ -26,8 +26,6 @@ class DetectUnresponsiveConsultation extends Command
     {
         $this->info('Memulai pengecekan konsultasi yang kedaluwarsa...');
 
-        // 1. Cari semua sesi yang statusnya 'berlangsung' DAN
-        //    waktu mulainya sudah lebih dari 1 jam yang lalu.
         $unresponsiveConsultations = Riwayat::where('status', 'Menunggu Konfirmasi')
             ->where('updated_at', '<=', Carbon::now()->subMinutes(10))
             ->get();
@@ -37,9 +35,8 @@ class DetectUnresponsiveConsultation extends Command
             return;
         }
 
-        // 2. Loop setiap sesi yang kedaluwarsa dan ubah statusnya
         foreach ($unresponsiveConsultations as $consultation) {
-            $consultation->status = 'Dibatalkan'; // Ganti 'selesai' sesuai dengan nilai di tabel Anda
+            $consultation->status = 'Dibatalkan';
             $consultation->save();
             $pengacara = $consultation->pengacara;
             $pengacara->status_konsultasi = 0;
