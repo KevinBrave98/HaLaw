@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesans', function (Blueprint $table) {
+        Schema::create('pesan', function (Blueprint $table) {
             $table->string('id_pesan')->primary();
             $table->string('id_riwayat')->unique();
             $table->string('nik', 16);
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('teks');
             $table->timestamps();
 
-            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayats')->cascadeOnDelete();
+            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayat')->cascadeOnDelete();
         });
     }
 

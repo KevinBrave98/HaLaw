@@ -22,30 +22,4 @@ class RiwayatDana extends Model
     {
         return $this->belongsTo(Pengacara::class, 'nik_pengacara', 'nik_pengacara');
     }
-
-    protected static function booted()
-    {
-        static::created(function ($riwayatDana) {
-            $riwayatDana->updateTotalPendapatan();
-        });
-
-        static::updated(function ($riwayatDana) {
-            $riwayatDana->updateTotalPendapatan();
-        });
-
-        static::deleted(function ($riwayatDana) {
-            $riwayatDana->updateTotalPendapatan();
-        });
-    }
-
-    public function updateTotalPendapatan()
-    {
-        $pengacara = \App\Models\Pengacara::where('nik_pengacara', $this->nik_pengacara);
-
-        if ($pengacara) {
-            $total = $pengacara->riwayat_dana()->sum('nominal');
-            $pengacara->update(['total_pendapatan' => $total]);
-            $pengacara->save();
-        }
-    }
 }

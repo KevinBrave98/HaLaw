@@ -2,16 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Notifications\resetPassword;
 
-class Pengguna extends Authenticatable
+class Pengguna extends Model
 {
-    use HasFactory, Notifiable;
-
     protected $primaryKey = 'nik_pengguna';
     public $incrementing = false;
     protected $fillable = [
@@ -21,32 +16,11 @@ class Pengguna extends Authenticatable
         'password',
         'nomor_telepon',
         'jenis_kelamin',
-        'alamat',
         'foto_pengguna'
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token'
     ];
 
     public function riwayat(): HasMany
     {
         return $this->hasMany(Riwayat::class, 'nik_pengguna', 'nik_pengguna');
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
-
-    public function sendPasswordResetNotification($token)
-    {
-        $url = url('/reset-password/pengguna/'.$token).'?email='.urlencode($this->email);
-        $this->notify(new resetPassword($url));
     }
 }

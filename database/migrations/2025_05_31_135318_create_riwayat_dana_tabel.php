@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('riwayat_danas', function (Blueprint $table) {
+         Schema::create('riwayat_dana', function (Blueprint $table) {
             $table->string('id_riwayat_dana')->primary();
-            $table->string('nik_pengacara', 16);
+            $table->string('nik_pengacara', 16)->unique();
             $table->string('tipe_riwayat_dana');
             $table->string('detail_riwayat_dana');
             $table->date('tanggal_riwayat_dana');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('nominal');
             $table->timestamps();
             
-            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacaras')->cascadeOnDelete();
+            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacara')->cascadeOnDelete();
         });
     }
 

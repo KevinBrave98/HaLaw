@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('kamuss', function (Blueprint $table) {
+         Schema::create('kamus', function (Blueprint $table) {
             $table->string('istilah', 40)->unique();
             $table->string('arti_istilah');
             $table->timestamps();
