@@ -1,0 +1,205 @@
+body{
+    font-family: "Raleway", sans-serif;
+}
+
+.tulisan-cari-istilah{
+    font-family: "Noto Serif KR", serif;
+    color: #281805;
+    font-size: 40px;
+    margin-top: 7vh;
+    margin-bottom: 7vh;
+}
+
+.kamus-search-bar{
+    gap: 10px;
+    display: flex;
+}
+
+.input-group input{
+    border: solid 1px #87680D;
+    border-radius: 10px;
+}
+
+.container-search{
+    /* width: 7vw; */
+    height: 5vh;
+    background-color: #87680D;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-search button{
+    color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.img-search{
+    width: 24px; /* Ukuran lebih konsisten */
+    height: 24px;
+}
+
+.teks-cari-huruf{
+    font-size: 25px;
+}
+
+/* Mengatur wrapper tombol abjad */
+.mb-5 > a.huruf {
+    margin: 4px; /* Memberi jarak yang konsisten */
+}
+
+.huruf{
+    /* width: 2.6vw; */
+    color: #281805;
+    font-size: 20px;
+    border-color: #87680D;
+}
+
+.huruf-all{
+    /* width: 6vw; */
+    font-size: 18px;
+}
+
+.huruf:hover {
+    background-color: #f9f2dc;
+    color: #87680D;
+    border-color: #87680D;
+}
+
+.judul-kamus {
+    font-family: "Noto Serif KR", serif;
+    color: #281805;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.huruf-terpilih {
+    font-family: "Noto Serif KR", serif;
+    color: #654220;
+    font-size: 1.8rem;
+    width: 100%;
+    border-bottom: 3px solid #87680D;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+/* Reset style untuk <button> agar terlihat seperti teks */
+button.istilah-item {
+    background: none;
+    color: #281805;
+    border: none;
+    padding: 0.5rem 0.25rem;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    border-radius: 4px;
+}
+
+button.istilah-item:hover {
+    color: #87680D;
+    background-color: #f8f9fa;
+}
+
+.modal-content {
+    padding: 2rem;
+    border-radius: 1rem;
+    font-family: 'Raleway', sans-serif;
+}
+
+.modal-header {
+    border-bottom: 1.5px solid #281805;
+}
+
+.modal-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    color: #281805;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-body p, .modal-body h6 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #281805;
+    text-align: justify;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #87680D;
+    border-color: #87680D;
+    color: #fff;
+}
+
+.pagination .page-link {
+    color: #281805;
+    border: 1px solid #87680D;
+}
+
+.pagination .page-link:hover {
+    color: #87680D;
+    border-color: #87680D;
+    background-color: #f9f2dc;
+}
+
+.active-letter {
+    background-color: #87680D;
+    color: #fff !important;
+    border-color: #87680D;
+}
+
+.active-letter:hover {
+    background-color: #87680D;
+    color: #fff !important;
+    border-color: #87680D;
+}
+
+/* --- ✅ PENYESUAIAN RESPONSIVE ✅ --- */
+@media (max-width: 768px) {
+    .tulisan-cari-istilah {
+        font-size: 30px; /* Ukuran font judul dikecilkan */
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .kamus-search-bar {
+        flex-direction: column; /* Search bar disusun ke bawah */
+    }
+
+    .container-search {
+        width: 100%; /* Tombol cari mengisi lebar */
+        height: auto;
+        padding: 0.75rem;
+    }
+
+    .teks-cari-huruf {
+        font-size: 20px; /* Ukuran font sub-judul dikecilkan */
+    }
+
+    /* Ukuran tombol abjad diubah agar lebih mudah disentuh */
+    .huruf, .huruf-all {
+        width: auto; /* Hapus lebar tetap */
+        padding: 0.5rem 0.8rem; /* Gunakan padding untuk ukuran */
+        font-size: 16px;
+    }
+
+    .huruf-all {
+        padding: 0.5rem 1rem;
+    }
+
+    .modal-content {
+        padding: 1rem; /* Kurangi padding modal di layar kecil */
+    }
+
+    .modal-title {
+        font-size: 20px; /* Kecilkan judul modal */
+    }
+}

@@ -1,0 +1,120 @@
+.title-pembayaran{
+    padding-top: 5vh;
+    padding-left: 5vw;
+    color: #654220;
+    font-family: Raleway, Sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+    color: #654220;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pay-box {
+    width: 90%;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f0e1d2;
+    margin: 0 auto;
+    margin-bottom: 10vh;
+    border-radius: 5px;
+    padding-top: 5px;
+}
+
+.payment-card {
+    background-color: #f7e8d9;
+    border: none;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.accordion-button {
+    background-color: #fff;
+    color: #4a2e1f;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.accordion-button.collapsed {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.accordion-collapse {
+    border-radius: 0 0 8px 8px;
+    margin-top: -15px;
+    background-color: #fff;
+}
+
+.accordion-item {
+    width: 24rem;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #87680D;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.card-icons img {
+    height: 30px;
+    margin-right: 10px;
+    max-width: 50px;
+}
+
+.info-box {
+    background-color: #f2e6c6;
+    color: #654220;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+@media (max-width: 576px) {
+    .payment-card {
+    padding: 15px;
+    }
+
+    .accordion-button {
+    font-size: 15px;
+    padding: 12px 14px;
+    }
+
+    .info-box {
+    font-size: 13px;
+    }
+
+    .card-icons img {
+    height: 26px;
+    max-width: 40px;
+    }
+}
+
+.pay-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    margin-bottom: 2vh;
+    font-family: Raleway, Sans-serif;
+}

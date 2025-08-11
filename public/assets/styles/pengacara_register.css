@@ -1,0 +1,176 @@
+/* --- Global & Font Setup (Sesuai Asli) --- */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Noto Serif; /* Font dikembalikan ke definisi awal Anda */
+    overflow-x: hidden;
+}
+
+/* --- Main Layout (Split Screen) --- */
+.split-screen-info {
+    flex-basis: 50%;
+    background-image: url('../images/daftar_pengacara.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+
+    /* ✅ Tambahan untuk menengahkan konten */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Overlay gelap untuk keterbacaan teks */
+.split-screen-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+
+.split-screen-form {
+    flex-basis: 50%;
+    background-color: #FFF7F0; /* Warna latar dikembalikan ke CSS asli Anda */
+}
+
+/* Styling untuk konten di kolom kiri */
+.logo {
+    width: 90px; /* Anda bisa sesuaikan ukurannya jika perlu */
+    height: auto;
+    margin-bottom: 2rem; /* Jarak antara logo dan teks */
+}
+
+.welcome {
+    /* ✅ Ukuran font diperbesar secara signifikan */
+    font-size: 4.5rem;
+    font-weight: 600;
+    text-align: center; /* Memastikan teks di tengah jika melebihi satu baris */
+}
+
+/* --- Form Styling (Kolom Kanan) --- */
+.split-screen-form .wrapper {
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Mengatur ulang padding agar form tidak terlalu ke pinggir */
+.wrapper_form {
+    padding: 0;
+    width: 100%;
+}
+
+.title h1 {
+    font-size: 4rem;
+    color: #654220;
+    /* Warna tidak diatur, akan menggunakan warna default (hitam) sesuai CSS awal */
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: #654220; /* Warna label sesuai CSS asli Anda */
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.form-control {
+    background-color: #FFFFFF;
+    border: 1px solid black; /* Border sesuai CSS asli Anda */
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #654220;
+    box-shadow: 0 0 0 0.2rem rgba(101, 66, 32, 0.25);
+}
+
+/* --- Button & Link Styling --- */
+.btn_wrapper {
+    margin-top: 1.5rem;
+}
+
+.btn.btn-warning {
+    font-size: 2rem;
+    font-weight: 400;
+    background-color: #fff;
+    color: #654220; /* Warna tombol sesuai tema asli */
+    border: 1px solid #654220;
+    /* font-weight: bold; */
+    padding: 0.75rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn.btn-warning:hover {
+    background-color: #654220; /* Warna hover sesuai CSS asli Anda */
+    color: white;
+}
+
+.text {
+    margin-top: 1rem;
+}
+
+.text a {
+    color: #654220; /* Warna link sesuai tema asli */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.text a:hover {
+    text-decoration: underline;
+}
+
+
+/* --- ✅ PENYESUAIAN RESPONSIVE UNTUK TABLET & MOBILE --- */
+@media (max-width: 991.98px) {
+    /* Memberi ruang pada bagian gambar agar tidak terlalu pendek */
+    .split-screen-info {
+        display: none !important;
+    }
+
+    .welcome {
+        font-size: 2.5rem;
+    }
+
+    .form-panel,
+    .split-screen-form {
+        flex-basis: 100%; /* Ambil lebar penuh */
+        min-height: 100vh; /* Pastikan tinggi minimal adalah setinggi layar */
+    }
+
+    /* Mengurangi ukuran font judul agar proporsional */
+    .title h1 {
+        font-size: 3rem; /* Ukuran dikurangi dari 4rem */
+        text-align: center; /* Judul di tengah pada layar kecil */
+    }
+
+    /* Mengurangi ukuran font tombol agar tidak terlalu besar */
+    .btn.btn-warning {
+        font-size: 1.5rem; /* Ukuran dikurangi dari 2rem */
+    }
+}
+
+/* Penyesuaian tambahan untuk layar mobile yang sangat kecil */
+@media (max-width: 480px) {
+    .welcome {
+        font-size: 1.5rem;
+    }
+    .title h1 {
+        font-size: 2.5rem; /* Ukuran dikecilkan lagi */
+    }
+
+    .btn.btn-warning {
+        font-size: 1.2rem;
+    }
+}

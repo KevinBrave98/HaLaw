@@ -1,0 +1,163 @@
+/* public/assets/styles/penilaian.css */
+
+/* 1. Pengaturan Dasar Body */
+body {
+    background-color: #F5F5F5; /* Warna latar belakang utama halaman */
+    font-family: 'Raleway'; /* Menggunakan font dasar yang bersih */
+}
+
+/* 3. Header Judul */
+.penilaian-card h1 {
+    font-weight: 600;
+    color: #281805;
+    font-size: 1.75rem;
+}
+
+/* 4. Label untuk "Nilai" dan "Ulasan" */
+.penilaian-card .form-label {
+    font-family: 'Noto Serif KR';
+    font-weight: 600;
+    color: #281805;
+    margin-bottom: 0.75rem;
+    font-size: 2rem;
+}
+
+/* 5. Kotak Penilaian Bintang */
+.rating-box {
+    background-color: #FFF7F0; /* Warna latar sesuai permintaan */
+    border: 1px solid #87680D;
+    /* Layout sudah diatur oleh kelas Bootstrap (d-flex, dll.) */
+}
+
+.rating-box span {
+    color: #281805 !important; /* Memperjelas warna teks */
+}
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.star-rating input[type="radio"] {
+    display: none; /* Sembunyikan radio button asli */
+}
+
+.star-rating label {
+    font-size: 2.5rem;
+    color: #FFF7F0; /* Warna bintang default (abu-abu muda) */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    /* Menambahkan outline hitam pada bintang */
+    -webkit-text-stroke: 2px #000000; /* Outline hitam */
+    text-stroke: 2px #000000; /* Untuk browser lain */
+}
+
+/*
+ * TAMBAHKAN CSS INI DI BAGIAN BAWAH FILE penilaian.css
+ * ===================================================
+ * STYLE UNTUK MENAMPILKAN RATING (DISPLAY-ONLY)
+*/
+
+/* Container untuk merapikan barisan bintang */
+.display-rating-container {
+    display: flex;
+    gap: 0.5rem; /* Jarak antar bintang */
+    align-items: center;
+}
+
+/* Wrapper untuk mengatur ukuran setiap bintang */
+.display-star-wrapper {
+    width: 28px;  /* Sesuaikan ukuran bintang di sini */
+    height: 28px;
+}
+
+.display-star-wrapper svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Style untuk Bintang yang TERISI */
+svg.star-filled path {
+    fill: #FFC107;      /* Warna isi kuning */
+    stroke: #000000;    /* Outline hitam */
+    stroke-width: 2;
+}
+
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Ensure focus styles for keyboard navigation */
+.bg-light[tabindex="0"]:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Better contrast for rating text */
+.rating-text {
+    color: #333;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    background-color: #654220 !important;
+    padding: 1rem 2rem;
+}
+
+/* Style untuk Bintang yang KOSONG */
+svg.star-empty path {
+    fill: #FFF7F0;      /* Warna isi terang */
+    stroke: #000000;    /* Outline hitam */
+    stroke-width: 2;
+}
+
+/* Warna saat hover atau dipilih */
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #FFC107; /* Warna kuning emas untuk isi */
+    -webkit-text-stroke: 2px #000000; /* Tetap pertahankan outline hitam */
+    text-stroke: 2px #000000;
+}
+
+/* 7. Textarea untuk Ulasan */
+.penilaian-card .form-control {
+    background-color: #FFF7F0;
+    border: 1px solid #87680D;
+    min-height: 150px; /* Memberi tinggi minimal */
+}
+
+.penilaian-card .form-control:focus {
+    border-color: #654220; /* Warna fokus coklat tua */
+    box-shadow: 0 0 0 0.2rem rgba(74, 58, 42, 0.2);
+}
+
+.star-filled {
+
+}
+
+
+/* 8. Tombol Kirim Ulasan */
+.btn-submit-ulasan {
+    background-color: #281805;
+    border: none;
+    color: #FFFFFF;
+    padding: 0.75rem 2.5rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit-ulasan:hover {
+    background-color: #654220; /* Warna hover yang sedikit lebih terang */
+    color: #FFFFFF;
+}

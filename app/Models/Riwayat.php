@@ -3,28 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Riwayat extends Model
 {
-    protected $primaryKey = 'id_riwayat';
+    use HasFactory;
+    // protected $primaryKey = 'id_riwayat';
     protected $fillable = [
-        'id_riwayat',
+        // 'id_riwayat',
         'nik_pengacara',
         'nik_pengguna',
-        'tanggal',
-        'waktu',
+        // 'tanggal',
+        // 'waktu',
         'status',
-        'jenis_layanan',
+        'chat',
+        'voice_chat',
+        'video_call',
         'penilaian',
         'ulasan',
         'nominal'
     ];
 
-    public function pesan(): HasMany
+    public function pesans(): HasMany
     {
-        return $this->hasMany(Pesan::class, 'id_riwayat', 'id_riwayat');
+        return $this->hasMany(Pesan::class, 'id_riwayat', 'id');
     }
 
     public function pengacara(): BelongsTo

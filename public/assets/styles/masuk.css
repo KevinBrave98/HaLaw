@@ -1,0 +1,146 @@
+/* --- Pengaturan Dasar & Font Utama --- */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Penting agar container bisa mengisi tinggi layar */
+    font-family: "Noto Serif KR", serif;
+    background-color: #fff7f0;
+}
+
+/* --- Tata Letak Utama Fullscreen --- */
+.login-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh; /* Memastikan container mengisi tinggi viewport */
+}
+
+/* --- Panel Kiri (Formulir) --- */
+.form-panel {
+    flex: 0 0 50%; /* Menetapkan lebar 45% dan tidak bisa membesar/mengecil */
+    background-color: #fff7f0;
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-wrapper {
+    width: 80%;
+    /* max-width: 380px; */
+}
+
+.form-panel h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #654220;
+}
+
+/* --- Styling Formulir Sesuai Referensi --- */
+.form-label {
+    color: #654220;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #281805;
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    font-family: "Raleway", sans-serif;
+    /* max-width: 80%; */
+    color: #654220;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #654220;
+    box-shadow: 0 0 0 0.2rem rgba(101, 66, 32, 0.2);
+}
+
+.forgot-password-link {
+    font-size: 0.85rem;
+    color: #654220;
+    font-family: "Raleway", sans-serif;
+    text-decoration: none;
+}
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+.d-grid .btn-login {
+    margin-top: 8rem;
+    background-color: transparent;
+    color: #654220;
+    border: 1px solid #654220;
+    padding: 0.75rem;
+    /* font-weight: bold; */
+    /* font-family: 'Noto Serif KR', sans-serif; */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    font-size: 2rem;
+}
+
+.d-grid .btn-login:hover {
+    background-color: #654220;
+    color: white;
+}
+
+.register-link-text,
+.register-link-text a {
+    font-size: 0.9rem;
+    font-family: "Raleway", sans-serif;
+    color: #000;
+}
+
+.register-link-text a {
+    color: #654220;
+    font-weight: bold;
+    text-decoration: none;
+}
+.register-link-text a:hover {
+    text-decoration: underline;
+}
+
+/* --- Panel Kanan (Gambar) --- */
+.image-panel {
+    flex: 1 1 auto; /* Mengambil sisa ruang yang tersedia */
+    background-image: url("../images/foto_halaman_masuk.jpeg"); /* Ganti dengan gambar timbangan */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.image-panel .logo {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    width: 80px;
+}
+
+/* --- Penyesuaian untuk Tampilan Mobile (Tablet & HP) --- */
+@media (max-width: 991.98px) {
+    /* Sembunyikan panel gambar di halaman login (.image-panel)
+      DAN panel info di halaman registrasi (.split-screen-info)
+    */
+    .image-panel,
+    .split-screen-info {
+        display: none;
+    }
+
+    /* Pastikan panel formulir mengisi seluruh layar, baik di halaman login (.form-panel)
+      maupun di halaman registrasi (.split-screen-form)
+    */
+    .form-panel,
+    .split-screen-form {
+        flex-basis: 100%; /* Ambil lebar penuh */
+        min-height: 100vh; /* Pastikan tinggi minimal adalah setinggi layar */
+    }
+
+    .d-grid .btn-login {
+        margin-top: 2rem;
+    }
+}

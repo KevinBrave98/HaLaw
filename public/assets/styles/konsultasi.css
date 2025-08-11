@@ -1,0 +1,117 @@
+/* ========================================= */
+/* ===         TAB NAVIGATION            === */
+/* ========================================= */
+.konsultasi-nav {
+    height: 80px;
+}
+
+.konsultasi-nav .tab {
+    font-weight: bold;
+    font-size: 25px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.konsultasi-nav .tab.selected {
+    background-color: #654220;
+    color: white;
+}
+
+.konsultasi-nav .tab:not(.selected) {
+    background-color: #3c2a1a;
+    color: #a0978d;
+}
+
+.konsultasi-nav .tab:not(.selected):hover {
+    background-color: #533f2e;
+    color: white;
+}
+
+/* ========================================= */
+/* ===      DAFTAR KONSULTASI (CARD)     === */
+/* ========================================= */
+.konsultasi-list-container {
+    padding: 20px;
+}
+
+.konsultasi-list-container .card {
+    border: 1px solid #87680D !important;
+    background-color: #fdf5ee !important;
+}
+
+.lawyer-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Sesuai style asli, tidak lingkaran */
+}
+
+.lawyer-name {
+    font-weight: bold;
+    color: #281805;
+}
+
+.last-message {
+    color: #6c757d; /* text-muted */
+}
+
+/* --- Ikon Aksi (Chat, Call, Video) --- */
+.card-action-icons .text-brown {
+    color: #654220;
+    transition: color 0.3s ease;
+}
+
+.card-action-icons .text-brown:hover {
+    color: #87680D;
+}
+
+.icon-disabled {
+    position: relative;
+    display: inline-block;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Garis diagonal pada ikon disabled */
+.icon-disabled::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 120%;
+    height: 2px;
+    background-color: #999;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+
+/* ========================================= */
+/* ===      PENYESUAIAN RESPONSIVE       === */
+/* ========================================= */
+@media (max-width: 768px) {
+    .konsultasi-nav {
+        height: auto;
+    }
+    .konsultasi-nav .tab {
+        font-size: 1rem;
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+
+    .card-body {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+
+    .card-action-icons {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .lawyer-photo {
+        width: 60px;
+        height: 60px;
+    }
+}

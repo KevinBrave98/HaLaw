@@ -11,20 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('riwayat', function (Blueprint $table) {
-            $table->string('id_riwayat')->primary();
-            $table->string('nik_pengacara', 16)->unique();
-            $table->string('nik_pengguna', 16)->unique();
-            $table->date('tanggal');
-            $table->time('waktu');
+         Schema::create('riwayats', function (Blueprint $table) {
+            $table->id();
+            $table->string('nik_pengacara', 16);
+            $table->string('nik_pengguna', 16);
+            // $table->date('tanggal');
+            // $table->time('waktu');
             $table->string('status');
-            $table->string('jenis_layanan');
-            $table->integer('penilaian');
-            $table->string('ulasan');
+            $table->boolean('chat')->default(1);
+            $table->boolean('voice_chat')->default(1);
+            $table->boolean('video_call')->default(1);
+            $table->integer('penilaian')->nullable();
+            $table->text('ulasan')->nullable();
             $table->timestamps();
 
-            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacara')->cascadeOnDelete();
-            $table->foreign('nik_pengguna')->references('nik_pengguna')->on('pengguna')->cascadeOnDelete();
+            $table->foreign('nik_pengacara')->references('nik_pengacara')->on('pengacaras')->cascadeOnDelete();
+            $table->foreign('nik_pengguna')->references('nik_pengguna')->on('penggunas')->cascadeOnDelete();
         });
     }
 

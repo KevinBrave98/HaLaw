@@ -6,27 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-         Schema::create('pengacara', function (Blueprint $table) {
+         Schema::create('pengacaras', function (Blueprint $table) {
             $table->string('nik_pengacara', 16)->primary();
             $table->string('nama_pengacara');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('nomor_telepon')->unique();
-            $table->string('jenis_kelamin');
-            $table->string('lokasi');
-            $table->string('spesialisasi');
-            $table->integer('tarif_jasa');
-            $table->integer('durasi_pengalaman');
-            $table->integer('pengalaman_bekerja');
-            $table->string('pendidikan');
-            $table->string('preferensi_komunikasi');
-            $table->string('status_konsultasi');
-            $table->string('foto_pengacara');
+            $table->string('jenis_kelamin')->default('Memilih tidak menjawab');
+            $table->string('lokasi')->nullable();
+            // $table->string('spesialisasi')->nullable();
+            $table->integer('tarif_jasa')->default(50000);
+            $table->integer('durasi_pengalaman')->nullable();
+            $table->string('pengalaman_bekerja')->nullable();
+            $table->string('pendidikan')->nullable();
+            $table->boolean('chat')->default(1);
+            $table->boolean('voice_chat')->default(1);
+            $table->boolean('video_call')->default(1);
+            $table->boolean('status_konsultasi')->default(1);
+            $table->decimal('total_pendapatan', 15, 2)->default(0);
+            $table->string('nama_bank')->nullable();
+            $table->string('nomor_rekening')->nullable();
+            $table->string('foto_pengacara')->nullable();
+            $table->string('tanda_pengenal')->nullable();
             $table->timestamps();
         });
     }

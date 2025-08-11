@@ -1,0 +1,175 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================= */
+/* ===         TAB NAVIGATION            === */
+/* ========================================= */
+.konsultasi-nav {
+    height: 80px;
+}
+
+.konsultasi-nav .tab {
+    font-weight: bold;
+    font-size: 25px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.konsultasi-nav .tab.selected {
+    background-color: #654220;
+    color: white;
+}
+
+.konsultasi-nav .tab:not(.selected) {
+    background-color: #3c2a1a;
+    color: #a0978d;
+}
+
+.konsultasi-nav .tab:not(.selected):hover {
+    background-color: #533f2e;
+    color: white;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    font-weight: bold;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab.selected {
+    background-color: #654220;
+    color: white;
+}
+
+.tab:not(.selected) {
+    background-color: #3c2a1a;
+    color: #888;
+}
+
+/* CARD RIWAYAT STYLING */
+.card-riwayat {
+    background-color: #fdf5ee;
+    border: 1px solid #87680D;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-riwayat img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.card-riwayat .info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 20px;
+}
+
+.card-riwayat .info label {
+    font-weight: bold;
+    color: #3c2a1a;
+}
+
+.card-riwayat .info input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.status-box {
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.status-selesai {
+    background-color: #e6f4e6;
+    color: green;
+    border: 1px solid green;
+}
+
+.status-dibatalkan {
+    background-color: #fdecec;
+    color: red;
+    border: 1px solid red;
+}
+
+.date-filter-group {
+    background-color: #281805;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+/* FILTER & BUTTON STYLING */
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-filter {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3b240f;
+    color: #aaa;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-filter:hover {
+    background-color: #5b3a1e;
+}
+
+.btn-filter.active {
+    background-color: #7a4f22;
+    color: white;
+}
+
+.bg-dark .form-label {
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .konsultasi-nav {
+        height: auto;
+    }
+    .konsultasi-nav .tab {
+        font-size: 1rem;
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+    .card-riwayat {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .card-riwayat img {
+        width: 5rem;
+        height: 5rem;
+    }
+}

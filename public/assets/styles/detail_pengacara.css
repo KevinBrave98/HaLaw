@@ -1,0 +1,195 @@
+/* --- Reset & Layout Dasar --- */
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #f5f5f5; /* Warna latar dari kode Anda */
+    color: #281805; /* Warna teks utama dari border di kode Anda */
+    line-height: 1.6;
+}
+
+.container-detail-pengacara {
+    /* max-width: 700px; */
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Header Profil --- */
+.profil-header {
+    display: flex;
+    flex-direction: row;
+    /* position: relative; */
+    /* margin-bottom: -80px; */
+    text-align: center;
+    background-image: url('../images/Rectangle 150.png');
+    background-size: cover;
+    height: 16rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.button-back {
+    display: flex;
+    width: 100%;
+    height: 6rem;
+    padding: 2rem;
+    z-index: 2;
+    border: none;
+}
+
+.profil-pic {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    /* Border putih diperlukan agar sesuai gambar, memisahkan foto dari banner */
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(40, 24, 5, 0.15); /* Shadow menggunakan warna #281805 */
+    /* position: absolute; */
+    /* left: 50%;
+    transform: translateX(-50%); */
+    /* bottom: -75px; */
+    object-fit: cover;
+    background-color: #f5f5f5;
+    margin-bottom: 0.2rem;
+}
+
+.profil-info-utama {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+/* --- Konten Profil (Kartu Putih) --- */
+.profil-content {
+    /* Background putih diperlukan untuk menciptakan efek kartu di atas latar #f5f5f5 */
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* border-radius: 8px; */
+    width: 80%;
+    /* padding: 100px 2rem 1.5rem 2rem; */
+    /* box-shadow: 0 2px 8px rgba(40, 24, 5, 0.1); Shadow menggunakan warna #281805 */
+    z-index: 1;
+    position: relative;
+    gap: 2rem;
+}
+
+.nama-pengacara {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0;
+    color: #281805; /* Warna teks utama */
+}
+
+.jenis-kelamin {
+    font-size: 1rem;
+    /* color: #654220; Menggunakan warna coklat utama untuk teks sekunder */
+    margin-top: 0.25rem;
+    margin-bottom: 2rem;
+}
+
+.info-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    /* color: #654220; Menggunakan warna coklat utama untuk judul bagian */
+    margin-bottom: 0.5rem;
+}
+
+.info-section p {
+    font-size: 1rem;
+    color: #281805; /* Warna teks utama */
+    margin: 0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #281805; /* Warna border dari kode Anda */
+    margin: 1.5rem 0;
+}
+
+.layanan-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.layanan-list li {
+    font-size: 1rem;
+    color: #281805; /* Warna teks utama */
+}
+
+/* --- Footer Profil (Tarif & Tombol) --- */
+.profil-harga {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* background-color: #ffffff; Background putih agar menyatu dengan kartu */
+    /* padding: 1.5rem 2rem 2rem 2rem; */
+    /* border-bottom-left-radius: 8px; */
+    /* border-bottom-right-radius: 8px; */
+    /* box-shadow: 0 2px 8px rgba(40, 24, 5, 0.1); Shadow menggunakan warna #281805 */
+    /* border-top: 1px solid #281805; Warna border dari kode Anda */
+}
+
+.tarif-title {
+    font-size: 1rem;
+    font-weight: 500;
+    /* color: #654220; Menggunakan warna coklat utama untuk judul tarif */
+    margin: 0 0 0.5rem 0;
+}
+
+.tarif-harga {
+    font-size: 2rem;
+    font-weight: 700;
+    /* color: #654220; Warna utama dari kode Anda */
+    margin: 0;
+}
+
+.button-konsultasi {
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    background-color: #654220; /* Warna utama dari kode Anda */
+    color: #f5f5f5; /* Warna teks tombol dari kode Anda */
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.button-konsultasi:hover {
+    background-color: #4d3219; /* Versi lebih gelap dari #654220 */
+}
+
+/* --- Media Query untuk Responsivitas --- */
+/* @media (max-width: 600px) { */
+    /* .profil-header { margin-bottom: -60px; }
+    .profil-pic { width: 120px; height: 120px; bottom: -60px; border-width: 4px; }
+    .profil-content { padding: 80px 1.5rem 1.5rem 1.5rem; }
+    .profil-footer { padding: 1.5rem; }
+    .nama-pengacara { font-size: 1.5rem; }
+    .tarif-harga { font-size: 1.75rem; }
+    .button-konsultasi { font-size: 1rem; padding: 0.8rem; }
+    .layanan-list { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+} */

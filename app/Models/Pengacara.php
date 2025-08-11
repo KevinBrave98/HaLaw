@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Notifications\resetPassword;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Pengacara extends Model
+class Pengacara extends Authenticatable
 {
+    use HasFactory, Notifiable;
+
     protected $primaryKey = 'nik_pengacara';
     public $incrementing = false;
     protected $fillable = [
@@ -17,23 +24,50 @@ class Pengacara extends Model
         'nomor_telepon',
         'jenis_kelamin',
         'lokasi',
-        'spesialisasi',
+        // 'spesialisasi',
         'tarif_jasa',
         'durasi_pengalaman',
         'pengalaman_bekerja',
-        'pendidikan',
-        'preferensi_komunikasi',
+        'video_call',
         'status_konsultasi',
-        'foto_pengacara'
+        'total_pendapatan',
+        'nama_bank',
+        'nomor_rekening',
+        'foto_pengacara',
+        'tanda_pengenal'
     ];
 
-    public function riwayat(): HasMany
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
+
+    public function riwayats(): HasMany
     {
         return $this->hasMany(Riwayat::class, 'nik_pengacara', 'nik_pengacara');
     }
 
-    public function riwayat_dana(): HasMany
+    public function riwayat_danas(): HasMany
     {
         return $this->hasMany(RiwayatDana::class, 'nik_pengacara', 'nik_pengacara');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = url('/reset-password/pengacara/'.$token).'?email='.urlencode($this->email);;
+        $this->notify(new resetPassword($url));
+    }
+
+    public function spesialisasis(): BelongsToMany
+    {
+        return $this->belongsToMany(Spesialisasi::class, 'pengacara_spesialisasi', 'nik_pengacara', 'id_spesialisasi');
     }
 }

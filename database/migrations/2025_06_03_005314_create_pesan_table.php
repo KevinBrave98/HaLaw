@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesan', function (Blueprint $table) {
-            $table->string('id_pesan')->primary();
-            $table->string('id_riwayat')->unique();
+        Schema::create('pesans', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_riwayat');
             $table->string('nik', 16);
-            $table->dateTime('waktu_pesan');
-            $table->string('teks');
+            // $table->dateTime('waktu_pesan');
+            $table->text('teks');
             $table->timestamps();
 
-            $table->foreign('id_riwayat')->references('id_riwayat')->on('riwayat')->cascadeOnDelete();
+            $table->foreign('id_riwayat')->references('id')->on('riwayats')->cascadeOnDelete();
         });
     }
 
