@@ -1,6 +1,4 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/styles/tarik_pendapatan.css') }}">
-    {{-- Memuat semua CSS di <head> adalah praktik terbaik --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 @endpush
 

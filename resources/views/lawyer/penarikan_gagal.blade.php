@@ -1,5 +1,4 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/styles/tarik_pendapatan.css') }}">
     {{-- It's best practice to load all CSS in the <head> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 @endpush
