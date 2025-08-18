@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Spesialisasi extends Model
 {
-    // protected $primaryKey = 'id_pesan';
     protected $fillable = [
         'nama_spesialisasi',
     ];

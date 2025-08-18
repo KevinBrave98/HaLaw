@@ -30,8 +30,6 @@ const inCallControls = document.querySelector(".in-call-controls");
 // const inCallView = document.querySelector(".in-call-view");
 const callInfoName = document.getElementById("call-info-name");
 // Ganti referensi endCallBtn ke tombol yang baru di dalam popup
-const endCallBtnInCall = document.getElementById("endCallBtn"); // Anda mungkin perlu memberi ID unik jika ada 2 tombol
-// ... variabel global Anda yang lain
 
 const incomingCallPrompt = document.getElementById("incoming-call-prompt");
 const incomingCallerName = document.getElementById("incoming-caller-name");
